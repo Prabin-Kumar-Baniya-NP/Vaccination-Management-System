@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user.apps.UserConfig',
     'medical_condition.apps.MedicalConditionConfig',
+    'vaccine.apps.VaccineConfig',
 ]
 
 MIDDLEWARE = [
