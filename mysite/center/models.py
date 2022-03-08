@@ -7,10 +7,16 @@ class Center(models.Model):
     address = models.TextField("Address", max_length=500)
     agents = models.ManyToManyField(Agent, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Storage(models.Model):
     center = models.ForeignKey(Center, on_delete=models.CASCADE)
     vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
     available_quantity = models.IntegerField(default=0)
     booked_quanity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.center.name + " | " + self.vaccine.name
     
