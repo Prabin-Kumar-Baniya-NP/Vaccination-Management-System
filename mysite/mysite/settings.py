@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'medical_condition.apps.MedicalConditionConfig',
     'vaccine.apps.VaccineConfig',
     'center.apps.CenterConfig',
+    'vaccination.apps.VaccinationConfig',
 ]
 
 MIDDLEWARE = [
