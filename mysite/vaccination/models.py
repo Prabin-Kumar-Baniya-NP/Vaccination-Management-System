@@ -8,7 +8,8 @@ from django.db.models import F
 class Vaccination_Campaign(models.Model):
     center = models.ForeignKey(Center, on_delete=models.CASCADE, null=True)
     vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE, null=True)
-    date = models.DateField("Vaccination Date")
+    start_date = models.DateField("Vaccination Campaign Start Date", null=True)
+    end_date = models.DateField("Vaccination Campaign End Date", null=True)
 
     def __str__(self):
         return str(self.date)
@@ -18,6 +19,7 @@ class Vaccination_Campaign(models.Model):
 
 class Slot(models.Model):
     campaign = models.ForeignKey(Vaccination_Campaign, on_delete=models.CASCADE, null=True)
+    date = models.DateField("Date", null=True)
     start_time = models.TimeField("Start Time")
     end_time = models.TimeField("End Time")
     max_capacity = models.IntegerField("Maximum Capacity", default=0)
