@@ -4,7 +4,6 @@ from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateF
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
 from django.urls import reverse
 from user.models import User
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 def signup(request):
@@ -68,12 +67,12 @@ def change_password(request):
             update_session_auth_hash(request, form.user)
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
-            return HttpResponseRedirect(reverse("accounts:change_password"))
+            return HttpResponseRedirect(reverse("accounts:change-password"))
     else:
         context = {
             'form': ChangePasswordForm(request.user)
         }
-        return render(request, "user/change_password.html", context)
+        return render(request, "user/change-password.html", context)
 
 
 def profile_view(request):
@@ -87,7 +86,7 @@ def profile_view(request):
     context = {
         'user': user
     }
-    return render(request, "user/profile_view.html", context)
+    return render(request, "user/profile-view.html", context)
 
 
 def profile_update(request):
@@ -98,11 +97,11 @@ def profile_update(request):
         form = ProfileUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse("accounts:profile_view"))
+            return HttpResponseRedirect(reverse("accounts:profile-view"))
         else:
-            return HttpResponseRedirect(reverse("accounts:profile_update"))
+            return HttpResponseRedirect(reverse("accounts:profile-update"))
     else:
         context = {
             "form": ProfileUpdateForm(instance=request.user)
         }
-        return render(request, "user/profile_update.html", context)
+        return render(request, "user/profile-update.html", context)
