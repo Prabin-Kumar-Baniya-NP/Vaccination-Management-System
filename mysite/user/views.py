@@ -1,8 +1,10 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from user.forms import SignupForm, LoginForm, ChangePasswordForm
+from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
 from django.urls import reverse
+from user.models import User
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 def signup(request):
@@ -10,9 +12,9 @@ def signup(request):
     Creates a new user based on given email, password and other necessary informations
     """
     if request.method == "POST":
-        new_user = SignupForm(request.POST)
-        if new_user.is_valid():
-            new_user.save()
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
             return HttpResponseRedirect(reverse("accounts:signup"))
@@ -30,9 +32,9 @@ def login(request):
     if request.method == "POST":
         form = LoginForm(request, request.POST)
         if form.is_valid():
-            email = form.cleaned_data["username"]
+            username = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-            user = authenticate(username=email, password=password)
+            user = authenticate(username=username, password=password)
             if user is not None:
                 user_login(request, user)
                 return HttpResponseRedirect(reverse("accounts:signup"))
@@ -72,3 +74,35 @@ def change_password(request):
             'form': ChangePasswordForm(request.user)
         }
         return render(request, "user/change_password.html", context)
+
+
+def profile_view(request):
+    """
+    Displays the profile information of user
+    """
+    try:
+        user = User.objects.get(id=request.user.id)
+    except User.DoesNotExist:
+        return HttpResponseRedirect(reverse("accounts:signup"))
+    context = {
+        'user': user
+    }
+    return render(request, "user/profile_view.html", context)
+
+
+def profile_update(request):
+    """
+    Updates the profile information of user
+    """
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("accounts:profile_view"))
+        else:
+            return HttpResponseRedirect(reverse("accounts:profile_update"))
+    else:
+        context = {
+            "form": ProfileUpdateForm(instance=request.user)
+        }
+        return render(request, "user/profile_update.html", context)

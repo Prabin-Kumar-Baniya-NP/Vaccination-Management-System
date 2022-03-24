@@ -1,0 +1,17 @@
+{% extends "mysite/base.html" %}
+{% block title %}
+<title>Profile Page </title>
+{% endblock title %}
+
+{% block content %}
+{{ user.first_name }}
+{{ user.middle_name }}
+{{ user.last_name }}
+{{ user.username }}
+{{ user.gender }}
+{{ user.date_of_birth }}
+{{ user.identity_document_type }}
+{{ user.identity_document_number }}
+{{ user.date_joined }}
+{{ user.last_updated }}
+{% endblock content %}
