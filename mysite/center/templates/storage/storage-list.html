@@ -1,0 +1,12 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Storage List</title>
+{% endblock title %}
+{% block content %}
+{% for storage in object_list %}
+    {{ storage.center.name }}
+    {{ storage.vaccine.name }}
+    {{ storage.total_quantity }}
+    {{ storage.booked_quantity }}
+{% endfor %}
+{% endblock content %}

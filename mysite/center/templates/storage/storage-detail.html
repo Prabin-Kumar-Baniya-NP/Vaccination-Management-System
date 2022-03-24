@@ -1,0 +1,10 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Storage Details</title>
+{% endblock title %}
+{% block content %}
+{{ object.center.name }}
+{{ object.vaccine.name }}
+{{ object.total_quantity }}
+{{ object.booked_quantity }}
+{% endblock content %}

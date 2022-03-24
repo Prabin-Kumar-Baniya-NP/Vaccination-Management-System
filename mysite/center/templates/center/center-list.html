@@ -1,0 +1,11 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Center List</title>
+{% endblock title %}
+{% block content %}
+{% for center in object_list %}
+    {{ center.name }}
+    {{ center.address }}
+    {{ center.agents }}
+{% endfor %}
+{% endblock content %}
