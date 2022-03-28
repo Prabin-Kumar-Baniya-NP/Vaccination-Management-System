@@ -1,0 +1,10 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Medical Condition Lists</title>
+{% endblock title %}
+{% block content %}
+{% for object in object_list %}
+    {{ object.name }}
+    {{ object.description }}
+{% endfor %}
+{% endblock content %}
