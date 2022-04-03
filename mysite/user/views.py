@@ -3,7 +3,7 @@ from django.shortcuts import render
 from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
 from django.urls import reverse
-from user.models import User
+from user.models import User, Patient
 
 
 def signup(request):
@@ -13,7 +13,8 @@ def signup(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            Patient.objects.create(user=user, )
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
             return HttpResponseRedirect(reverse("accounts:signup"))

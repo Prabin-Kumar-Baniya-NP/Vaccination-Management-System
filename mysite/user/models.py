@@ -120,7 +120,7 @@ class Agent(models.Model):
 
 class Patient(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Username")
-    blood_group = models.CharField(max_length=2)
+    blood_group = models.CharField(max_length=2, null=True, blank=True)
     medical_record = models.ManyToManyField(Medical_Condition, blank=True)
 
     def __str__(self):
