@@ -102,7 +102,7 @@ class Agent(models.Model):
         ("Nurse", "Nurse"),
         ("Helper", "Helper"),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User Email")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Username")
     type = models.CharField("Admin Type", max_length=32, choices=AGENT_CHOICES)
 
     class Meta:
@@ -115,13 +115,13 @@ class Agent(models.Model):
         ]
 
     def __str__(self):
-        return self.user.get_full_name() + " | " + self.type
+        return self.user.get_full_name()
 
 
 class Patient(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User Email")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Username")
     blood_group = models.CharField(max_length=2)
     medical_record = models.ManyToManyField(Medical_Condition, blank=True)
 
     def __str__(self):
-        return self.user.get_full_name() + " | Patient " + str(self.id)
+        return self.user.get_full_name()
