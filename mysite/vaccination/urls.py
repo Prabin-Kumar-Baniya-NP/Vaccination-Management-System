@@ -13,4 +13,9 @@ urlpatterns = [
          views.CampaignUpdateForm.as_view(), name="campaign-update"),
     path("campaign/delete/<int:pk>/",
          views.CampaignDeleteView.as_view(), name="campaign-delete"),
+    path("slot/", views.SlotListView.as_view(), name="slot-list"),
+    path("slot/<int:pk>/", views.SlotDetailView.as_view(), name="slot-detail"),
+    path("slot/create/", views.SlotCreateView.as_view(), name="slot-create"),
+    path("slot/update/<int:pk>/", views.SlotUpdateView.as_view(), name="slot-update"),
+    path("slot/delete/<int:pk>/", views.SlotDeleteView.as_view(), name="slot-delete"),
 ]

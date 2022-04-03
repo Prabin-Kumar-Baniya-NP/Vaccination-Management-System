@@ -1,0 +1,14 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Slot List</title>
+{% endblock title %}
+{% block content %}
+{% for slot in object_list %}
+    {{ slot.campaign }}
+    {{ slot.date }}
+    {{ slot.start_time }}
+    {{ slot.end_time }}
+    {{ slot.max_capacity }}
+    {{ slot.reserved }}
+{% endfor %}
+{% endblock content %}
