@@ -14,7 +14,7 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            Patient.objects.create(user=user, )
+            Patient.objects.create(user=user)
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
             return HttpResponseRedirect(reverse("accounts:signup"))
