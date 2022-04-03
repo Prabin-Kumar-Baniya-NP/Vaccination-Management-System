@@ -12,7 +12,7 @@ class Vaccination_Campaign(models.Model):
     end_date = models.DateField("Vaccination Campaign End Date", null=True)
 
     def __str__(self):
-        return str(self.date)
+        return str(self.vaccine.name) + " | " + str(self.center.name)
     
     def get_vaccination_campaign(center_id, vaccine_id):
         return Vaccination_Campaign.objects.filter(center=center_id, vaccine = vaccine_id)

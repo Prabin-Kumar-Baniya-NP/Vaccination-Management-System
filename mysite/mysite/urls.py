@@ -24,4 +24,5 @@ urlpatterns = [
     path("medical-condition/", include("medical_condition.urls",
          namespace="medical_condition")),
     path("vaccine/", include("vaccine.urls", namespace="vaccine")),
+    path("vaccination/", include("vaccination.urls", namespace="vaccination")),
 ]

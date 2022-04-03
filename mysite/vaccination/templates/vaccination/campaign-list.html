@@ -1,0 +1,12 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Vaccination Campaign List</title>
+{% endblock title %}
+{% block content %}
+{% for campaign in object_list %}
+    {{ campaign.center }}
+    {{ campaign.vaccine }}
+    {{ campaign.start_date }}
+    {{ campaign.end_date }}
+{% endfor %}
+{% endblock content %}
