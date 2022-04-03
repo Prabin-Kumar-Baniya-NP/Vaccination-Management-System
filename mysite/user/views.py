@@ -1,9 +1,12 @@
+from ast import Del
+from pyexpat import model
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm
+from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm, AgentCreateForm, AgentUpdateForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
-from django.urls import reverse
-from user.models import User, Patient
+from django.urls import reverse, reverse_lazy
+from user.models import User, Patient, Agent
+from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
 
 def signup(request):
@@ -106,3 +109,33 @@ def profile_update(request):
             "form": ProfileUpdateForm(instance=request.user)
         }
         return render(request, "user/profile-update.html", context)
+
+
+class AgentCreateView(CreateView):
+    model = Agent
+    form_class = AgentCreateForm
+    template_name = "user/agent-create.html"
+    success_url = reverse_lazy("accounts:agent-list")
+
+
+class AgentUpdateView(UpdateView):
+    model = Agent
+    form_class = AgentUpdateForm
+    template_name = "user/agent-update.html"
+    success_url = reverse_lazy("accounts:signup")
+
+
+class AgentListView(ListView):
+    model = Agent
+    template_name = "user/agent-list.html"
+
+
+class AgentDetailView(DetailView):
+    model = Agent
+    template_name = "user/agent-detail.html"
+
+
+class AgentDeleteView(DeleteView):
+    model = Agent
+    template_name = "user/agent-delete.html"
+    success_url = reverse_lazy("accounts:agent-list")

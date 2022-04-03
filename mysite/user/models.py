@@ -1,4 +1,3 @@
-from random import choices
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
@@ -75,7 +74,7 @@ class Admin(models.Model):
         ("center_administrator", "Center Administrator"),
         ("agent_administrator", "Agent Administrator"),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="User Email")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Username")
     type = models.CharField("Admin Type", max_length=32, choices=ADMIN_CHOICES)
 
     class Meta:

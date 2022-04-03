@@ -1,0 +1,10 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Agents List</title>
+{% endblock title %}
+{% block content %}
+{% for agent in object_list %}
+    {{ agent.user.get_full_name }}
+    {{ agent.type }}
+{% endfor %}
+{% endblock content %}
