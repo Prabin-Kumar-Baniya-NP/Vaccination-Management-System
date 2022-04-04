@@ -45,7 +45,6 @@ class Slot(models.Model):
 class Vaccination(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
-    dose_number = models.IntegerField("Dose Number", default=1)
     center = models.ForeignKey(Center, on_delete=models.CASCADE)
     campaign = models.ForeignKey(
         Vaccination_Campaign, on_delete=models.CASCADE)
@@ -55,4 +54,4 @@ class Vaccination(models.Model):
         Agent, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.patient.user.get_full_name() + " | Dose " + str(self.dose_number) + " | " + str(self.date.date)
+        return self.patient.user.get_full_name() + " | " + str(self.date.date)
