@@ -1,0 +1,4 @@
+{% for campaign in campaign_list %}
+    {{ campaign }}
+    <a href="{% url 'vaccination:choose-slot' campaign.id %}">Choose</a>
+{% endfor %}

@@ -1,0 +1,16 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Choose Vaccine </title>
+{% endblock title %}
+{% block content %}
+{% for vaccine in vaccine_list %}
+    {{ vaccine.name }}
+    {% if vaccine in eligible_vaccine %}
+        Eligible
+        <a href="{% url 'vaccination:check-dose' vaccine.id %}">Choose</a>
+    {% else %}
+        Ineligible
+    {% endif %}
+    <hr>
+{% endfor %}
+{% endblock content %}

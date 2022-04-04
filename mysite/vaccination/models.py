@@ -29,7 +29,7 @@ class Slot(models.Model):
     reserved = models.IntegerField("Total Reserved", default=0)
 
     def __str__(self):
-        return str(self.campaign) + " | Slot : " + str(self.start_time) + " to " + str(self.end_time)
+        return str(self.start_time) + " to " + str(self.end_time)
 
     def get_available_capacity(self):
         slot = Slot.objects.get(id=self.id)
@@ -44,14 +44,16 @@ class Slot(models.Model):
 
 class Vaccination(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
-    center = models.ForeignKey(Center, on_delete=models.CASCADE)
     campaign = models.ForeignKey(
         Vaccination_Campaign, on_delete=models.CASCADE)
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
     is_vaccinated = models.BooleanField(default=False)
     updated_by = models.ForeignKey(
         Agent, null=True, blank=True, on_delete=models.CASCADE)
+    updated_on = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return self.patient.user.get_full_name() + " | " + str(self.date.date)
+        return self.patient.user.get_full_name() + " | " + str(self.campaign.vaccine.name)
+
+    def get_dose_number(patient, vaccine):
+        return Vaccination.objects.filter(patient=patient, vaccine=vaccine, is_vaccinated=True).count()

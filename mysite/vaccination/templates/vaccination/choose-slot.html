@@ -1,0 +1,4 @@
+{% for slot in slot_list %}
+    {{ slot }}
+    <a href="{% url 'vaccination:confirm-vaccination' slot.campaign.id slot.id%}">Choose</a>
+{% endfor %}

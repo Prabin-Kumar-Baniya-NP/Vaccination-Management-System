@@ -18,4 +18,12 @@ urlpatterns = [
     path("slot/create/", views.SlotCreateView.as_view(), name="slot-create"),
     path("slot/update/<int:pk>/", views.SlotUpdateView.as_view(), name="slot-update"),
     path("slot/delete/<int:pk>/", views.SlotDeleteView.as_view(), name="slot-delete"),
+    path("choose-vaccine/", views.choose_vaccine, name="choose-vaccine"),
+    path("check-dose/<int:vaccine_id>/", views.check_dose, name="check-dose"),
+    path("choose-campaign/<int:vaccine_id>/",
+         views.choose_campaign, name="choose-campaign"),
+    path("choose-slot/<int:campaign_id>/",
+         views.choose_slot, name="choose-slot"),
+    path("confirm-vaccination/<int:campaign_id>/<int:slot_id>/",
+         views.confirm_vaccination, name="confirm-vaccination"),
 ]
