@@ -3,6 +3,7 @@ from user.models import Agent
 from user.models import Patient
 from vaccine.models import Vaccine
 from center.models import Center
+from user.models import Agent
 from django.db.models import F
 
 
@@ -11,6 +12,7 @@ class Vaccination_Campaign(models.Model):
     vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE, null=True)
     start_date = models.DateField("Vaccination Campaign Start Date", null=True)
     end_date = models.DateField("Vaccination Campaign End Date", null=True)
+    agents = models.ManyToManyField(Agent, blank=True)
 
     def __str__(self):
         return str(self.vaccine.name) + " | " + str(self.center.name)

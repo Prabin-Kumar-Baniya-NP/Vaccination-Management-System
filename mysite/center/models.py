@@ -6,7 +6,6 @@ from vaccine.models import Vaccine
 class Center(models.Model):
     name = models.CharField("Vaccination Center Name", max_length=124)
     address = models.TextField("Address", max_length=500)
-    agents = models.ManyToManyField(Agent, blank=True)
 
     def __str__(self):
         return self.name
