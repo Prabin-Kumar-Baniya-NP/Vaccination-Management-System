@@ -77,21 +77,6 @@ class Admin(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Username")
     type = models.CharField("Admin Type", max_length=32, choices=ADMIN_CHOICES)
 
-    class Meta:
-        permissions = [
-            ("can_view_vaccine_quanity", "Can View Vaccine Quantity"),
-            ("can_add_vaccine_quanity", "Can Add Vaccine Quantity"),
-            ("can_edit_vaccine_quanity", "Can Edit Vaccine Quantity"),
-            ("can_view_center", "Can View Center"),
-            ("can_add_center", "Can Add Center"),
-            ("can_edit_center", "Can Edit Center"),
-            ("can_delete_center", "Can Delete Center"),
-            ("can_add_agent", "Can Add Agent"),
-            ("can_view_agent", "Can View Agent"),
-            ("can_edit_agent", "Can Edit Agent"),
-            ("can_delete_agent", "Can Delete Agent"),
-        ]
-
     def __str__(self):
         return self.user.get_full_name() + " | " + self.type
 
@@ -103,15 +88,6 @@ class Agent(models.Model):
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Username")
     type = models.CharField("Admin Type", max_length=32, choices=AGENT_CHOICES)
-
-    class Meta:
-        permissions = [
-            ("can_view_patient_record", "Can View Patient Record"),
-            ("can_update_patient_record", "Can Update Patient Record"),
-            ("can_approve_vaccination", "Can Approve Vaccination"),
-            ("can_vaccinate_patient", "Can Vaccinate Patient"),
-            ("can_issue_certificate", "Can Issue Certificate"),
-        ]
 
     def __str__(self):
         return self.user.get_full_name()

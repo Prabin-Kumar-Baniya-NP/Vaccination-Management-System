@@ -1,5 +1,4 @@
-from ast import Del
-from pyexpat import model
+from user.models import Admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm, AgentCreateForm, AgentUpdateForm
@@ -7,6 +6,8 @@ from django.contrib.auth import authenticate, login as user_login, logout as use
 from django.urls import reverse, reverse_lazy
 from user.models import User, Patient, Agent
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 def signup(request):
@@ -52,6 +53,7 @@ def login(request):
         return render(request, "user/login.html", context)
 
 
+@login_required
 def logout(request):
     """
     Logout the user from the current session
@@ -60,6 +62,7 @@ def logout(request):
     return HttpResponseRedirect(reverse("accounts:login"))
 
 
+@login_required
 def change_password(request):
     """
     Changes the password of the user
@@ -79,6 +82,7 @@ def change_password(request):
         return render(request, "user/change-password.html", context)
 
 
+@login_required
 def profile_view(request):
     """
     Displays the profile information of user
@@ -93,6 +97,7 @@ def profile_view(request):
     return render(request, "user/profile-view.html", context)
 
 
+@login_required
 def profile_update(request):
     """
     Updates the profile information of user
@@ -111,31 +116,46 @@ def profile_update(request):
         return render(request, "user/profile-update.html", context)
 
 
-class AgentCreateView(CreateView):
+class AgentCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Agent
     form_class = AgentCreateForm
     template_name = "user/agent-create.html"
     success_url = reverse_lazy("accounts:agent-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class AgentUpdateView(UpdateView):
+
+class AgentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Agent
     form_class = AgentUpdateForm
     template_name = "user/agent-update.html"
     success_url = reverse_lazy("accounts:signup")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class AgentListView(ListView):
+
+class AgentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Agent
     template_name = "user/agent-list.html"
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class AgentDetailView(DetailView):
+
+class AgentDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Agent
     template_name = "user/agent-detail.html"
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class AgentDeleteView(DeleteView):
+
+class AgentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Agent
     template_name = "user/agent-delete.html"
     success_url = reverse_lazy("accounts:agent-list")
+
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()

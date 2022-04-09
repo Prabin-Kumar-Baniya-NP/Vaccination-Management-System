@@ -1,41 +1,58 @@
-from pyexpat import model
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 from center.models import Center, Storage
 from center.forms import CreateCenterForm, UpdateCenterForm, CreateStorageForm, UpdateStorageForm
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
+from user.models import Admin
 
-class CreateCenter(LoginRequiredMixin,CreateView):
+
+class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Center
     form_class = CreateCenterForm
     template_name = "center/center-create.html"
     success_url = reverse_lazy("center:center-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CenterList(LoginRequiredMixin,ListView):
+
+class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Center
     template_name = "center/center-list.html"
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CenterDetail(LoginRequiredMixin,DetailView):
+
+class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Center
     template_name = "center/center-detail.html"
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CenterDelete(LoginRequiredMixin,DeleteView):
+
+class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Center
     template_name = "center/center-delete.html"
     success_url = reverse_lazy("center:center-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CenterUpdate(LoginRequiredMixin,UpdateView):
+
+class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Center
     form_class = UpdateCenterForm
     template_name = "center/center-update.html"
     success_url = reverse_lazy("center:center-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CreateStorage(LoginRequiredMixin,CreateView):
+
+class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Storage
     form_class = CreateStorageForm
     template_name = "storage/storage-create.html"
@@ -43,31 +60,47 @@ class CreateStorage(LoginRequiredMixin,CreateView):
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"centerID": self.kwargs["pk"]})
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class StorageList(LoginRequiredMixin,ListView):
+
+class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Storage
     template_name = "storage/storage-list.html"
 
     def get_queryset(self):
         return super().get_queryset().filter(center=self.kwargs["centerID"])
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class StorageDetail(LoginRequiredMixin,DetailView):
+
+class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Storage
     template_name = "storage/storage-detail.html"
 
-class StorageDelete(LoginRequiredMixin,DeleteView):
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
+
+
+class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Storage
     template_name = "storage/storage-delete.html"
-    
+
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"centerID": self.get_object().center.id})
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class StorageUpdate(LoginRequiredMixin,UpdateView):
+
+class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Storage
     form_class = UpdateStorageForm
     template_name = "storage/storage-update.html"
 
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"centerID": self.get_object().center.id})
+
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()

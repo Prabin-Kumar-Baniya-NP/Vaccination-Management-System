@@ -6,68 +6,100 @@ from vaccine.models import Vaccine
 from django.shortcuts import render
 from user.models import Patient
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from user.models import Admin
 import datetime
 
 
-class CampaignCreateView(CreateView):
+class CampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Vaccination_Campaign
     form_class = CampaignCreateForm
     template_name = "vaccination/campaign-create.html"
     success_url = reverse_lazy("vaccination:campaign-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CampaignUpdateForm(UpdateView):
+
+class CampaignUpdateForm(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Vaccination_Campaign
     form_class = CampaignUpdateForm
     template_name = "vaccination/campaign-update.html"
     success_url = reverse_lazy("vaccination:campaign-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CampaignListView(ListView):
+
+class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Vaccination_Campaign
     template_name = "vaccination/campaign-list.html"
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CampaignDetailView(DetailView):
+
+class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Vaccination_Campaign
     template_name = "vaccination/campaign-detail.html"
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class CampaignDeleteView(DeleteView):
+
+class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Vaccination_Campaign
     template_name = "vaccination/campaign-delete.html"
     success_url = reverse_lazy("vaccination:campaign-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class SlotCreateView(CreateView):
+
+class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Slot
     form_class = SlotCreateForm
     template_name = "vaccination/slot-create.html"
     success_url = reverse_lazy("vaccination:slot-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class SlotUpdateView(UpdateView):
+
+class SlotUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Slot
     form_class = SlotUpdateForm
     template_name = "vaccination/slot-update.html"
     success_url = reverse_lazy("vaccination:slot-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class SlotListView(ListView):
+
+class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Slot
     template_name = "vaccination/slot-list.html"
     success_url = reverse_lazy("vaccination:slot-list")
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class SlotDetailView(DetailView):
+
+class SlotDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Slot
     template_name = "vaccination/slot-detail.html"
 
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
-class SlotDeleteView(DeleteView):
+
+class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Slot
     template_name = "vaccination/slot-delete.html"
     success_url = reverse_lazy("vaccination:slot-list")
+
+    def test_func(self):
+        return Admin.objects.filter(user=self.request.user).exists()
 
 
 def choose_vaccine(request):
