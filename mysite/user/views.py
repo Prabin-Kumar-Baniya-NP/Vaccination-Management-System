@@ -123,7 +123,7 @@ class AgentCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy("accounts:agent-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class AgentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -133,7 +133,7 @@ class AgentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy("accounts:signup")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class AgentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -141,7 +141,7 @@ class AgentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "user/agent-list.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class AgentDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -149,7 +149,7 @@ class AgentDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "user/agent-detail.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class AgentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -158,4 +158,4 @@ class AgentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy("accounts:agent-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()

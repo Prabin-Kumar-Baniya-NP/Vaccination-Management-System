@@ -18,7 +18,7 @@ class CampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy("vaccination:campaign-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CampaignUpdateForm(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -28,7 +28,7 @@ class CampaignUpdateForm(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy("vaccination:campaign-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -36,7 +36,7 @@ class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "vaccination/campaign-list.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -44,7 +44,7 @@ class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "vaccination/campaign-detail.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -53,7 +53,7 @@ class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy("vaccination:campaign-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -63,7 +63,7 @@ class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy("vaccination:slot-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class SlotUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -73,7 +73,7 @@ class SlotUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy("vaccination:slot-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -82,7 +82,7 @@ class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     success_url = reverse_lazy("vaccination:slot-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class SlotDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -90,7 +90,7 @@ class SlotDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "vaccination/slot-detail.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -99,7 +99,7 @@ class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy("vaccination:slot-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 def choose_vaccine(request):

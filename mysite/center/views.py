@@ -14,7 +14,7 @@ class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy("center:center-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -22,7 +22,7 @@ class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "center/center-list.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -30,7 +30,7 @@ class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "center/center-detail.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -39,7 +39,7 @@ class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy("center:center-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -49,7 +49,7 @@ class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy("center:center-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -61,7 +61,7 @@ class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return reverse("center:storage-list", kwargs={"centerID": self.kwargs["pk"]})
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -72,7 +72,7 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return super().get_queryset().filter(center=self.kwargs["centerID"])
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -80,7 +80,7 @@ class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "storage/storage-detail.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -91,7 +91,7 @@ class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return reverse("center:storage-list", kwargs={"centerID": self.get_object().center.id})
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -103,4 +103,4 @@ class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse("center:storage-list", kwargs={"centerID": self.get_object().center.id})
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()

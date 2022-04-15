@@ -13,7 +13,7 @@ class VaccineCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy("vaccine:vaccine-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -23,7 +23,7 @@ class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy("vaccine:vaccine-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class VaccineListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -31,7 +31,7 @@ class VaccineListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "vaccine/vaccine-list.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -39,7 +39,7 @@ class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "vaccine/vaccine-detail.html"
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
 
 
 class VaccineDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -48,4 +48,4 @@ class VaccineDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy("vaccine:vaccine-list")
 
     def test_func(self):
-        return Admin.objects.filter(user=self.request.user).exists()
+        return self.request.user.is_admin()
