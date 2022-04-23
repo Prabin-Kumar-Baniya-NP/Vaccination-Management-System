@@ -1,7 +1,6 @@
-from user.models import Admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm, AgentCreateForm, AgentUpdateForm
+from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm, AgentCreateForm, AgentUpdateForm, PatientUpdateForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
 from django.urls import reverse, reverse_lazy
 from user.models import User, Patient, Agent
@@ -159,3 +158,17 @@ class AgentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_admin()
+
+
+class PatientDetailView(LoginRequiredMixin, DetailView):
+    model = Patient
+    template_name = "user/patient-detail.html"
+
+
+class PatientUpdateView(LoginRequiredMixin, UpdateView):
+    model = Patient
+    form_class = PatientUpdateForm
+    template_name = "user/patient-update.html"
+
+    def get_success_url(self) -> str:
+        return reverse("accounts:patient-detail", kwargs={"pk": self.kwargs["pk"]})

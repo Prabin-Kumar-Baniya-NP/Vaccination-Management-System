@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
-from user.models import User, Agent
+from user.models import Patient, User, Agent
 from django.forms import ModelForm
 
 
@@ -34,7 +34,14 @@ class AgentCreateForm(ModelForm):
         model = Agent
         fields = "__all__"
 
+
 class AgentUpdateForm(ModelForm):
     class Meta:
         model = Agent
+        fields = "__all__"
+
+
+class PatientUpdateForm(ModelForm):
+    class Meta:
+        model = Patient
         fields = "__all__"
