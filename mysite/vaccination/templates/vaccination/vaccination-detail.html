@@ -1,0 +1,10 @@
+{% extends 'mysite/base.html' %}
+{% block title %}
+<title>Vaccination List</title>
+{% endblock title %}
+{% block content %}
+    {{ object.patient }}
+    {{ object.campaign }}
+    {{ object.slot }}
+    {{ object.is_vaccinated }}
+{% endblock content %}

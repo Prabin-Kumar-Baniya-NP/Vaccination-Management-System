@@ -4,6 +4,10 @@ from vaccination import views
 app_name = "vaccination"
 
 urlpatterns = [
+    path("", views.VaccinationListView.as_view(),
+         name="vaccination-list"),
+    path("<int:pk>/", views.VaccinationDetailView.as_view(),
+         name="vaccination-detail"),
     path("campaign/", views.CampaignListView.as_view(), name="campaign-list"),
     path("campaign/<int:pk>/", views.CampaignDetailView.as_view(),
          name="campaign-detail"),

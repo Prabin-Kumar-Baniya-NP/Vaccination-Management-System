@@ -1,3 +1,4 @@
+from re import template
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 from vaccination.models import Slot, Vaccination, Vaccination_Campaign
 from django.urls import reverse_lazy, reverse
@@ -153,3 +154,19 @@ def confirm_vaccination(request, campaign_id, slot_id):
             "form": form
         }
         return render(request, "vaccination/confirm-vaccination.html", context)
+
+
+class VaccinationListView(LoginRequiredMixin, ListView):
+    model = Vaccination
+    template_name = "vaccination/vaccination-list.html"
+
+    def get_queryset(self):
+        return Vaccination.objects.filter(patient=Patient.objects.get(user=self.request.user.id))
+
+
+class VaccinationDetailView(LoginRequiredMixin, DetailView):
+    model = Vaccination
+    template_name = "vaccination/vaccination-detail.html"
+
+    def get_queryset(self):
+        return super().get_queryset().filter(patient=Patient.objects.get(user=self.request.user.id))
