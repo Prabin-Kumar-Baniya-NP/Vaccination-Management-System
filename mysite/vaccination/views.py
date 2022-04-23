@@ -45,7 +45,12 @@ class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "vaccination/campaign-detail.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["vaccination_list"] = Vaccination.objects.filter(campaign = self.kwargs["pk"])
+        return context
 
 
 class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

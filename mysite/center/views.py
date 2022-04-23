@@ -30,7 +30,7 @@ class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "center/center-detail.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -80,7 +80,7 @@ class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "storage/storage-detail.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

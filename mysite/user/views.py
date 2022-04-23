@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from vaccination.models import Vaccination
 from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm, AgentCreateForm, AgentUpdateForm, PatientUpdateForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
 from django.urls import reverse, reverse_lazy
@@ -172,3 +173,14 @@ class PatientUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self) -> str:
         return reverse("accounts:patient-detail", kwargs={"pk": self.kwargs["pk"]})
+
+
+class PatientListForAgent(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Patient
+    template_name = "user/patient-list.html"
+
+    def get_queryset(self):
+        return Vaccination.objects.filter(updated_by=Agent.objects.get(user=self.request.user))
+
+    def test_func(self):
+        return self.request.user.is_agent()

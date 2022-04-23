@@ -1,10 +1,9 @@
 {% extends 'mysite/base.html' %}
 {% block title %}
-<title>Vaccination Campaign Details</title>
+<title>Patient Lists</title>
 {% endblock title %}
 {% block content %}
-{{ object }}
-{% for vaccination in vaccination_list %}
-    {{ vaccination }}
+{% for patient in object_list %}
+    {{ patient }}
 {% endfor %}
 {% endblock content %}
