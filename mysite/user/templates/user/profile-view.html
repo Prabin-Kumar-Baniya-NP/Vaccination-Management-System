@@ -1,17 +1,61 @@
 {% extends "mysite/base.html" %}
 {% block title %}
-<title>Profile Page </title>
+<title>Profile Details</title>
 {% endblock title %}
 
 {% block content %}
-{{ user.first_name }}
-{{ user.middle_name }}
-{{ user.last_name }}
-{{ user.username }}
-{{ user.gender }}
-{{ user.date_of_birth }}
-{{ user.identity_document_type }}
-{{ user.identity_document_number }}
-{{ user.date_joined }}
-{{ user.last_updated }}
+<div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
+    <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <img src="https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg" class="profile-image img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+              <h5 class="card-title">Profile Details</h5>
+              <p class="card-text">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Username: {{ user.username }}
+                    </li>
+                    <li class="list-group-item">
+                        First Name: {{ user.first_name }}
+                    </li>
+                    <li class="list-group-item">
+                        Middle Name: {{ user.middle_name }}
+                    </li>
+                    <li class="list-group-item">
+                        Last Name: {{ user.last_name }}
+                    </li>
+                    <li class="list-group-item">
+                        Date of Birth: {{ user.date_of_birth }}
+                    </li>
+                    <li class="list-group-item">
+                        Gender: {{ user.gender }}
+                    </li>
+                    <li class="list-group-item">
+                        Identity Document Type: {{ user.identity_document_type }}
+                    </li>
+                    <li class="list-group-item">
+                        Identity Document Number: {{ user.identity_document_number }}
+                    </li>
+                    <li class="list-group-item">
+                        Date Joined: {{ user.date_joined }}
+                    </li>
+                  </ul>
+              </p>
+              <p class="card-text"><small class="text-muted">Last updated on {{user.last_updated}}</small></p>
+              <div class="link-container">
+                  <button class="btn btn-danger">
+                    <a href="{% url 'accounts:change-password' %}" class="btn-link">Change Password</a>
+                  </button>
+                  <button class="btn btn-secondary">
+                    <a href="{% url 'accounts:profile-update' %}" class="btn-link">Update Profile</a>
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

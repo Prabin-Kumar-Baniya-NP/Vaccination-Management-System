@@ -7,14 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block title %} {% endblock %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand">Vaccination Management System</a>
       <form class="d-flex">
-        <button class="btn btn-sm btn-outline-success me-2" type="button">Login</button>
-        <button class="btn btn-outline-danger me-2" type="button">Signup</button>
+        {% if request.user.is_authenticated %}
+        <button class="btn btn-outline-primary" type="button">
+          <a href="{% url 'accounts:logout' %}" class="nav-btn-link">Logout</a>
+        </button>
+        {% else %}
+        <button class="btn btn-outline-primary me-2" type="button">
+          <a href="{% url 'accounts:login' %}" class="nav-btn-link">Login</a>
+        </button>
+        <button class="btn btn-outline-success me-2" type="button">
+          <a href="{% url 'accounts:signup' %}" class="nav-btn-link">Signup</a>
+        </button>
+        {% endif %}
       </form>
     </div>
   </nav>
