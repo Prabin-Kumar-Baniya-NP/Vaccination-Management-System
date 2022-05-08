@@ -2,6 +2,7 @@
 <title>Create Center</title>
 {% endblock title %} {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
+  <h4 class="mb-3">Fill the following details to create a new center</h4>
   <form method="POST" action="">
     {% csrf_token %} {% for field in form %}
     <div class="mb-2 row">

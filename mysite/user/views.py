@@ -130,7 +130,7 @@ class AgentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Agent
     form_class = AgentUpdateForm
     template_name = "user/agent-update.html"
-    success_url = reverse_lazy("accounts:signup")
+    success_url = reverse_lazy("accounts:agent-list")
 
     def test_func(self):
         return self.request.user.is_admin()

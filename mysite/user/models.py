@@ -102,7 +102,7 @@ class Agent(models.Model):
     ]
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name="Username")
-    type = models.CharField("Admin Type", max_length=32, choices=AGENT_CHOICES)
+    type = models.CharField("Agent Type", max_length=32, choices=AGENT_CHOICES)
 
     def __str__(self):
         return self.user.get_full_name()

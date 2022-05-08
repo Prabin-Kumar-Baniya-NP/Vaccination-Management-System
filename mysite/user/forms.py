@@ -47,12 +47,21 @@ class ProfileUpdateForm(ModelForm):
 
 
 class AgentCreateForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AgentCreateForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
     class Meta:
         model = Agent
         fields = "__all__"
 
 
 class AgentUpdateForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(AgentUpdateForm, self).__init__(*args, **kwargs)
+        self.fields["user"].disabled = True
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
     class Meta:
         model = Agent
         fields = "__all__"
