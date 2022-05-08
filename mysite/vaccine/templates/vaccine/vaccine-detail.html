@@ -3,5 +3,47 @@
 <title>Vaccine Details</title>
 {% endblock title %}
 {% block content %}
-{{ object }}
+<div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+          <h5 class="card-title">Vaccine Details</h5>
+          <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Vaccine Name: {{ object.name }}
+                </li>
+                <li class="list-group-item">
+                    Description: {{ object.description }}
+                </li>
+                <li class="list-group-item">
+                    Vaccine Name: {{ object.number_of_doses }}
+                </li>
+                <li class="list-group-item">
+                    Description: {{ object.storage_temperature }}
+                </li>
+                <li class="list-group-item">
+                    Description: {{ object.interval }}
+                </li>
+                <li class="list-group-item">
+                    Vaccine Name: {{ object.minimum_age }}
+                </li>
+                <li class="list-group-item">
+                    Ineligible Medical Condition: {% for condition in object.ineligible_medical_condition.all %}{{condition}},{%endfor%}
+                </li>
+                
+              </ul>
+          </p>
+          <div class="link-container">
+              <button class="btn btn-sm btn-success">
+                <a href="{% url 'vaccine:vaccine-update' object.id %}" class="btn-link">Update Vaccine</a>
+              </button>
+              <button class="btn btn-sm btn-danger">
+                <a href="{% url 'vaccine:vaccine-delete' object.id %}" class="btn-link">Delete Vaccine</a>
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock content %}
