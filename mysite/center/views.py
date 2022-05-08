@@ -29,6 +29,12 @@ class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Center
     template_name = "center/center-detail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["storage_list"] = Storage.objects.filter(
+            center=self.kwargs["pk"])
+        return context
+
     def test_func(self):
         return self.request.user.is_admin() or self.request.user.is_agent()
 
@@ -57,6 +63,11 @@ class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = CreateStorageForm
     template_name = "storage/storage-create.html"
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["center_id"] = self.kwargs["pk"]
+        return kwargs
+    
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"centerID": self.kwargs["pk"]})
 
@@ -78,6 +89,12 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Storage
     template_name = "storage/storage-detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["available_quantity"] = self.get_object(
+        ).total_quantity - self.get_object().booked_quantity
+        return context
 
     def test_func(self):
         return self.request.user.is_admin() or self.request.user.is_agent()

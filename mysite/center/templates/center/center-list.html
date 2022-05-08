@@ -3,9 +3,23 @@
 <title>Center List</title>
 {% endblock title %}
 {% block content %}
-{% for center in object_list %}
-    {{ center.name }}
-    {{ center.address }}
-    {{ center.agents }}
-{% endfor %}
+<div class="mt-3">
+  <h3 class="text-center">Center List</h3>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Center Name</th>
+        <th scope="col">Storages</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for center in object_list %}
+      <tr>
+        <td><a href="{% url 'center:center-detail' center.id %}">{{center.name|upper}}</a></td>
+        <td>{% for storage in center.storage_set.all %} {{storage.vaccine.name}}, {% endfor %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock content %}

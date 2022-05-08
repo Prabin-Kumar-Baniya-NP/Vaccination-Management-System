@@ -3,8 +3,40 @@
 <title>Storage Details</title>
 {% endblock title %}
 {% block content %}
-{{ object.center.name }}
-{{ object.vaccine.name }}
-{{ object.total_quantity }}
-{{ object.booked_quantity }}
+<div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+          <h5 class="card-title">Storage Details</h5>
+          <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Center Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.center.name }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Vaccine Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.vaccine.name }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Total Quantity:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.total_quantity }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Booked Quantity:&nbsp&nbsp&nbsp</span>{{ object.booked_quantity }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Available Quantity:</span>{{ available_quantity }}
+                </li>
+              </ul>
+          </p>
+          <div class="link-container">
+              <button class="btn btn-sm btn-success">
+                <a href="{% url 'center:storage-update' object.id %}" class="btn-link">Update Storage</a>
+              </button>
+              <button class="btn btn-sm btn-danger">
+                <a href="{% url 'center:storage-delete' object.id %}" class="btn-link">Delete Storage</a>
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock content %}
