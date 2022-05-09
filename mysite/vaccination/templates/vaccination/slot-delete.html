@@ -5,8 +5,8 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <p>Are you sure you want to delete slot "{{ object }}"?</p>
     {{ form }}
-    <input type="submit" value="Confirm">
+    <button type="submit" class="btn btn-danger">Confirm</button>
 </form>
 {% endblock content %}

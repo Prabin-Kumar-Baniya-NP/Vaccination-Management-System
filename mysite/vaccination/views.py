@@ -68,6 +68,11 @@ class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = "vaccination/slot-create.html"
     success_url = reverse_lazy("vaccination:slot-list")
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["campaign_id"] = self.kwargs["campaign_id"]
+        return kwargs
+
     def test_func(self):
         return self.request.user.is_admin()
 
@@ -86,6 +91,16 @@ class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Slot
     template_name = "vaccination/slot-list.html"
     success_url = reverse_lazy("vaccination:slot-list")
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = Slot.objects.filter(campaign = self.kwargs["campaign_id"])
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["campaign_id"] = self.kwargs["campaign_id"]
+        return context
 
     def test_func(self):
         return self.request.user.is_admin()

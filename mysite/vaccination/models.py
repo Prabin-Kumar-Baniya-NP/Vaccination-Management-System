@@ -15,7 +15,7 @@ class Vaccination_Campaign(models.Model):
     agents = models.ManyToManyField(Agent, blank=True)
 
     def __str__(self):
-        return str(self.vaccine.name) + " | " + str(self.center.name)
+        return str(self.vaccine.name).upper() + " | " + str(self.center.name).upper()
 
     def get_vaccination_campaign(center_id, vaccine_id):
         return Vaccination_Campaign.objects.filter(center=center_id, vaccine=vaccine_id)

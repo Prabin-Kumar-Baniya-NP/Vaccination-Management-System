@@ -3,8 +3,68 @@
 <title>Vaccination Campaign Details</title>
 {% endblock title %}
 {% block content %}
-{{ object }}
-{% for vaccination in vaccination_list %}
-    {{ vaccination }}
-{% endfor %}
+<div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+          <h5 class="card-title">Vaccination Campaign Details</h5>
+          <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Center Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.center.name }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Vaccine Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.vaccine.name }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Start Date:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.start_date }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">End Date:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.end_date }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Agents Assigned:&nbsp</span>{% for agent in object.agents.all %} {{agent}}, {% endfor %}
+                </li>
+                <li class="list-group-item">
+                  <span class="fw-bold me-5">Slots List:&nbsp</span>
+                  <div class="d-flex flex-wrap">
+                      {% for slot in object.slot_set.all %}
+                      <div class="card text-dark bg-light me-3 mb-3" style="width:fit-content;">
+                          <div class="card-header"><b>
+                            <a href="{% url 'vaccination:slot-detail' slot.id %}">{{ slot.date }} | {{ slot.start_time}} to {{ slot.end_time }}</a>
+                          </b></div>
+                          <div class="card-body row">
+                        <div class="col-6 d-flex flex-column text-center">
+                            <span><b>{{ slot.max_capacity }}</b></span>
+                            <span>Max<br>Capacity</span>
+                        </div>
+                        <div class="col-6 d-flex flex-column text-center">
+                          <span><b>{{ slot.reserved }}</b></span>
+                          <span>Reserved<br>Capacity</span>
+                        </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                  </div>
+                  <button type="button" class="btn btn-sm btn-info me-2">
+                    <a href="{% url 'vaccination:slot-list' object.id %}" class="btn-link">View All</a>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-primary me-2">
+                    <a href="{% url 'vaccination:slot-create' object.id %}" class="btn-link">Create Slot</a>
+                  </button>
+              </li>
+              </ul>
+          </p>
+          <div class="link-container">
+              <button class="btn btn-sm btn-success">
+                <a href="{% url 'vaccination:campaign-update' object.id %}" class="btn-link">Update Campaign</a>
+              </button>
+              <button class="btn btn-sm btn-danger">
+                <a href="{% url 'vaccination:campaign-delete' object.id %}" class="btn-link">Delete Campaign</a>
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock content %}
