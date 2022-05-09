@@ -67,7 +67,7 @@ class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         kwargs = super().get_form_kwargs()
         kwargs["center_id"] = self.kwargs["pk"]
         return kwargs
-    
+
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"centerID": self.kwargs["pk"]})
 
@@ -80,7 +80,12 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "storage/storage-list.html"
 
     def get_queryset(self):
-        return super().get_queryset().filter(center=self.kwargs["centerID"])
+        return super().get_queryset().filter(center=self.kwargs["center_id"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["center_id"] = self.kwargs["center_id"]
+        return context
 
     def test_func(self):
         return self.request.user.is_admin()

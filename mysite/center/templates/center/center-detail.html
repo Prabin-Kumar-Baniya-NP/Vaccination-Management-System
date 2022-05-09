@@ -37,6 +37,12 @@
                     </div>
                     {% endfor %}
                     </div>
+                    <button type="button" class="btn btn-sm btn-info me-2">
+                      <a href="{% url 'center:storage-list' object.id %}" class="btn-link">View All</a>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary me-2">
+                      <a href="{% url 'center:storage-create' object.id %}" class="btn-link">Create Storage</a>
+                    </button>
                 </li>
               </ul>
           </p>
