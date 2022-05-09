@@ -1,0 +1,94 @@
+{% extends 'mysite/base.html' %} {% block title %}
+<title>Login</title>
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-start">
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body row">
+                    <div class="col-12 d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-book-medical"></i></span>
+                        <span><a href="{% url 'accounts:patient-detail' request.user.patient.id %}">Medical<br>
+                                Information</a></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-id-card-clip"></i></span>
+                        <span><a href="{% url 'accounts:profile-view' %}">Profile<br> Information</a></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-shield-virus"></i></span>
+                        <span><a href="{% url 'vaccination:vaccination-list-patient' %}">Vaccination<br>
+                                List</a></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-clock"></i></span>
+                        <span><a href="{% url 'vaccination:choose-vaccine' %}">Schedule<br>
+                                Vaccination</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if request.user.is_admin or request.user.is_agent %}
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-start">
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body row">
+                    <div class="col-12 d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-location-dot"></i></span>
+                        <span><a href="{% url 'center:center-list' %}">Center<br> List</a></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-syringe"></i></span>
+                        <span><a href="{% url 'vaccine:vaccine-list' %}">Vaccine<br> List</a></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-house-medical"></i></span>
+                        <span><a href="{% url 'medical_condition:list' %}">Medical<br> Condition</a></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-people-group"></i></span>
+                        <span><a href="{% url 'accounts:agent-list' %}">Agent<br> List</a></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2" style="width:fit-content;">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center">
+                        <span><i class="fs-1 fa-solid fa-globe"></i></span>
+                        <span><a href="{% url 'vaccination:campaign-list' %}">Campaign<br> List</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock content %}

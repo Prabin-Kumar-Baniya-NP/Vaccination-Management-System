@@ -100,7 +100,7 @@ class Agent(models.Model):
         ("Nurse", "Nurse"),
         ("Helper", "Helper"),
     ]
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User, on_delete=models.CASCADE, verbose_name="Username")
     type = models.CharField("Agent Type", max_length=32, choices=AGENT_CHOICES)
 
@@ -109,7 +109,7 @@ class Agent(models.Model):
 
 
 class Patient(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User, on_delete=models.CASCADE, verbose_name="Username")
     blood_group = models.CharField(max_length=2, null=True, blank=True)
     medical_record = models.ManyToManyField(Medical_Condition, blank=True)
