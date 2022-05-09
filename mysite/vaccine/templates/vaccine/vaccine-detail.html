@@ -34,14 +34,16 @@
                 
               </ul>
           </p>
+          {% if request.user.is_admin %}
           <div class="link-container">
-              <button class="btn btn-sm btn-success">
-                <a href="{% url 'vaccine:vaccine-update' object.id %}" class="btn-link">Update Vaccine</a>
-              </button>
-              <button class="btn btn-sm btn-danger">
-                <a href="{% url 'vaccine:vaccine-delete' object.id %}" class="btn-link">Delete Vaccine</a>
-              </button>
-          </div>
+            <button class="btn btn-sm btn-success">
+              <a href="{% url 'vaccine:vaccine-update' object.id %}" class="btn-link">Update Vaccine</a>
+            </button>
+            <button class="btn btn-sm btn-danger">
+              <a href="{% url 'vaccine:vaccine-delete' object.id %}" class="btn-link">Delete Vaccine</a>
+            </button>
+        </div>
+          {% endif %}
         </div>
       </div>
     </div>

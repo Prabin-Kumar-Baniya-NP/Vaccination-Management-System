@@ -40,20 +40,24 @@
                     <button type="button" class="btn btn-sm btn-info me-2">
                       <a href="{% url 'center:storage-list' object.id %}" class="btn-link">View All</a>
                     </button>
+                    {% if request.user.is_admin %}
                     <button type="button" class="btn btn-sm btn-primary me-2">
                       <a href="{% url 'center:storage-create' object.id %}" class="btn-link">Create Storage</a>
                     </button>
+                    {% endif %}
                 </li>
               </ul>
           </p>
+          {% if request.user.is_admin %}
           <div class="link-container">
-              <button class="btn btn-sm btn-success">
-                <a href="{% url 'center:center-update' object.id %}" class="btn-link">Update Center</a>
-              </button>
-              <button class="btn btn-sm btn-danger">
-                <a href="{% url 'center:center-delete' object.id %}" class="btn-link">Delete Center</a>
-              </button>
+            <button class="btn btn-sm btn-success">
+              <a href="{% url 'center:center-update' object.id %}" class="btn-link">Update Center</a>
+            </button>
+            <button class="btn btn-sm btn-danger">
+              <a href="{% url 'center:center-delete' object.id %}" class="btn-link">Delete Center</a>
+            </button>
           </div>
+          {% endif %}
         </div>
       </div>
     </div>

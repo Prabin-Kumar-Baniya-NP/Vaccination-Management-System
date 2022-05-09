@@ -22,7 +22,7 @@ class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "center/center-list.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -88,7 +88,7 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):

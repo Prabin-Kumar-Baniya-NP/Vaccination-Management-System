@@ -5,7 +5,7 @@ from django.urls import reverse_lazy, reverse
 from vaccination.forms import CampaignCreateForm, CampaignUpdateForm, SlotCreateForm, SlotUpdateForm, VaccinationForm
 from vaccine.models import Vaccine
 from django.shortcuts import render
-from user.models import Patient
+from user.models import Agent, Patient
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from user.models import Admin
@@ -36,21 +36,30 @@ class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Vaccination_Campaign
     template_name = "vaccination/campaign-list.html"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_admin():
+            return queryset
+        if self.request.user.is_agent():
+            queryset = Vaccination_Campaign.objects.filter(agents = Agent.objects.get(user=self.request.user.id))
+            return queryset
+
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Vaccination_Campaign
     template_name = "vaccination/campaign-detail.html"
 
-    def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["vaccination_list"] = Vaccination.objects.filter(campaign = self.kwargs["pk"])
+        context["vaccination_list"] = Vaccination.objects.filter(
+            campaign=self.kwargs["pk"])
         return context
+
+    def test_func(self):
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -94,7 +103,7 @@ class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = Slot.objects.filter(campaign = self.kwargs["campaign_id"])
+        queryset = Slot.objects.filter(campaign=self.kwargs["campaign_id"])
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -103,7 +112,7 @@ class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class SlotDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -111,7 +120,7 @@ class SlotDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "vaccination/slot-detail.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

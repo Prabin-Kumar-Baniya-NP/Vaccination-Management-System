@@ -31,7 +31,7 @@ class VaccineListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "vaccine/vaccine-list.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -39,7 +39,7 @@ class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "vaccine/vaccine-detail.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class VaccineDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

@@ -141,7 +141,7 @@ class AgentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "user/agent-list.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class AgentDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -149,7 +149,7 @@ class AgentDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "user/agent-detail.html"
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.is_admin() or self.request.user.is_agent()
 
 
 class AgentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

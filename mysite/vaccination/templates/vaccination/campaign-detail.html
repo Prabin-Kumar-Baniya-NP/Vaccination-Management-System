@@ -49,20 +49,24 @@
                   <button type="button" class="btn btn-sm btn-info me-2">
                     <a href="{% url 'vaccination:slot-list' object.id %}" class="btn-link">View All</a>
                   </button>
+                  {% if request.user.is_admin %}
                   <button type="button" class="btn btn-sm btn-primary me-2">
                     <a href="{% url 'vaccination:slot-create' object.id %}" class="btn-link">Create Slot</a>
                   </button>
+                  {% endif %}
               </li>
               </ul>
           </p>
+          {% if request.user.is_admin %}
           <div class="link-container">
-              <button class="btn btn-sm btn-success">
-                <a href="{% url 'vaccination:campaign-update' object.id %}" class="btn-link">Update Campaign</a>
-              </button>
-              <button class="btn btn-sm btn-danger">
-                <a href="{% url 'vaccination:campaign-delete' object.id %}" class="btn-link">Delete Campaign</a>
-              </button>
-          </div>
+            <button class="btn btn-sm btn-success">
+              <a href="{% url 'vaccination:campaign-update' object.id %}" class="btn-link">Update Campaign</a>
+            </button>
+            <button class="btn btn-sm btn-danger">
+              <a href="{% url 'vaccination:campaign-delete' object.id %}" class="btn-link">Delete Campaign</a>
+            </button>
+        </div>
+          {% endif %}
         </div>
       </div>
     </div>
