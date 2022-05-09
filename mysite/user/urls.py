@@ -17,7 +17,6 @@ urlpatterns = [
          views.AgentUpdateView.as_view(), name="agent-update"),
     path("agent/delete/<int:pk>/",
          views.AgentDeleteView.as_view(), name="agent-delete"),
-     path("agent/patient/", views.PatientListForAgent.as_view(), name="patient-list-by-agent"),
-     path("patient/detail/<int:pk>/", views.PatientDetailView.as_view(), name="patient-detail"),
+     path("patient/<int:pk>/", views.PatientDetailView.as_view(), name="patient-detail"),
      path("patient/update/<int:pk>/", views.PatientUpdateView.as_view(), name="patient-update"),
 ]

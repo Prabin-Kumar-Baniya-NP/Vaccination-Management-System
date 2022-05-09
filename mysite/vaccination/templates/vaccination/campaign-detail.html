@@ -23,6 +23,9 @@
                     <span class="fw-bold me-5">End Date:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.end_date }}
                 </li>
                 <li class="list-group-item">
+                  <span class="fw-bold me-5">Registration:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span> {{registration}}<a href="{% url 'vaccination:vaccination-list' object.id %}" class="ms-2 btn btn-sm btn-dark text-white">View All</a>
+              </li>
+                <li class="list-group-item">
                     <span class="fw-bold me-5">Agents Assigned:&nbsp</span>{% for agent in object.agents.all %} {{agent}}, {% endfor %}
                 </li>
                 <li class="list-group-item">

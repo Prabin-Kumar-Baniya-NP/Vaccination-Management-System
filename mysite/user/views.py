@@ -166,7 +166,7 @@ class PatientDetailView(LoginRequiredMixin, DetailView):
     template_name = "user/patient-detail.html"
 
 
-class PatientUpdateView(LoginRequiredMixin, UpdateView):
+class PatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Patient
     form_class = PatientUpdateForm
     template_name = "user/patient-update.html"
@@ -174,13 +174,5 @@ class PatientUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self) -> str:
         return reverse("accounts:patient-detail", kwargs={"pk": self.kwargs["pk"]})
 
-
-class PatientListForAgent(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model = Patient
-    template_name = "user/patient-list.html"
-
-    def get_queryset(self):
-        return Vaccination.objects.filter(updated_by=Agent.objects.get(user=self.request.user))
-
     def test_func(self):
-        return self.request.user.is_agent()
+        return self.request.user.id == self.get_object().id

@@ -10,7 +10,6 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">Patient Name</th>
           <th scope="col">Vaccine Name</th>
           <th scope="col">Date/Slot</th>
           <th scope="col">Vaccinated</th>
@@ -20,8 +19,7 @@
       <tbody>
         {% for vaccination in object_list %}
         <tr>
-          <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}">{{ vaccination.patient}}</a></td>
-          <td>{{ vaccination.campaign.vaccine.name }}</td>
+          <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}">{{ vaccination.campaign.vaccine.name }}</a></td>
           <td>{{ vaccination.slot }}</td>
           <td>{{ vaccination.is_vaccinated }}</td>
           <td>{{ vaccination.updated_by }}</td>

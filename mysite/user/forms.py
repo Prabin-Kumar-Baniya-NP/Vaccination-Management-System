@@ -68,6 +68,11 @@ class AgentUpdateForm(ModelForm):
 
 
 class PatientUpdateForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PatientUpdateForm, self).__init__(*args, **kwargs)
+        self.fields["user"].disabled = True
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
     class Meta:
         model = Patient
         fields = "__all__"

@@ -4,7 +4,9 @@ from vaccination import views
 app_name = "vaccination"
 
 urlpatterns = [
-    path("", views.VaccinationListView.as_view(),
+    path("", views.VaccinationListViewForPatient.as_view(),
+         name="vaccination-list-patient"),
+    path("<int:campaign_id>", views.VaccinationListView.as_view(),
          name="vaccination-list"),
     path("<int:pk>/", views.VaccinationDetailView.as_view(),
          name="vaccination-detail"),
@@ -19,7 +21,8 @@ urlpatterns = [
          views.CampaignDeleteView.as_view(), name="campaign-delete"),
     path("<int:campaign_id>/slot/", views.SlotListView.as_view(), name="slot-list"),
     path("slot/<int:pk>/", views.SlotDetailView.as_view(), name="slot-detail"),
-    path("<int:campaign_id>/slot/create/", views.SlotCreateView.as_view(), name="slot-create"),
+    path("<int:campaign_id>/slot/create/",
+         views.SlotCreateView.as_view(), name="slot-create"),
     path("slot/update/<int:pk>/", views.SlotUpdateView.as_view(), name="slot-update"),
     path("slot/delete/<int:pk>/", views.SlotDeleteView.as_view(), name="slot-delete"),
     path("choose-vaccine/", views.choose_vaccine, name="choose-vaccine"),
@@ -30,4 +33,5 @@ urlpatterns = [
          views.choose_slot, name="choose-slot"),
     path("confirm-vaccination/<int:campaign_id>/<int:slot_id>/",
          views.confirm_vaccination, name="confirm-vaccination"),
+     path("approve-vaccination/<int:vaccination_id>/", views.approve_vaccination, name="approve-vaccination"),
 ]

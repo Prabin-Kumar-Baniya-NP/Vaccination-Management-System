@@ -31,7 +31,7 @@ class Slot(models.Model):
     reserved = models.IntegerField("Total Reserved", default=0)
 
     def __str__(self):
-        return str(self.start_time) + " to " + str(self.end_time)
+        return str(self.date) + "|" + str(self.start_time) + " to " + str(self.end_time)
 
     def get_available_capacity(self):
         slot = Slot.objects.get(id=self.id)
@@ -58,4 +58,9 @@ class Vaccination(models.Model):
         return self.patient.user.get_full_name() + " | " + str(self.campaign.vaccine.name)
 
     def get_dose_number(patient, vaccine):
-        return Vaccination.objects.filter(patient=patient, vaccine=vaccine, is_vaccinated=True).count()
+        count = 0
+        vaccination = Vaccination.objects.filter(patient=patient, is_vaccinated = True)
+        for each in vaccination.all():
+            if each.campaign.vaccine == vaccine:
+                count = count + 1
+        return count

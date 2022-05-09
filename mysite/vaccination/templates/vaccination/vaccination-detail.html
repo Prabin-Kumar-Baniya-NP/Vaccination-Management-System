@@ -3,8 +3,50 @@
 <title>Vaccination List</title>
 {% endblock title %}
 {% block content %}
-    {{ object.patient }}
-    {{ object.campaign }}
-    {{ object.slot }}
-    {{ object.is_vaccinated }}
+<div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+          <h5 class="card-title">Vaccination Details</h5>
+          <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Patient Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.patient }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Center Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.campaign.center.name }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Vaccine Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.campaign.vaccine.name }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Date:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.slot.date }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Slot:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.slot.start_time }} to {{ object.slot.end_time }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Vaccination Status:</span>{{ object.is_vaccinated }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Updated By:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.updated_by }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Updated On:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.updated_on }}
+                </li>
+              </ul>
+          </p>
+          {% if request.user.is_admin or request.user.is_agent %}
+            {% if not object.is_vaccinated %}
+            <div class="link-container">
+            <button class="btn btn-sm btn-success">
+              <a href="{% url 'vaccination:approve-vaccination' object.id %}" class="btn-link">Approve Vaccination</a>
+            </button>
+          </div>
+          {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock content %}

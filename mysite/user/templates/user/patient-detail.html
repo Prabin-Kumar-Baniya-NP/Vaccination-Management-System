@@ -3,5 +3,38 @@
 <title> Patient Details </title>
 {% endblock title %}
 {% block content %}
- {{ object.blood_group }}
+<div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
+    <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <img src="https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg" class="profile-image img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+              <h5 class="card-title">Medical Details</h5>
+              <p class="card-text">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Full Name: {{ object.user.get_full_name }}
+                    </li>
+                    <li class="list-group-item">
+                        Bood Group: {{ object.blood_group }}
+                    </li>
+                    <li class="list-group-item">
+                        Medical Condition: {% for record in object.medical_record.all %} {{record}}, {% endfor %}
+                    </li>
+                  </ul>
+              </p>
+              {% if request.user.id == object.user.id %}
+              <div class="link-container">
+                <button class="btn btn-secondary">
+                  <a href="{% url 'accounts:patient-update' object.id %}" class="btn-link">Update Medical History</a>
+                </button>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
