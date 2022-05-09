@@ -5,13 +5,13 @@ app_name = "medical_condition"
 
 urlpatterns = [
     path("", views.MedicalConditionListView.as_view(),
-         name="medical-condition-list"),
+         name="list"),
     path("create/", views.MedicalConditionCreateView.as_view(),
-         name="medical-condition-create"),
+         name="create"),
     path("update/<int:pk>/", views.MedicalConditionUpdateView.as_view(),
-         name="medical-condition-update"),
+         name="update"),
     path("<int:pk>/", views.MedicalConditionDetailView.as_view(),
-         name="medical-condition-detail"),
+         name="detail"),
     path("delete/<int:pk>/", views.MedicalConditionDeleteView.as_view(),
-         name="medical-condition-delete"),
+         name="delete"),
 ]

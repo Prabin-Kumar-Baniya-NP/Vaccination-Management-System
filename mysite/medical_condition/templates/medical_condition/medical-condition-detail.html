@@ -3,5 +3,31 @@
 <title>Medical Condition Detail</title>
 {% endblock title %}
 {% block content %}
-{{ object }}
+<div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+          <h5 class="card-title">Medical Condition Details</h5>
+          <p class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.name }}
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold me-5">Description:</span>{{ object.description }}
+                </li>
+              </ul>
+          </p>
+          <div class="link-container">
+            <button class="btn btn-sm btn-success">
+              <a href="{% url 'medical_condition:update' object.id %}" class="btn-link">Update</a>
+            </button>
+            <button class="btn btn-sm btn-danger">
+              <a href="{% url 'medical_condition:delete' object.id %}" class="btn-link">Delete</a>
+            </button>
+        </div>
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock content %}
