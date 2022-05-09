@@ -69,7 +69,7 @@ class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return kwargs
 
     def get_success_url(self):
-        return reverse("center:storage-list", kwargs={"centerID": self.kwargs["pk"]})
+        return reverse("center:storage-list", kwargs={"center_id": self.kwargs["pk"]})
 
     def test_func(self):
         return self.request.user.is_admin()
