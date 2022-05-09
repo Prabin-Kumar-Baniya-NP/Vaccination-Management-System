@@ -7,6 +7,6 @@
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ object }}"?</p>
     {{ form }}
-    <button type="submit" class="btn btn-danger">Delete</button>
+    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Delete</button>
 </form>
 {% endblock content %}

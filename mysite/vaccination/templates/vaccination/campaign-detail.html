@@ -7,7 +7,7 @@
     <div class="row g-0">
       <div class="col-md-8">
         <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-          <h5 class="card-title">Vaccination Campaign Details</h5>
+          <h5 class="card-title"><i class="fa-solid fa-globe"></i> Vaccination Campaign Details</h5>
           <p class="card-text">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -23,7 +23,7 @@
                     <span class="fw-bold me-5">End Date:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.end_date }}
                 </li>
                 <li class="list-group-item">
-                  <span class="fw-bold me-5">Registration:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span> {{registration}}<a href="{% url 'vaccination:vaccination-list' object.id %}" class="ms-2 btn btn-sm btn-dark text-white">View All</a>
+                  <span class="fw-bold me-5">Registration:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span> {{registration}}<a href="{% url 'vaccination:vaccination-list' object.id %}" class="ms-2 btn btn-sm btn-dark text-white"><i class="fa-solid fa-eye"></i> View All</a>
               </li>
                 <li class="list-group-item">
                     <span class="fw-bold me-5">Agents Assigned:&nbsp</span>{% for agent in object.agents.all %} {{agent}}, {% endfor %}
@@ -50,11 +50,11 @@
                   {% endfor %}
                   </div>
                   <button type="button" class="btn btn-sm btn-info me-2">
-                    <a href="{% url 'vaccination:slot-list' object.id %}" class="btn-link">View All</a>
+                    <a href="{% url 'vaccination:slot-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i> View All</a>
                   </button>
                   {% if request.user.is_admin %}
                   <button type="button" class="btn btn-sm btn-primary me-2">
-                    <a href="{% url 'vaccination:slot-create' object.id %}" class="btn-link">Create Slot</a>
+                    <a href="{% url 'vaccination:slot-create' object.id %}" class="btn-link"><i class="fa-solid fa-plus"></i> Create Slot</a>
                   </button>
                   {% endif %}
               </li>
@@ -63,10 +63,10 @@
           {% if request.user.is_admin %}
           <div class="link-container">
             <button class="btn btn-sm btn-success">
-              <a href="{% url 'vaccination:campaign-update' object.id %}" class="btn-link">Update Campaign</a>
+              <a href="{% url 'vaccination:campaign-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> Update Campaign</a>
             </button>
             <button class="btn btn-sm btn-danger">
-              <a href="{% url 'vaccination:campaign-delete' object.id %}" class="btn-link">Delete Campaign</a>
+              <a href="{% url 'vaccination:campaign-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i> Delete Campaign</a>
             </button>
         </div>
           {% endif %}

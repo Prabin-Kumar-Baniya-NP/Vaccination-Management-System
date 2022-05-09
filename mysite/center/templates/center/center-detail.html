@@ -7,7 +7,7 @@
     <div class="row g-0">
       <div class="col-md-8">
         <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-          <h5 class="card-title">Center Details</h5>
+          <h5 class="card-title"><i class="fa-solid fa-location-dot"></i> Center Details</h5>
           <p class="card-text">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -17,7 +17,7 @@
                     Address: {{ object.address }}
                 </li>
                 <li class="list-group-item">
-                    Storage:
+                  <i class="fa-solid fa-box-archive"></i> Storage:
                     <div class="d-flex flex-wrap">
                         {% for storage in storage_list %}
                         <div class="card text-dark bg-light me-3 mb-3" style="width:fit-content;">
@@ -38,11 +38,11 @@
                     {% endfor %}
                     </div>
                     <button type="button" class="btn btn-sm btn-info me-2">
-                      <a href="{% url 'center:storage-list' object.id %}" class="btn-link">View All</a>
+                      <a href="{% url 'center:storage-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i> View All</a>
                     </button>
                     {% if request.user.is_admin %}
                     <button type="button" class="btn btn-sm btn-primary me-2">
-                      <a href="{% url 'center:storage-create' object.id %}" class="btn-link">Create Storage</a>
+                      <a href="{% url 'center:storage-create' object.id %}" class="btn-link"><i class="fa-solid fa-plus"></i>  Create Storage</a>
                     </button>
                     {% endif %}
                 </li>
@@ -51,10 +51,10 @@
           {% if request.user.is_admin %}
           <div class="link-container">
             <button class="btn btn-sm btn-success">
-              <a href="{% url 'center:center-update' object.id %}" class="btn-link">Update Center</a>
+              <a href="{% url 'center:center-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> Update Center</a>
             </button>
             <button class="btn btn-sm btn-danger">
-              <a href="{% url 'center:center-delete' object.id %}" class="btn-link">Delete Center</a>
+              <a href="{% url 'center:center-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i> Delete Center</a>
             </button>
           </div>
           {% endif %}

@@ -110,7 +110,7 @@ class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = "storage/storage-delete.html"
 
     def get_success_url(self):
-        return reverse("center:storage-list", kwargs={"centerID": self.get_object().center.id})
+        return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
 
     def test_func(self):
         return self.request.user.is_admin()
@@ -122,7 +122,7 @@ class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = "storage/storage-update.html"
 
     def get_success_url(self):
-        return reverse("center:storage-list", kwargs={"centerID": self.get_object().center.id})
+        return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
 
     def test_func(self):
         return self.request.user.is_admin()

@@ -6,12 +6,9 @@
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
     <div class="card mb-3">
         <div class="row g-0">
-          <div class="col-md-4 d-flex align-items-center justify-content-center">
-            <img src="https://image.shutterstock.com/image-photo/head-shot-portrait-close-smiling-260nw-1714666150.jpg" class="profile-image img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
+          <div class="col-12">
             <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-              <h5 class="card-title">Agent Details</h5>
+              <h5 class="card-title"><i class="fa-solid fa-people-group"></i> Agent Details</h5>
               <p class="card-text">
                 <ul class="list-group list-group-flush">
                     <li class="row list-group-item">
@@ -40,10 +37,10 @@
               {% if request.user.is_admin %}
               <div class="link-container">
                 <button class="btn btn-sm btn-success">
-                  <a href="{% url 'accounts:agent-update' agent.id %}" class="btn-link">Update Agent</a>
+                  <a href="{% url 'accounts:agent-update' agent.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> Update Agent</a>
                 </button>
                 <button class="btn btn-sm btn-danger">
-                  <a href="{% url 'accounts:agent-delete' agent.id %}" class="btn-link">Delete Agent</a>
+                  <a href="{% url 'accounts:agent-delete' agent.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i> Delete Agent</a>
                 </button>
               </div>
               {% endif %}

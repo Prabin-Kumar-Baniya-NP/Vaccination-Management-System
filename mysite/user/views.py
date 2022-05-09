@@ -41,7 +41,7 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 user_login(request, user)
-                return HttpResponseRedirect(reverse("accounts:signup"))
+                return HttpResponseRedirect(reverse("index"))
             else:
                 return HttpResponseRedirect(reverse("accounts:login"))
         else:

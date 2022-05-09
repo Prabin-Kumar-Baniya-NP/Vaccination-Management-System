@@ -13,7 +13,7 @@
 <body>
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand">Vaccination Management System</a>
+      <a class="navbar-brand" href="{% url 'index' %}"><i class="fa-solid fa-shield-virus"></i> Vaccination Management System</a>
       <form class="d-flex">
         {% if request.user.is_authenticated %}
         <button class="btn btn-outline-primary" type="button">

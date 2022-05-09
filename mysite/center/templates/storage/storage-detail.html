@@ -7,7 +7,7 @@
     <div class="row g-0">
       <div class="col-md-8">
         <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-          <h5 class="card-title">Storage Details</h5>
+          <h5 class="card-title"><i class="fa-solid fa-box-archive"></i> Storage Details</h5>
           <p class="card-text">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -30,10 +30,10 @@
           {% if request.user.is_admin %}
           <div class="link-container">
             <button class="btn btn-sm btn-success">
-              <a href="{% url 'center:storage-update' object.id %}" class="btn-link">Update Storage</a>
+              <a href="{% url 'center:storage-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> Update Storage</a>
             </button>
             <button class="btn btn-sm btn-danger">
-              <a href="{% url 'center:storage-delete' object.id %}" class="btn-link">Delete Storage</a>
+              <a href="{% url 'center:storage-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i> Delete Storage</a>
             </button>
           </div>
           {% endif %}
