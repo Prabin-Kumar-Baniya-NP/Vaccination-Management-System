@@ -7,7 +7,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <h3 class="text-center"><i class="fa-solid fa-globe"></i> Campaign List</h3>
       {% if request.user.is_admin %}
-      <a href="{% url 'center:create-center' %}"><i class="fa-solid fa-plus"></i> Create Campaign</a>
+      <a href="{% url 'vaccination:campaign-create' %}"><i class="fa-solid fa-plus"></i> Create Campaign</a>
       {% endif %}
     </div>
     <table class="table table-hover">
