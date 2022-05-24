@@ -68,7 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         Returns the first_name plus the last_name, with a space in between.
         '''
         return f"{self.first_name} {self.middle_name} {self.last_name}"
-    
+
     def is_admin(self):
         return Admin.objects.filter(user=self.id).exists()
 
@@ -79,14 +79,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         return Agent.objects.filter(user=self.id).exists()
 
 
-
 class Admin(models.Model):
     ADMIN_CHOICES = [
         ("vaccine_administrator", "Vaccine Administrator"),
         ("center_administrator", "Center Administrator"),
         ("agent_administrator", "Agent Administrator"),
     ]
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User, on_delete=models.CASCADE, verbose_name="Username")
     type = models.CharField("Admin Type", max_length=32, choices=ADMIN_CHOICES)
 
