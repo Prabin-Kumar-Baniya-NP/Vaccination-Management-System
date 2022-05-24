@@ -135,3 +135,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Password and Email Reset Token Timeout - in seconds (600 = 10 minutes)
+PASSWORD_RESET_TIMEOUT = 600

@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from vaccination.models import Vaccination
 from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm, AgentCreateForm, AgentUpdateForm, PatientUpdateForm
@@ -8,6 +8,10 @@ from user.models import User, Patient, Agent
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from user.email import send_email_verification
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_str
+from user.utils import EmailVerificationTokenGenerator
 
 
 def signup(request):
@@ -19,6 +23,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             Patient.objects.create(user=user)
+            send_email_verification(request, user.id)
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
             return HttpResponseRedirect(reverse("accounts:signup"))
@@ -115,6 +120,29 @@ def profile_update(request):
             "form": ProfileUpdateForm(instance=request.user)
         }
         return render(request, "user/profile-update.html", context)
+
+
+@login_required
+def email_verification_request(request):
+    if not request.user.is_email_verified:
+        send_email_verification(request, request.user.id)
+        return HttpResponse("Email Verification Link sent to your email address")
+    else:
+        return HttpResponse("Email Already Verified")
+
+
+def email_verifier(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and EmailVerificationTokenGenerator.check_token(user, token):
+        user.is_email_verified = True
+        user.save()
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 class AgentCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):

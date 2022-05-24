@@ -16,7 +16,7 @@
                     <p class="card-text">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            Email Address: {{ user.email }}
+                            Email Address: {{ user.email }} {% if user.is_email_verified %} <i>(Email Verified)</i>{% else %}(<a href="{% url 'accounts:verify-email' %}">Verify Email</a>){% endif %}
                         </li>
                         <li class="list-group-item">
                             First Name: {{ user.first_name }}

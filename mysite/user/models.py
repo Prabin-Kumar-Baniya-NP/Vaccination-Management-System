@@ -51,6 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     photo = models.ImageField(verbose_name="Profile Picture", upload_to="profileImage/", null=True)
     date_joined = models.DateTimeField('date joined', auto_now_add=True)
     last_updated = models.DateTimeField('Last updated', auto_now=True)
+    is_email_verified = models.BooleanField("Email Verified", default=False)
     is_active = models.BooleanField('active', default=True)
     is_staff = models.BooleanField('staff status', default=False)
     is_superuser = models.BooleanField('superuser status', default=False)
