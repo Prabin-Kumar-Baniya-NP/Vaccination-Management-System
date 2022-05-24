@@ -1,15 +1,17 @@
-.profile-image{
-    max-height: 450px;
-    width: auto;
+.profile-image img {
+  height: auto;
+  width: 100%;
 }
-a, .nav-btn-link{
-    text-decoration: none;
-    color: #000000;
+a,
+.nav-btn-link {
+  text-decoration: none;
+  color: #000000;
 }
-.btn-link{
-    text-decoration: none;
-    color: #ffffff;
+.btn-link {
+  text-decoration: none;
+  color: #ffffff;
 }
-.nav-btn-link:hover, .btn-link:hover{
-    color: #ffffff;
+.nav-btn-link:hover,
+.btn-link:hover {
+  color: #ffffff;
 }

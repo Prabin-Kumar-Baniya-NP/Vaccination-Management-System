@@ -12,7 +12,7 @@ class SignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "first_name", "middle_name",
-                  "last_name", "date_of_birth", "gender"]
+                  "last_name", "date_of_birth", "gender", "photo"]
 
 
 class LoginForm(AuthenticationForm):
@@ -20,6 +20,7 @@ class LoginForm(AuthenticationForm):
         super(LoginForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = User
         fields = "__all__"
@@ -30,6 +31,7 @@ class ChangePasswordForm(PasswordChangeForm):
         super(ChangePasswordForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = User
         fields = "__all__"
@@ -40,9 +42,10 @@ class ProfileUpdateForm(ModelForm):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = User
-        fields = ["first_name", "middle_name", "last_name", "gender",
+        fields = ["first_name", "middle_name", "last_name", "gender", "photo",
                   "date_of_birth", "identity_document_type", "identity_document_number"]
 
 
@@ -51,6 +54,7 @@ class AgentCreateForm(ModelForm):
         super(AgentCreateForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = Agent
         fields = "__all__"
@@ -62,6 +66,7 @@ class AgentUpdateForm(ModelForm):
         self.fields["user"].disabled = True
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = Agent
         fields = "__all__"
@@ -73,6 +78,7 @@ class PatientUpdateForm(ModelForm):
         self.fields["user"].disabled = True
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = Patient
         fields = "__all__"

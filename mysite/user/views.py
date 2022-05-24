@@ -15,7 +15,7 @@ def signup(request):
     Creates a new user based on given email, password and other necessary informations
     """
     if request.method == "POST":
-        form = SignupForm(request.POST)
+        form = SignupForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             Patient.objects.create(user=user)
@@ -103,7 +103,8 @@ def profile_update(request):
     Updates the profile information of user
     """
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, instance=request.user)
+        form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse("accounts:profile-view"))
