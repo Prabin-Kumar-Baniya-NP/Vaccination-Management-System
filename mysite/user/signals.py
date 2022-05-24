@@ -28,6 +28,6 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
         return False
 
     new_photo = instance.photo
-    if not old_photo == new_photo:
+    if not old_photo == None and old_photo == new_photo:
         if os.path.isfile(old_photo.path):
             os.remove(old_photo.path)
