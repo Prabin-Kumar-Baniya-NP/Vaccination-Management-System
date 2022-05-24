@@ -36,9 +36,9 @@ def login(request):
     if request.method == "POST":
         form = LoginForm(request, request.POST)
         if form.is_valid():
-            username = form.cleaned_data["username"]
+            email = form.cleaned_data["username"]
             password = form.cleaned_data["password"]
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=email, password=password)
             if user is not None:
                 user_login(request, user)
                 return HttpResponseRedirect(reverse("index"))

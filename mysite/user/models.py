@@ -7,33 +7,33 @@ from medical_condition.models import Medical_Condition
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, username, password, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         """
         Creates and saves a User with the given email and password.
         """
-        if not username:
+        if not email:
             raise ValueError('The given username must be set')
-        user = self.model(username=username, **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, username, password=None, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(username, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, username, password, **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(username, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField('Username', max_length=256, unique=True)
+    email = models.EmailField('Email Address', max_length=320, unique=True)
     first_name = models.CharField('First Name', max_length=30, blank=True)
     middle_name = models.CharField('Middle Name', max_length=30, blank=True)
     last_name = models.CharField('Last Name', max_length=30, blank=True)
@@ -57,7 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     class Meta:
@@ -87,7 +87,7 @@ class Admin(models.Model):
         ("agent_administrator", "Agent Administrator"),
     ]
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, verbose_name="Username")
+        User, on_delete=models.CASCADE, verbose_name="Email Address")
     type = models.CharField("Admin Type", max_length=32, choices=ADMIN_CHOICES)
 
     def __str__(self):
@@ -101,7 +101,7 @@ class Agent(models.Model):
         ("Helper", "Helper"),
     ]
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, verbose_name="Username")
+        User, on_delete=models.CASCADE, verbose_name="Email Address")
     type = models.CharField("Agent Type", max_length=32, choices=AGENT_CHOICES)
 
     def __str__(self):
@@ -110,7 +110,7 @@ class Agent(models.Model):
 
 class Patient(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, verbose_name="Username")
+        User, on_delete=models.CASCADE, verbose_name="Email Address")
     blood_group = models.CharField(max_length=2, null=True, blank=True)
     medical_record = models.ManyToManyField(Medical_Condition, blank=True)
 

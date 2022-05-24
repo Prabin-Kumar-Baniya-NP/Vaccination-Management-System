@@ -6,7 +6,7 @@ from user.models import User, Admin, Agent, Patient
 class UserAdminView(admin.ModelAdmin):
     fields = (
         ("first_name", "middle_name", "last_name"),
-        ("username", "date_of_birth"),
+        ("email", "date_of_birth"),
         ("gender"), 
         ("is_active"),
         ("photo"),
