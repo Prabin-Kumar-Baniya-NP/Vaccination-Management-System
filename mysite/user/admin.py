@@ -9,6 +9,7 @@ class UserAdminView(admin.ModelAdmin):
         ("username", "date_of_birth"),
         ("gender"), 
         ("is_active"),
+        ("photo"),
         ("identity_document_type", "identity_document_number"),
     )
     

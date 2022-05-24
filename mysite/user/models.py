@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
@@ -48,6 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     ])
     identity_document_number = models.CharField(
         'Identity Document Number', max_length=32)
+    photo = models.ImageField(verbose_name="Profile Picture", upload_to="profileImage/", null=True)
     date_joined = models.DateTimeField('date joined', auto_now_add=True)
     last_updated = models.DateTimeField('Last updated', auto_now=True)
     is_active = models.BooleanField('active', default=True)
