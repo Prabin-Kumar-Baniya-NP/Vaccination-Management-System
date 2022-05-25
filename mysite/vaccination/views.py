@@ -6,9 +6,11 @@ from vaccination.forms import CampaignCreateForm, CampaignUpdateForm, SlotCreate
 from vaccine.models import Vaccine
 from django.shortcuts import render
 from user.models import Agent, Patient
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from vaccination.utils import reserve_vaccine
+from django.db import transaction
 import datetime
 
 
@@ -133,6 +135,7 @@ class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_admin()
 
 
+@login_required
 def choose_vaccine(request):
     context = {
         "vaccine_list": Vaccine.objects.all().only("name", "description"),
@@ -140,6 +143,7 @@ def choose_vaccine(request):
     return render(request, "vaccination/choose-vaccine.html", context)
 
 
+@login_required
 def check_dose(request, vaccine_id):
     patient = Patient.objects.get(user=request.user)
     vaccine = Vaccine.objects.get(id=vaccine_id)
@@ -150,6 +154,7 @@ def check_dose(request, vaccine_id):
         return render(request, "vaccination/dose-information.html", {"dose_taken": dose_taken, "dose_required": vaccine.number_of_doses})
 
 
+@login_required
 def choose_campaign(request, vaccine_id):
     context = {
         "campaign_list": Vaccination_Campaign.objects.filter(vaccine=vaccine_id)
@@ -157,6 +162,7 @@ def choose_campaign(request, vaccine_id):
     return render(request, "vaccination/choose-campaign.html", context)
 
 
+@login_required
 def choose_slot(request, campaign_id):
     context = {
         "slot_list": Slot.objects.filter(campaign=campaign_id, date__gte=datetime.date.today())
@@ -164,14 +170,19 @@ def choose_slot(request, campaign_id):
     return render(request, "vaccination/choose-slot.html", context)
 
 
+@login_required
+@transaction.atomic
 def confirm_vaccination(request, campaign_id, slot_id):
     if request.method == "POST":
         form = VaccinationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return render(request, "vaccination/schedule-success.html", {})
+            if reserve_vaccine(slot_id):
+                form.save()
+                return render(request, "vaccination/schedule-success.html", {})
+            else:
+                return HttpResponse("Sorry! We are unable to reserve vaccine for you. Please Try Scheduling the vaccination again")
         else:
-            print("Error")
+            return HttpResponse("Unable to process your request! Please enter correct data")
     else:
         patient = Patient.objects.get(user=request.user)
         campaign = Vaccination_Campaign.objects.get(id=campaign_id)
@@ -187,31 +198,35 @@ def confirm_vaccination(request, campaign_id, slot_id):
         return render(request, "vaccination/confirm-vaccination.html", context)
 
 
-class VaccinationListView(LoginRequiredMixin,UserPassesTestMixin, ListView):
+class VaccinationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Vaccination
     template_name = "vaccination/vaccination-list.html"
 
     def get_queryset(self):
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"])
-    
+
     def test_func(self):
         return self.request.user.is_admin() or self.request.user.is_agent()
 
-class VaccinationListViewForPatient(LoginRequiredMixin,ListView):
+
+class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
     model = Vaccination
     template_name = "vaccination/vaccination-list-patient.html"
 
     def get_queryset(self):
-        return Vaccination.objects.filter(patient = Patient.objects.get(user=self.request.user.id))
+        return Vaccination.objects.filter(patient=Patient.objects.get(user=self.request.user.id))
+
 
 class VaccinationDetailView(LoginRequiredMixin, DetailView):
     model = Vaccination
     template_name = "vaccination/vaccination-detail.html"
 
+
 @login_required
+@transaction.atomic
 def approve_vaccination(request, vaccination_id):
     vaccination = Vaccination.objects.get(id=vaccination_id)
     vaccination.is_vaccinated = True
     vaccination.updated_by = Agent.objects.get(user=request.user.id)
     vaccination.save()
-    return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk":vaccination_id}))
+    return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))
