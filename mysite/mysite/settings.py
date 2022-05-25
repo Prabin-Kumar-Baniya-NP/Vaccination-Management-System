@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user.apps.UserConfig',
-    'medical_condition.apps.MedicalConditionConfig',
     'vaccine.apps.VaccineConfig',
     'center.apps.CenterConfig',
     'vaccination.apps.VaccinationConfig',

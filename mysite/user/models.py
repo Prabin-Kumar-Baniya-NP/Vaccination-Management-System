@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
-from medical_condition.models import Medical_Condition
 
 
 class UserManager(BaseUserManager):
@@ -48,7 +47,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     ])
     identity_document_number = models.CharField(
         'Identity Document Number', max_length=32)
-    photo = models.ImageField(verbose_name="Profile Picture", upload_to="profileImage/", null=True)
+    photo = models.ImageField(
+        verbose_name="Profile Picture", upload_to="profileImage/", null=True)
     date_joined = models.DateTimeField('date joined', auto_now_add=True)
     last_updated = models.DateTimeField('Last updated', auto_now=True)
     is_email_verified = models.BooleanField("Email Verified", default=False)
@@ -113,7 +113,6 @@ class Patient(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, verbose_name="Email Address")
     blood_group = models.CharField(max_length=2, null=True, blank=True)
-    medical_record = models.ManyToManyField(Medical_Condition, blank=True)
 
     def __str__(self):
         return self.user.get_full_name()
