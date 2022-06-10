@@ -11,7 +11,7 @@
     <thead>
       <tr>
         <th scope="col">Vaccine Name</th>
-        <th scope="col">Date/Slot</th>
+        <th scope="col">Date</th>
         <th scope="col">Vaccinated</th>
         <th scope="col">Updated By</th>
       </tr>
@@ -21,9 +21,9 @@
       <tr>
         <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}">
           {{ vaccination.campaign.vaccine.name|upper }}</a></td>
-        <td>{{ vaccination.slot }}</td>
+        <td>{{ vaccination.slot.date }}</td>
         <td>{{ vaccination.is_vaccinated }}</td>
-        <td>{{ vaccination.updated_by }}</td>
+        <td>{{ vaccination.updated_by.get_full_name }}</td>
       </tr>
       {% endfor %}
     </tbody>
