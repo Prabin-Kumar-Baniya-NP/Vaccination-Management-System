@@ -1,0 +1,89 @@
+{% extends 'mysite/base.html' %} {% block title %}
+<title>Book My Vaccine</title>
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex flex-wrap justify-content-start">
+            {% if perms.vaccination.view_vaccination_campaign %}
+            <div class="card text-dark bg-light me-3 mb-3 p-2">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center m-1">
+                        <span>
+                            <a href="{% url 'vaccination:campaign-list' %}" class="dashboard-card-link">
+                                <i class="fs-1 fa-solid fa-globe"></i> <br>
+                                Current<br> Campaigns
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if perms.center.view_center %}
+            <div class="card text-dark bg-light me-3 mb-3 p-2">
+                <div class="card-body row">
+                    <div class="d-flex flex-column text-center m-1">
+                        <span>
+                            <a href="{% url 'center:center-list' %}" class="dashboard-card-link">
+                                <i class="fs-1 fa-solid fa-location-dot"></i><br>
+                                Vaccination<br> Center
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if perms.vaccine.view_vaccine %}
+            <div class="card text-dark bg-light me-3 mb-3 p-2">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center m-1">
+                        <span>
+                            <a href="{% url 'vaccine:vaccine-list' %}" class="dashboard-card-link">
+                                <i class="fs-1 fa-solid fa-syringe"></i> <br>
+                                Available<br> Vaccines
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="card text-dark bg-light me-3 mb-3 p-2">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center m-1">
+                        <span>
+                            <a href="{% url 'vaccination:vaccination-list-patient' %}" class="dashboard-card-link">
+                                <i class="fs-1 fa-solid fa-shield-virus"></i><br>
+                                My<br> Vaccination
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center m-1">
+                        <span>
+                            <a href="{% url 'vaccination:choose-vaccine' %}" class="dashboard-card-link">
+                                <i class="fs-1 fa-solid fa-clock"></i> <br>
+                                Schedule<br> Vaccination
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light me-3 mb-3 p-2">
+                <div class="card-body">
+                    <div class="d-flex flex-column text-center m-1">
+                        <span>
+                            <a href="{% url 'accounts:profile-view' %}" class="dashboard-card-link">
+                                <i class="fs-1 fa-solid fa-id-card-clip"></i><br>
+                                Profile <br> Information
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

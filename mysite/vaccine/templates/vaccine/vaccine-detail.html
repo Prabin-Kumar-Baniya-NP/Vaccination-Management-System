@@ -4,48 +4,49 @@
 {% endblock title %}
 {% block content %}
 <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-8">
-        <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-          <h5 class="card-title"><i class="fa-solid fa-syringe"></i> Vaccine Details</h5>
-          <p class="card-text">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    Vaccine Name: {{ object.name }}
-                </li>
-                <li class="list-group-item">
-                    Description: {{ object.description }}
-                </li>
-                <li class="list-group-item">
-                    Vaccine Name: {{ object.number_of_doses }}
-                </li>
-                <li class="list-group-item">
-                    Description: {{ object.storage_temperature }}
-                </li>
-                <li class="list-group-item">
-                    Description: {{ object.interval }}
-                </li>
-                <li class="list-group-item">
-                    Vaccine Name: {{ object.minimum_age }}
-                </li>
-                <li class="list-group-item">
-                    Ineligible Medical Condition: {% for condition in object.ineligible_medical_condition.all %}{{condition}},{%endfor%}
-                </li>
-                
-              </ul>
-          </p>
-          {% if request.user.is_admin %}
-          <div class="link-container">
-            <button class="btn btn-sm btn-success">
-              <a href="{% url 'vaccine:vaccine-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> Update Vaccine</a>
-            </button>
-            <button class="btn btn-sm btn-danger">
-              <a href="{% url 'vaccine:vaccine-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i> Delete Vaccine</a>
-            </button>
-        </div>
+  <div class="row g-0">
+    <div class="col-md-8">
+      <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+        <h5 class="card-title"><i class="fa-solid fa-syringe"></i> Vaccine Details</h5>
+        <p class="card-text">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Vaccine Name: {{ object.name }}
+          </li>
+          <li class="list-group-item">
+            Description: {{ object.description }}
+          </li>
+          <li class="list-group-item">
+            Vaccine Name: {{ object.number_of_doses }}
+          </li>
+          <li class="list-group-item">
+            Description: {{ object.storage_temperature }}
+          </li>
+          <li class="list-group-item">
+            Description: {{ object.interval }}
+          </li>
+          <li class="list-group-item">
+            Vaccine Name: {{ object.minimum_age }}
+          </li>
+        </ul>
+        </p>
+
+        <div class="link-container">
+          {% if perms.vaccine.change_vaccine %}
+          <button class="btn btn-sm btn-success">
+            <a href="{% url 'vaccine:vaccine-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i>
+              Update Vaccine</a>
+          </button>
+          {% endif %}
+          {% if perms.vaccine.delete_vaccine %}
+          <button class="btn btn-sm btn-danger">
+            <a href="{% url 'vaccine:vaccine-delete' object.id %}" class="btn-link"><i
+                class="fa-solid fa-trash-can"></i> Delete Vaccine</a>
+          </button>
           {% endif %}
         </div>
       </div>
     </div>
+  </div>
 </div>
 {% endblock content %}

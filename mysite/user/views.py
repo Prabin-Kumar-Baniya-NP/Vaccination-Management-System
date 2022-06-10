@@ -1,12 +1,9 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-from vaccination.models import Vaccination
-from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm, AgentCreateForm, AgentUpdateForm, PatientUpdateForm
+from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
-from django.urls import reverse, reverse_lazy
-from user.models import User, Patient, Agent
-from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.urls import reverse
+from user.models import User
 from django.contrib.auth.decorators import login_required
 from user.email import send_email_verification
 from django.utils.http import urlsafe_base64_decode
@@ -22,7 +19,6 @@ def signup(request):
         form = SignupForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
-            Patient.objects.create(user=user)
             send_email_verification(request, user.id)
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
@@ -143,65 +139,3 @@ def email_verifier(request, uidb64, token):
         return HttpResponseRedirect(reverse("index"))
     else:
         return HttpResponse('Activation link is invalid!')
-
-
-class AgentCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Agent
-    form_class = AgentCreateForm
-    template_name = "user/agent-create.html"
-    success_url = reverse_lazy("accounts:agent-list")
-
-    def test_func(self):
-        return self.request.user.is_admin()
-
-
-class AgentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Agent
-    form_class = AgentUpdateForm
-    template_name = "user/agent-update.html"
-    success_url = reverse_lazy("accounts:agent-list")
-
-    def test_func(self):
-        return self.request.user.is_admin()
-
-
-class AgentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model = Agent
-    template_name = "user/agent-list.html"
-
-    def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
-
-
-class AgentDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Agent
-    template_name = "user/agent-detail.html"
-
-    def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
-
-
-class AgentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Agent
-    template_name = "user/agent-delete.html"
-    success_url = reverse_lazy("accounts:agent-list")
-
-    def test_func(self):
-        return self.request.user.is_admin()
-
-
-class PatientDetailView(LoginRequiredMixin, DetailView):
-    model = Patient
-    template_name = "user/patient-detail.html"
-
-
-class PatientUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Patient
-    form_class = PatientUpdateForm
-    template_name = "user/patient-update.html"
-
-    def get_success_url(self) -> str:
-        return reverse("accounts:patient-detail", kwargs={"pk": self.kwargs["pk"]})
-
-    def test_func(self):
-        return self.request.user.id == self.get_object().id

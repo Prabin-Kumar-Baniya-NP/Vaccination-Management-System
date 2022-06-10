@@ -1,11 +1,10 @@
-from re import template
+from user.models import User
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 from vaccination.models import Slot, Vaccination, Vaccination_Campaign
 from django.urls import reverse_lazy, reverse
 from vaccination.forms import CampaignCreateForm, CampaignUpdateForm, SlotCreateForm, SlotUpdateForm, VaccinationForm
 from vaccine.models import Vaccine
 from django.shortcuts import render
-from user.models import Agent, Patient
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
@@ -17,43 +16,34 @@ import datetime
 class CampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Vaccination_Campaign
     form_class = CampaignCreateForm
-    template_name = "vaccination/campaign-create.html"
+    template_name = "vaccination/campaign/campaign-create.html"
     success_url = reverse_lazy("vaccination:campaign-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccination.add_vaccination_campaign")
 
 
 class CampaignUpdateForm(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Vaccination_Campaign
     form_class = CampaignUpdateForm
-    template_name = "vaccination/campaign-update.html"
+    template_name = "vaccination/campaign/campaign-update.html"
     success_url = reverse_lazy("vaccination:campaign-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccination.change_vaccination_campaign")
 
 
 class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Vaccination_Campaign
-    template_name = "vaccination/campaign-list.html"
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        if self.request.user.is_admin():
-            return queryset
-        if self.request.user.is_agent():
-            queryset = Vaccination_Campaign.objects.filter(
-                agents=Agent.objects.get(user=self.request.user.id))
-            return queryset
+    template_name = "vaccination/campaign/campaign-list.html"
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("vaccination.view_vaccination_campaign")
 
 
 class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Vaccination_Campaign
-    template_name = "vaccination/campaign-detail.html"
+    template_name = "vaccination/campaign/campaign-detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,46 +52,49 @@ class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("vaccination.view_vaccination_campaign")
 
 
 class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Vaccination_Campaign
-    template_name = "vaccination/campaign-delete.html"
+    template_name = "vaccination/campaign/campaign-delete.html"
     success_url = reverse_lazy("vaccination:campaign-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccination.delete_vaccination_campaign")
 
 
 class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Slot
     form_class = SlotCreateForm
-    template_name = "vaccination/slot-create.html"
+    template_name = "vaccination/slot/slot-create.html"
     success_url = reverse_lazy("vaccination:slot-list")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["campaign_id"] = self.kwargs["campaign_id"]
         return kwargs
+    
+    def get_success_url(self) -> str:
+        return reverse_lazy("vaccination:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]})
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccination.add_slot")
 
 
 class SlotUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Slot
     form_class = SlotUpdateForm
-    template_name = "vaccination/slot-update.html"
+    template_name = "vaccination/slot/slot-update.html"
     success_url = reverse_lazy("vaccination:slot-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccination.change_slot")
 
 
 class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Slot
-    template_name = "vaccination/slot-list.html"
+    template_name = "vaccination/slot/slot-list.html"
     success_url = reverse_lazy("vaccination:slot-list")
 
     def get_queryset(self):
@@ -115,24 +108,24 @@ class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("vaccination.view_slot")
 
 
 class SlotDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Slot
-    template_name = "vaccination/slot-detail.html"
+    template_name = "vaccination/slot/slot-detail.html"
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("vaccination.view_slot")
 
 
 class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Slot
-    template_name = "vaccination/slot-delete.html"
+    template_name = "vaccination/slot/slot-delete.html"
     success_url = reverse_lazy("vaccination:slot-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccination.delete_slot")
 
 
 @login_required
@@ -145,7 +138,7 @@ def choose_vaccine(request):
 
 @login_required
 def check_dose(request, vaccine_id):
-    patient = Patient.objects.get(user=request.user)
+    patient = User.objects.get(id=request.user.id)
     vaccine = Vaccine.objects.get(id=vaccine_id)
     dose_taken = Vaccination.get_dose_number(patient, vaccine)
     if dose_taken < vaccine.number_of_doses:
@@ -184,7 +177,7 @@ def confirm_vaccination(request, campaign_id, slot_id):
         else:
             return HttpResponse("Unable to process your request! Please enter correct data")
     else:
-        patient = Patient.objects.get(user=request.user)
+        patient = User.objects.get(id=request.user.id)
         campaign = Vaccination_Campaign.objects.get(id=campaign_id)
         slot = Slot.objects.get(id=slot_id)
         form = VaccinationForm(
@@ -206,7 +199,7 @@ class VaccinationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"])
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("vaccination.view_vaccination_campaign")
 
 
 class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
@@ -214,7 +207,7 @@ class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
     template_name = "vaccination/vaccination-list-patient.html"
 
     def get_queryset(self):
-        return Vaccination.objects.filter(patient=Patient.objects.get(user=self.request.user.id))
+        return Vaccination.objects.filter(patient=User.objects.get(id=self.request.user.id))
 
 
 class VaccinationDetailView(LoginRequiredMixin, DetailView):
@@ -227,6 +220,6 @@ class VaccinationDetailView(LoginRequiredMixin, DetailView):
 def approve_vaccination(request, vaccination_id):
     vaccination = Vaccination.objects.get(id=vaccination_id)
     vaccination.is_vaccinated = True
-    vaccination.updated_by = Agent.objects.get(user=request.user.id)
+    vaccination.updated_by = User.objects.get(user=request.user.id)
     vaccination.save()
     return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))

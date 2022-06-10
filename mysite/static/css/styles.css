@@ -2,16 +2,20 @@
   height: auto;
   width: 100%;
 }
-a,
-.nav-btn-link {
+a {
+  text-decoration: none !important;
+}
+.btn-link {
+  text-decoration: none !important;
+  color: #ffffff !important;
+}
+.btn-link:hover {
+  color: #ffffff;
+}
+.dashboard-card-link {
   text-decoration: none;
   color: #000000;
 }
-.btn-link {
-  text-decoration: none;
-  color: #ffffff;
-}
-.nav-btn-link:hover,
-.btn-link:hover {
-  color: #ffffff;
+.dashboard-card-link:hover {
+  color: rgba(131, 1, 81, 0.658);
 }

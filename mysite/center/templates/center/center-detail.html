@@ -4,62 +4,71 @@
 {% endblock title %}
 {% block content %}
 <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-8">
-        <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-          <h5 class="card-title"><i class="fa-solid fa-location-dot"></i> Center Details</h5>
-          <p class="card-text">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    Name: {{ object.name }}
-                </li>
-                <li class="list-group-item">
-                    Address: {{ object.address }}
-                </li>
-                <li class="list-group-item">
-                  <i class="fa-solid fa-box-archive"></i> Storage:
-                    <div class="d-flex flex-wrap">
-                        {% for storage in storage_list %}
-                        <div class="card text-dark bg-light me-3 mb-3" style="width:fit-content;">
-                            <div class="card-header"><b>
-                              <a href="{% url 'center:storage-detail' storage.id %}">{{ storage.vaccine.name|upper}}</a>
-                            </b></div>
-                            <div class="card-body row">
-                          <div class="col-6 d-flex flex-column text-center">
-                              <span><b>{{ storage.total_quantity }}</b></span>
-                              <span>Total<br>Quantity</span>
-                          </div>
-                          <div class="col-6 d-flex flex-column text-center">
-                            <span><b>{{ storage.booked_quantity }}</b></span>
-                            <span>Booked<br>Quantity</span>
-                          </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    </div>
-                    <button type="button" class="btn btn-sm btn-info me-2">
-                      <a href="{% url 'center:storage-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i> View All</a>
-                    </button>
-                    {% if request.user.is_admin %}
-                    <button type="button" class="btn btn-sm btn-primary me-2">
-                      <a href="{% url 'center:storage-create' object.id %}" class="btn-link"><i class="fa-solid fa-plus"></i>  Create Storage</a>
-                    </button>
-                    {% endif %}
-                </li>
-              </ul>
-          </p>
-          {% if request.user.is_admin %}
-          <div class="link-container">
-            <button class="btn btn-sm btn-success">
-              <a href="{% url 'center:center-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> Update Center</a>
+  <div class="row g-0">
+    <div class="col-md-8">
+      <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
+        <h5 class="card-title"><i class="fa-solid fa-location-dot"></i> Center Details</h5>
+        <p class="card-text">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Name: {{ object.name }}
+          </li>
+          <li class="list-group-item">
+            Address: {{ object.address }}
+          </li>
+          {% if perms.center.view_storage %}
+          <li class="list-group-item">
+            <i class="fa-solid fa-box-archive"></i> Storage:
+            <div class="d-flex flex-wrap">
+              {% for storage in storage_list %}
+              <div class="card text-dark bg-light me-3 mb-3" style="width:fit-content;">
+                <div class="card-header"><b>
+                    <a href="{% url 'center:storage-detail' storage.id %}">{{ storage.vaccine.name|upper}}</a>
+                  </b></div>
+                <div class="card-body row">
+                  <div class="col-6 d-flex flex-column text-center">
+                    <span><b>{{ storage.total_quantity }}</b></span>
+                    <span>Total<br>Quantity</span>
+                  </div>
+                  <div class="col-6 d-flex flex-column text-center">
+                    <span><b>{{ storage.booked_quantity }}</b></span>
+                    <span>Booked<br>Quantity</span>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <button type="button" class="btn btn-sm btn-info me-2">
+              <a href="{% url 'center:storage-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i> View
+                All</a>
             </button>
-            <button class="btn btn-sm btn-danger">
-              <a href="{% url 'center:center-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i> Delete Center</a>
+            {% if perms.center.add_storage %}
+            <button type="button" class="btn btn-sm btn-primary me-2">
+              <a href="{% url 'center:storage-create' object.id %}" class="btn-link"><i class="fa-solid fa-plus"></i>
+                Create Storage</a>
             </button>
-          </div>
+            {% endif %}
+          </li>
+          {% endif %}
+        </ul>
+        </p>
+        <div class="link-container">
+          {% if perms.center.change_center %}
+          <button class="btn btn-sm btn-success">
+            <a href="{% url 'center:center-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> Update
+              Center</a>
+          </button>
+          {% endif %}
+          {% if perms.center.delete_center %}
+          <button class="btn btn-sm btn-danger">
+            <a href="{% url 'center:center-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i>
+              Delete Center</a>
+          </button>
           {% endif %}
         </div>
+
       </div>
     </div>
+  </div>
 </div>
 {% endblock content %}

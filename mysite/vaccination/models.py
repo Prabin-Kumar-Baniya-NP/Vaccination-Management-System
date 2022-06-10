@@ -1,9 +1,7 @@
 from django.db import models
-from user.models import Agent
-from user.models import Patient
+from user.models import User
 from vaccine.models import Vaccine
 from center.models import Center
-from user.models import Agent
 from django.db.models import F
 
 
@@ -12,7 +10,7 @@ class Vaccination_Campaign(models.Model):
     vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE, null=True)
     start_date = models.DateField("Vaccination Campaign Start Date", null=True)
     end_date = models.DateField("Vaccination Campaign End Date", null=True)
-    agents = models.ManyToManyField(Agent, blank=True)
+    agents = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return str(self.vaccine.name).upper() + " | " + str(self.center.name).upper()
@@ -45,13 +43,13 @@ class Slot(models.Model):
 
 
 class Vaccination(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(User, related_name="patient", on_delete=models.CASCADE)
     campaign = models.ForeignKey(
         Vaccination_Campaign, on_delete=models.CASCADE)
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
     is_vaccinated = models.BooleanField(default=False)
     updated_by = models.ForeignKey(
-        Agent, null=True, blank=True, on_delete=models.CASCADE)
+        User, null=True, blank=True, on_delete=models.CASCADE)
     updated_on = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
@@ -59,7 +57,8 @@ class Vaccination(models.Model):
 
     def get_dose_number(patient, vaccine):
         count = 0
-        vaccination = Vaccination.objects.filter(patient=patient, is_vaccinated = True)
+        vaccination = Vaccination.objects.filter(
+            patient=patient, is_vaccinated=True)
         for each in vaccination.all():
             if each.campaign.vaccine == vaccine:
                 count = count + 1

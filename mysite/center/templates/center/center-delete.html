@@ -1,12 +1,12 @@
-{% extends 'mysite/base.html' %}
-{% block title %}
+{% extends 'mysite/base.html' %} {% block title %}
 <title>Delete Center</title>
-{% endblock title %}
-{% block content %}
+{% endblock title %} {% block content %}
 <form method="post">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ object }}"?</p>
     {{ form }}
-    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Delete</button>
+    <button type="submit" class="btn btn-danger">
+        <i class="fa-solid fa-trash-can"></i> Delete
+    </button>
 </form>
 {% endblock content %}

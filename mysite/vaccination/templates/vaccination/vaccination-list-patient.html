@@ -4,28 +4,29 @@
 {% endblock title %}
 {% block content %}
 <div class="mt-3">
-    <div class="d-flex align-items-center justify-content-between">
-      <h3 class="text-center"><i class="fa-solid fa-syringe"></i> Vaccination Registration List</h3>
-    </div>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Vaccine Name</th>
-          <th scope="col">Date/Slot</th>
-          <th scope="col">Vaccinated</th>
-          <th scope="col">Updated By</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for vaccination in object_list %}
-        <tr>
-          <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}">{{ vaccination.campaign.vaccine.name }}</a></td>
-          <td>{{ vaccination.slot }}</td>
-          <td>{{ vaccination.is_vaccinated }}</td>
-          <td>{{ vaccination.updated_by }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="d-flex align-items-center justify-content-between">
+    <h3 class="text-center"><i class="fa-solid fa-syringe"></i> Vaccination Registration List</h3>
   </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Vaccine Name</th>
+        <th scope="col">Date/Slot</th>
+        <th scope="col">Vaccinated</th>
+        <th scope="col">Updated By</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vaccination in object_list %}
+      <tr>
+        <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}">
+          {{ vaccination.campaign.vaccine.name|upper }}</a></td>
+        <td>{{ vaccination.slot }}</td>
+        <td>{{ vaccination.is_vaccinated }}</td>
+        <td>{{ vaccination.updated_by }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock content %}

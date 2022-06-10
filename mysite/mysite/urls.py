@@ -17,12 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
 from django.contrib.auth import views
+from .views import index
 
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="index.html"), name="index"),
+    path('', index, name="index"),
     path('admin/', admin.site.urls),
     path("accounts/", include("user.urls", namespace="accounts")),
     path("center/", include("center.urls", namespace="center")),

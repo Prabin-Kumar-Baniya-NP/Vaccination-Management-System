@@ -40,6 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         'Date of Birth', null=True, blank=True, help_text="Enter Date in this Format: Year-Month-Day")
     gender = models.CharField("Gender", max_length=1, choices=[
                               ("M", "Male"), ("F", "Female")], null=True)
+    blood_group = models.CharField(max_length=3, null=True, blank=True)
     identity_document_type = models.CharField("Identity Document Type", max_length=32, null=True, choices=[
         ("voter_id", "Voter ID"),
         ("passport", "Passport"),
@@ -70,49 +71,3 @@ class User(AbstractBaseUser, PermissionsMixin):
         Returns the first_name plus the last_name, with a space in between.
         '''
         return f"{self.first_name} {self.middle_name} {self.last_name}"
-
-    def is_admin(self):
-        return Admin.objects.filter(user=self.id).exists()
-
-    def is_patient(self):
-        return Patient.objects.filter(user=self.id).exists()
-
-    def is_agent(self):
-        return Agent.objects.filter(user=self.id).exists()
-
-
-class Admin(models.Model):
-    ADMIN_CHOICES = [
-        ("vaccine_administrator", "Vaccine Administrator"),
-        ("center_administrator", "Center Administrator"),
-        ("agent_administrator", "Agent Administrator"),
-    ]
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, verbose_name="Email Address")
-    type = models.CharField("Admin Type", max_length=32, choices=ADMIN_CHOICES)
-
-    def __str__(self):
-        return self.user.get_full_name() + " | " + self.type
-
-
-class Agent(models.Model):
-    AGENT_CHOICES = [
-        ("Doctor", "Docter"),
-        ("Nurse", "Nurse"),
-        ("Helper", "Helper"),
-    ]
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, verbose_name="Email Address")
-    type = models.CharField("Agent Type", max_length=32, choices=AGENT_CHOICES)
-
-    def __str__(self):
-        return self.user.get_full_name()
-
-
-class Patient(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, verbose_name="Email Address")
-    blood_group = models.CharField(max_length=2, null=True, blank=True)
-
-    def __str__(self):
-        return self.user.get_full_name()

@@ -4,7 +4,6 @@ from center.forms import CreateCenterForm, UpdateCenterForm, CreateStorageForm, 
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
-from user.models import Admin
 
 
 class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -14,7 +13,7 @@ class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy("center:center-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("center.add_center")
 
 
 class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -22,7 +21,7 @@ class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "center/center-list.html"
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("center.view_center")
 
 
 class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -36,7 +35,7 @@ class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("center.view_center")
 
 
 class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -45,7 +44,7 @@ class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy("center:center-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("center.delete_center")
 
 
 class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -55,7 +54,7 @@ class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy("center:center-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("center.change_center")
 
 
 class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -72,7 +71,7 @@ class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return reverse("center:storage-list", kwargs={"center_id": self.kwargs["pk"]})
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("center.add_storage")
 
 
 class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -88,7 +87,7 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("center.view_storage")
 
 
 class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -102,7 +101,7 @@ class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return context
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("center.view_storage")
 
 
 class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -113,7 +112,7 @@ class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("center.delete_storage")
 
 
 class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -125,4 +124,4 @@ class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("center.change_storage")

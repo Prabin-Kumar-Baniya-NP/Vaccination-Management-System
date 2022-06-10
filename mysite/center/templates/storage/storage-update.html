@@ -4,17 +4,17 @@
 {% endblock title %}
 {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-    <form method="POST" action="">
-      {% csrf_token %} {% for field in form %}
-      <div class="mb-2 row">
-        {{ field.errors }} {{ field.label_tag }}
-        <div class="col-sm-10">{{ field }}</div>
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
-      </div>
-      {% endfor %}
-      <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen"></i> Update Storage</button>
-    </form>
-<div>
-{% endblock content %}
+  <form method="POST" action="">
+    {% csrf_token %} {% for field in form %}
+    <div class="mb-2 row">
+      {{ field.errors }} {{ field.label_tag }}
+      <div class="col-sm-10">{{ field }}</div>
+      {% if field.help_text %}
+      <p class="help">{{ field.help_text|safe }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen"></i> Update Storage</button>
+  </form>
+  <div>
+    {% endblock content %}

@@ -1,7 +1,5 @@
-from dataclasses import fields
 from django.contrib import admin
-from django.contrib.auth.models import Group
-from user.models import User, Admin, Agent, Patient
+from user.models import User
 
 
 class UserAdminView(admin.ModelAdmin):
@@ -11,11 +9,8 @@ class UserAdminView(admin.ModelAdmin):
         ("date_of_birth", "gender"),
         ("identity_document_type", "identity_document_number"),
         ("photo", "is_active"),
+        ("groups")
     )
 
 
 admin.site.register(User, UserAdminView)
-admin.site.register(Admin)
-admin.site.register(Agent)
-admin.site.register(Patient)
-admin.site.unregister(Group)

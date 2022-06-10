@@ -3,7 +3,6 @@ from vaccine.models import Vaccine
 from vaccine.forms import VaccineCreateForm, VaccineUpdateForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from user.models import Admin
 
 
 class VaccineCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -13,7 +12,7 @@ class VaccineCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy("vaccine:vaccine-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccine.add_vaccine")
 
 
 class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -23,7 +22,7 @@ class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     success_url = reverse_lazy("vaccine:vaccine-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccine.change_vaccine")
 
 
 class VaccineListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -31,7 +30,7 @@ class VaccineListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "vaccine/vaccine-list.html"
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("vaccine.view_vaccine")
 
 
 class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -39,7 +38,7 @@ class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     template_name = "vaccine/vaccine-detail.html"
 
     def test_func(self):
-        return self.request.user.is_admin() or self.request.user.is_agent()
+        return self.request.user.has_perm("vaccine.view_vaccine")
 
 
 class VaccineDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -48,4 +47,4 @@ class VaccineDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy("vaccine:vaccine-list")
 
     def test_func(self):
-        return self.request.user.is_admin()
+        return self.request.user.has_perm("vaccine.delete_vaccine")

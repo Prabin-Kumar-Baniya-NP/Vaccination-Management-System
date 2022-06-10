@@ -1,5 +1,4 @@
 from django.db import models
-from user.models import Patient
 
 
 class Vaccine(models.Model):
@@ -14,13 +13,3 @@ class Vaccine(models.Model):
 
     def __str__(self):
         return self.name
-
-    def get_eligible_vaccine(user):
-        patient = Patient.objects.get(user=user)
-        vaccine = Vaccine.objects.all().only("id", "name", "ineligible_medical_condition")
-        eligible_vaccine = set()
-        for record in patient.medical_record.all():
-            for vaccine in Vaccine.objects.all().only("id", "name", "ineligible_medical_condition"):
-                if record not in vaccine.ineligible_medical_condition.all():
-                    eligible_vaccine.add(vaccine)
-        return list(eligible_vaccine)
