@@ -3,6 +3,9 @@ from vaccine.models import Vaccine
 
 
 class VaccineCreateForm(ModelForm):
+    """
+    Form to create new vaccine
+    """
     def __init__(self, *args, **kwargs):
         super(VaccineCreateForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -14,6 +17,9 @@ class VaccineCreateForm(ModelForm):
 
 
 class VaccineUpdateForm(ModelForm):
+    """
+    Form to update the vaccine
+    """
     def __init__(self, *args, **kwargs):
         super(VaccineUpdateForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():

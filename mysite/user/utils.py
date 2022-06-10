@@ -1,6 +1,9 @@
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 class TokenGenerator(PasswordResetTokenGenerator):
+    """
+    Generates token for email verification
+    """
     def _make_hash_value(self, user, timestamp):
         login_timestamp = (
             ""

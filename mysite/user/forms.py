@@ -1,9 +1,14 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from user.models import User
 from django.forms import ModelForm
+from django import forms
 
 
 class SignupForm(UserCreationForm):
+    """
+    Form to create a new user
+    """
+
     def __init__(self, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -16,6 +21,10 @@ class SignupForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
+    """
+    Form to authenticate the user
+    """
+
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -27,6 +36,10 @@ class LoginForm(AuthenticationForm):
 
 
 class ChangePasswordForm(PasswordChangeForm):
+    """
+    Form to change password
+    """
+
     def __init__(self, *args, **kwargs):
         super(ChangePasswordForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -38,6 +51,10 @@ class ChangePasswordForm(PasswordChangeForm):
 
 
 class ProfileUpdateForm(ModelForm):
+    """
+    Form to update the user profile
+    """
+
     def __init__(self, *args, **kwargs):
         super(ProfileUpdateForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():

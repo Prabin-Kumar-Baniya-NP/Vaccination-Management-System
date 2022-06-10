@@ -68,6 +68,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_full_name(self):
         '''
-        Returns the first_name plus the last_name, with a space in between.
+        Returns the full name of user
         '''
         return f"{self.first_name} {self.middle_name} {self.last_name}"

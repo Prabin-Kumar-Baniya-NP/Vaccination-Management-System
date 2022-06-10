@@ -5,17 +5,55 @@
 {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
   <h4 class="mb-3">Are you sure, you want to schedule this vaccination ?</h4>
+  <div class="patient-details">
+    <h6>Review the Vaccination Details</h6>
+    <ul class="list-group list-group-flush" style="width: 30%">
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Patient Name</span>
+        <span class="value">{{ patient.get_full_name }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Email</span>
+        <span class="value">{{ patient.email }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Gender</span>
+        <span class="value">{{ patient.gender }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Date of Birth</span>
+        <span class="value">{{ patient.date_of_birth }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Blood Group</span>
+        <span class="value">{{ patient.blood_group }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">{{ patient.identity_document_type }}</span>
+        <span class="value">{{ patient.identity_document_number }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Center</span>
+        <span class="value">{{ campaign.center.name }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Vaccine</span>
+        <span class="value">{{ campaign.vaccine.name }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Scheduled Date</span>
+        <span class="value">{{ slot.date }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Reporting Time</span>
+        <span class="value">{{ slot.start_time }} - {{ slot.end_time}}</span>
+      </li>
+    </ul>
+  </div>
   <form method="POST" action="">
-    {% csrf_token %} {% for field in form %}
-    <div class="mb-2 row">
-      {{ field.errors }} {{ field.label_tag }}
-      <div class="col-sm-10">{{ field }}</div>
-      {% if field.help_text %}
-      <p class="help">{{ field.help_text|safe }}</p>
-      {% endif %}
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-success"><i class="fa-solid fa-clock"></i> Schedule</button>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success m-3"><i class="fa-solid fa-clock"></i> Schedule</button>
   </form>
   <div>
     {% endblock content %}

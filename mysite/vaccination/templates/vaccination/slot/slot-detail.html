@@ -53,7 +53,7 @@
         <div class="link-container">
           {% if perms.vaccination.change_slot %}
           <button class="btn btn-sm btn-success">
-            <a href="{% url 'vaccination:slot-update' object.id %}" class="btn-link">Update Slot</a>
+            <a href="{% url 'vaccination:slot-update' object.campaign.id object.id %}" class="btn-link">Update Slot</a>
           </button>
           {% endif %}
           {% if perms.vaccination.delete_slot %}

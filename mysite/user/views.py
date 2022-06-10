@@ -73,7 +73,7 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return HttpResponseRedirect(reverse("accounts:login"))
+            return HttpResponseRedirect(reverse("accounts:profile-view"))
         else:
             return HttpResponseRedirect(reverse("accounts:change-password"))
     else:
@@ -120,6 +120,9 @@ def profile_update(request):
 
 @login_required
 def email_verification_request(request):
+    """
+    Handles the request for email verification
+    """
     if not request.user.is_email_verified:
         send_email_verification(request, request.user.id)
         return HttpResponse("Email Verification Link sent to your email address")
@@ -128,6 +131,9 @@ def email_verification_request(request):
 
 
 def email_verifier(request, uidb64, token):
+    """
+    Checks the verification link and verifies the user
+    """
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -136,6 +142,6 @@ def email_verifier(request, uidb64, token):
     if user is not None and EmailVerificationTokenGenerator.check_token(user, token):
         user.is_email_verified = True
         user.save()
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("accounts:profile-view"))
     else:
         return HttpResponse('Activation link is invalid!')

@@ -24,7 +24,8 @@
           <a href="{% url 'center:center-detail' center.id %}">{{center.name|upper}}</a>
         </td>
         <td>
-          {% for storage in center.storage_set.all %} {{storage.vaccine.name}},
+          {% for storage in center.storage_set.all %} 
+            {{storage.vaccine.name|upper}},
           {% endfor %}
         </td>
       </tr>

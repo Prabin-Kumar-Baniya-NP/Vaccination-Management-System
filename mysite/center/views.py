@@ -7,6 +7,9 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """
+    Creates a new center
+    """
     model = Center
     form_class = CreateCenterForm
     template_name = "center/center-create.html"
@@ -17,6 +20,9 @@ class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 
 class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """
+    List all the center
+    """
     model = Center
     template_name = "center/center-list.html"
 
@@ -25,6 +31,9 @@ class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    """
+    Returns the details of given center
+    """
     model = Center
     template_name = "center/center-detail.html"
 
@@ -39,6 +48,9 @@ class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 
 class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """
+    Deletes the given center
+    """
     model = Center
     template_name = "center/center-delete.html"
     success_url = reverse_lazy("center:center-list")
@@ -48,6 +60,9 @@ class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """
+    For Updating the center information
+    """
     model = Center
     form_class = UpdateCenterForm
     template_name = "center/center-update.html"
@@ -58,23 +73,59 @@ class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """
+    Creates a new storage in the given center
+    """
     model = Storage
     form_class = CreateStorageForm
     template_name = "storage/storage-create.html"
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["center_id"] = self.kwargs["pk"]
+        kwargs["center_id"] = self.kwargs["center_id"]
         return kwargs
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["center"] = Center.objects.get(id=self.kwargs["center_id"])
+        return initial
+
     def get_success_url(self):
-        return reverse("center:storage-list", kwargs={"center_id": self.kwargs["pk"]})
+        return reverse("center:storage-list", kwargs={"center_id": self.kwargs["center_id"]})
 
     def test_func(self):
         return self.request.user.has_perm("center.add_storage")
 
 
+class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """
+    For updating the storage
+    """
+    model = Storage
+    form_class = UpdateStorageForm
+    template_name = "storage/storage-update.html"
+
+    def get_success_url(self):
+        return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["center_id"] = self.get_object().center.id
+        return kwargs
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["center"] = Center.objects.get(id=self.get_object().center.id)
+        return initial
+
+    def test_func(self):
+        return self.request.user.has_perm("center.change_storage")
+
+
 class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """
+    List all the storage of given center
+    """
     model = Storage
     template_name = "storage/storage-list.html"
 
@@ -91,6 +142,9 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    """
+    Returns the details of given storage
+    """
     model = Storage
     template_name = "storage/storage-detail.html"
 
@@ -105,6 +159,9 @@ class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 
 class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """
+    Deletes the given storage
+    """
     model = Storage
     template_name = "storage/storage-delete.html"
 
@@ -113,15 +170,3 @@ class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.has_perm("center.delete_storage")
-
-
-class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Storage
-    form_class = UpdateStorageForm
-    template_name = "storage/storage-update.html"
-
-    def get_success_url(self):
-        return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
-
-    def test_func(self):
-        return self.request.user.has_perm("center.change_storage")

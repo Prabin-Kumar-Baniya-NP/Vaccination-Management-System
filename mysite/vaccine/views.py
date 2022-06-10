@@ -6,6 +6,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 class VaccineCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    """
+    Creates a new vaccine
+    """
     model = Vaccine
     form_class = VaccineCreateForm
     template_name = "vaccine/vaccine-create.html"
@@ -16,6 +19,9 @@ class VaccineCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 
 class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """
+    Updates the vaccine
+    """
     model = Vaccine
     form_class = VaccineUpdateForm
     template_name = "vaccine/vaccine-update.html"
@@ -26,6 +32,9 @@ class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class VaccineListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """
+    List all the vaccines
+    """
     model = Vaccine
     template_name = "vaccine/vaccine-list.html"
 
@@ -34,6 +43,9 @@ class VaccineListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    """
+    Returns the details of given vaccine
+    """
     model = Vaccine
     template_name = "vaccine/vaccine-detail.html"
 
@@ -42,6 +54,9 @@ class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
 
 class VaccineDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """
+    Deletes the vaccine
+    """
     model = Vaccine
     template_name = "vaccine/vaccine-delete.html"
     success_url = reverse_lazy("vaccine:vaccine-list")

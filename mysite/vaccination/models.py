@@ -3,6 +3,7 @@ from user.models import User
 from vaccine.models import Vaccine
 from center.models import Center
 from django.db.models import F
+from center.models import Storage
 
 
 class Vaccination_Campaign(models.Model):
@@ -16,6 +17,9 @@ class Vaccination_Campaign(models.Model):
         return str(self.vaccine.name).upper() + " | " + str(self.center.name).upper()
 
     def get_vaccination_campaign(center_id, vaccine_id):
+        """
+        Returns the vaccination campaign for given center and vaccine
+        """
         return Vaccination_Campaign.objects.filter(center=center_id, vaccine=vaccine_id)
 
 
@@ -32,18 +36,43 @@ class Slot(models.Model):
         return str(self.date) + "|" + str(self.start_time) + " to " + str(self.end_time)
 
     def get_available_capacity(self):
+        """
+        Returns the available vaccine quantity for given slot
+        """
         slot = Slot.objects.get(id=self.id)
         return slot.max_capacity - slot.reserved
 
     def get_slots_by_campaign_id(campaign_id):
+        """
+        Returns all the slot for given campaign
+        """
         return Slot.objects.filter(campaign=campaign_id)
 
     def get_available_slots(campaign_id, slot_id):
+        """
+        Returns the available slot for given campaign
+        """
         return Slot.objects.filter(campaign=campaign_id, slot=slot_id, reserved__lt=F("max_capacity"))
+
+    def reserve_vaccine(slot_id):
+        """
+        Reserves a vaccine for given slot for a patient
+        """
+        slot = Slot.objects.get(id=slot_id)
+        storage = Storage.objects.get(center=slot.campaign.center)
+        if slot.reserved < slot.max_capacity:
+            slot.reserved = F("reserved") + 1
+            storage.booked_quantity = F("booked_quantity") + 1
+            slot.save()
+            storage.save()
+            return True
+        else:
+            return False
 
 
 class Vaccination(models.Model):
-    patient = models.ForeignKey(User, related_name="patient", on_delete=models.CASCADE)
+    patient = models.ForeignKey(
+        User, related_name="patient", on_delete=models.CASCADE)
     campaign = models.ForeignKey(
         Vaccination_Campaign, on_delete=models.CASCADE)
     slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
@@ -53,9 +82,12 @@ class Vaccination(models.Model):
     updated_on = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return self.patient.user.get_full_name() + " | " + str(self.campaign.vaccine.name)
+        return self.patient.get_full_name() + " | " + str(self.campaign.vaccine.name)
 
     def get_dose_number(patient, vaccine):
+        """
+        Returns the dose number of the patient
+        """
         count = 0
         vaccination = Vaccination.objects.filter(
             patient=patient, is_vaccinated=True)
