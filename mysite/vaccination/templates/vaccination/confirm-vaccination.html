@@ -7,7 +7,7 @@
   <h4 class="mb-3">Are you sure, you want to schedule this vaccination ?</h4>
   <div class="patient-details">
     <h6>Review the Vaccination Details</h6>
-    <ul class="list-group list-group-flush" style="width: 30%">
+    <ul class="list-group list-group-flush" style="width: 40%">
       <li class="list-group-item d-flex justify-content-between">
         <span class="title">Patient Name</span>
         <span class="value">{{ patient.get_full_name }}</span>
@@ -33,10 +33,6 @@
         <span class="value">{{ patient.identity_document_number }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Center</span>
-        <span class="value">{{ campaign.center.name }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
         <span class="title">Vaccine</span>
         <span class="value">{{ campaign.vaccine.name }}</span>
       </li>
@@ -47,6 +43,14 @@
       <li class="list-group-item d-flex justify-content-between">
         <span class="title">Reporting Time</span>
         <span class="value">{{ slot.start_time }} - {{ slot.end_time}}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Center Name</span>
+        <span class="value">{{ campaign.center.name }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span class="title">Center Address</span>
+        <span class="value">{{ campaign.center.address }}</span>
       </li>
     </ul>
   </div>

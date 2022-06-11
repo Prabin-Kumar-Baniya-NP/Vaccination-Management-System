@@ -28,11 +28,13 @@
                 Date:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
               {{ object.end_date }}
             </li>
+            {% if perms.vaccination.view_vaccination %}
             <li class="list-group-item">
               <span class="fw-bold me-5">Registration:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
               {{registration}}<a href="{% url 'vaccination:vaccination-list' object.id %}"
                 class="ms-2 btn btn-sm btn-dark text-white"><i class="fa-solid fa-eye"></i> View All</a>
             </li>
+            {% endif %}
             <li class="list-group-item">
               <span class="fw-bold me-5">Agents Assigned:&nbsp</span>{% for agent in object.agents.all %} {{agent}},
               {% endfor %}
