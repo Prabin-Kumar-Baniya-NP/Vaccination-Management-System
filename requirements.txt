@@ -4,5 +4,6 @@ Django==4.0.4
 gunicorn==20.1.0
 Pillow==9.1.1
 pycodestyle==2.8.0
+reportlab==3.6.10
 sqlparse==0.4.2
 toml==0.10.2

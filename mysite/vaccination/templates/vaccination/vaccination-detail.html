@@ -45,6 +45,9 @@
           </li>
         </ul>
         </p>
+        {% if object.is_vaccinated %}
+        <button type="button" class="btn btn-success"><a href="{% url 'vaccination:get-certificate' object.id %}" class="btn-link">Download Certificate</a></button>
+        {% endif %}
         {% if perms.vaccination.change_vaccination %}
         {% if not object.is_vaccinated %}
         <div class="link-container">

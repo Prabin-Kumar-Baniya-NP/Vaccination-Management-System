@@ -35,4 +35,5 @@ urlpatterns = [
          views.confirm_vaccination, name="confirm-vaccination"),
     path("approve-vaccination/<int:vaccination_id>/",
          views.approve_vaccination, name="approve-vaccination"),
+     path("certificate/<int:vaccination_id>/", views.vaccine_certificate, name="get-certificate"),
 ]

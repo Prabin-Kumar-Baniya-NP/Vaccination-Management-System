@@ -1,4 +1,5 @@
 import datetime
+import io
 from user.models import User
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 from vaccination.models import Slot, Vaccination, Vaccination_Campaign
@@ -11,6 +12,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Paragraph
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import ParagraphStyle
 
 
 class CampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -304,3 +310,44 @@ def approve_vaccination(request, vaccination_id):
         return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))
     else:
         raise PermissionDenied()
+
+
+@login_required
+def vaccine_certificate(request, vaccination_id):
+    vaccination = Vaccination.objects.get(id=vaccination_id)
+    context = {
+        "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccine Certificate",
+        "date": str(datetime.datetime.now()),
+        "title": "Vaccine Certificate",
+        "subtitle": "To Whom It May Concern",
+        "content": f"This is to certify that Mr/Ms/Mrs {vaccination.patient.get_full_name() } has successfuly completed dose 1 of {vaccination.campaign.vaccine.name }. The vaccination was scheduled on { vaccination.slot.date }, { vaccination.slot.start_time } at { vaccination.campaign.center.name } and it was approved by { vaccination.updated_by.get_full_name() }.",
+    }
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer, pagesize=A4)
+    p.setTitle(context["pdf_title"])
+    # Write the date
+    p.drawString(40, 800, context["date"])
+    # Draw a line
+    p.line(20, 795, 570, 795)
+    # Write the title
+    p.setFont('Helvetica-Bold', 14)
+    p.drawCentredString(300, 750, context["title"])
+    # Write the subtitle
+    p.setFont('Helvetica', 12)
+    p.drawCentredString(300, 700, context["subtitle"])
+    # Write the paragraph style
+    para_style = ParagraphStyle(
+        "paraStyle", fontSize=14, leading=20, firstLineIndent=25)
+    # Write the paragraph
+    para = Paragraph(context["content"], para_style)
+    para.wrapOn(p, 500, 200)  # dimension of paragraph (width, height)
+    para.drawOn(p, 40, 600)  # location of paragraph (x, y)
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename=context["pdf_title"])
