@@ -25,6 +25,7 @@ class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     model = Center
     template_name = "center/center-list.html"
+    paginate_by = 10
 
     def test_func(self):
         return self.request.user.has_perm("center.view_center")
@@ -128,6 +129,7 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     model = Storage
     template_name = "storage/storage-list.html"
+    paginate_by = 10
 
     def get_queryset(self):
         return super().get_queryset().filter(center=self.kwargs["center_id"])

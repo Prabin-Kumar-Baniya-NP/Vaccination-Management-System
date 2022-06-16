@@ -19,3 +19,8 @@ a {
 .dashboard-card-link:hover {
   color: rgba(131, 1, 81, 0.658);
 }
+.pagination{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

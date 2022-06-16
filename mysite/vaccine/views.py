@@ -37,6 +37,7 @@ class VaccineListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     model = Vaccine
     template_name = "vaccine/vaccine-list.html"
+    paginate_by = 10
 
     def test_func(self):
         return self.request.user.has_perm("vaccine.view_vaccine")

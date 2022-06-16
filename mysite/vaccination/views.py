@@ -51,6 +51,7 @@ class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     model = Vaccination_Campaign
     template_name = "vaccination/campaign/campaign-list.html"
+    paginate_by = 10
 
     def test_func(self):
         return self.request.user.has_perm("vaccination.view_vaccination_campaign")
@@ -144,6 +145,7 @@ class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     model = Slot
     template_name = "vaccination/slot/slot-list.html"
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -190,6 +192,7 @@ class VaccinationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     """
     model = Vaccination
     template_name = "vaccination/vaccination-list.html"
+    paginate_by = 10
 
     def get_queryset(self):
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"])
@@ -204,6 +207,7 @@ class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
     """
     model = Vaccination
     template_name = "vaccination/vaccination-list-patient.html"
+    paginate_by = 10
 
     def get_queryset(self):
         return Vaccination.objects.filter(patient=User.objects.get(id=self.request.user.id))
