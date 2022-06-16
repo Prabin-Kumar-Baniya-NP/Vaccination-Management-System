@@ -52,6 +52,7 @@ class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Vaccination_Campaign
     template_name = "vaccination/campaign/campaign-list.html"
     paginate_by = 10
+    ordering = ["-id"]
 
     def test_func(self):
         return self.request.user.has_perm("vaccination.view_vaccination_campaign")
@@ -146,6 +147,7 @@ class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Slot
     template_name = "vaccination/slot/slot-list.html"
     paginate_by = 10
+    ordering = ["id"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -210,7 +212,7 @@ class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Vaccination.objects.filter(patient=User.objects.get(id=self.request.user.id))
+        return Vaccination.objects.filter(patient=User.objects.get(id=self.request.user.id)).order_by("id")
 
 
 class VaccinationDetailView(LoginRequiredMixin, DetailView):
@@ -319,7 +321,8 @@ def approve_vaccination(request, vaccination_id):
 @login_required
 def vaccine_certificate(request, vaccination_id):
     vaccination = Vaccination.objects.get(id=vaccination_id)
-    dose_number = Vaccination.get_dose_number(request.user, vaccination.campaign.vaccine)
+    dose_number = Vaccination.get_dose_number(
+        request.user, vaccination.campaign.vaccine)
     context = {
         "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccine Certificate",
         "date": str(datetime.datetime.now()),
