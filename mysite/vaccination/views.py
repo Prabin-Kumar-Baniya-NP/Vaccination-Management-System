@@ -315,12 +315,13 @@ def approve_vaccination(request, vaccination_id):
 @login_required
 def vaccine_certificate(request, vaccination_id):
     vaccination = Vaccination.objects.get(id=vaccination_id)
+    dose_number = Vaccination.get_dose_number(request.user, vaccination.campaign.vaccine)
     context = {
         "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccine Certificate",
         "date": str(datetime.datetime.now()),
         "title": "Vaccine Certificate",
         "subtitle": "To Whom It May Concern",
-        "content": f"This is to certify that Mr/Ms/Mrs {vaccination.patient.get_full_name() } has successfuly completed dose 1 of {vaccination.campaign.vaccine.name }. The vaccination was scheduled on { vaccination.slot.date }, { vaccination.slot.start_time } at { vaccination.campaign.center.name } and it was approved by { vaccination.updated_by.get_full_name() }.",
+        "content": f"This is to certify that Mr/Ms/Mrs {vaccination.patient.get_full_name() } has successfuly completed dose {dose_number} of {vaccination.campaign.vaccine.name }. The vaccination was scheduled on { vaccination.slot.date }, { vaccination.slot.start_time } at { vaccination.campaign.center.name } and it was approved by { vaccination.updated_by.get_full_name() }.",
     }
     # Create a file-like buffer to receive PDF data.
     buffer = io.BytesIO()
