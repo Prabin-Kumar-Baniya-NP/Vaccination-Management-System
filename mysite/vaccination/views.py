@@ -278,7 +278,6 @@ def confirm_vaccination(request, campaign_id, slot_id):
     """
     if request.method == "POST":
         form = VaccinationForm(request.POST)
-        print(form.data)
         if form.is_valid():
             if Slot.reserve_vaccine(slot_id):
                 form.save()

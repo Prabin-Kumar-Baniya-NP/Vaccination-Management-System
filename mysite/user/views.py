@@ -1,3 +1,4 @@
+import logging
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm
@@ -10,6 +11,8 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from user.utils import EmailVerificationTokenGenerator
 
+logger = logging.getLogger('django')
+
 
 def signup(request):
     """
@@ -20,8 +23,10 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             send_email_verification(request, user.id)
+            logger.info("New user Created")
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
+            logger.error("Invalid Data")
             return HttpResponseRedirect(reverse("accounts:signup"))
     else:
         context = {
@@ -108,8 +113,10 @@ def profile_update(request):
             request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
+            logger.info("Profile Information Updated")
             return HttpResponseRedirect(reverse("accounts:profile-view"))
         else:
+            logger.error("Invalid Data")
             return HttpResponseRedirect(reverse("accounts:profile-update"))
     else:
         context = {
@@ -125,8 +132,10 @@ def email_verification_request(request):
     """
     if not request.user.is_email_verified:
         send_email_verification(request, request.user.id)
+        logger.info("Email Verification Link Sent")
         return HttpResponse("Email Verification Link sent to your email address")
     else:
+        logger.warning("Email Already Verified")
         return HttpResponse("Email Already Verified")
 
 
@@ -142,6 +151,8 @@ def email_verifier(request, uidb64, token):
     if user is not None and EmailVerificationTokenGenerator.check_token(user, token):
         user.is_email_verified = True
         user.save()
+        logger.info("Account Verified")
         return HttpResponseRedirect(reverse("accounts:profile-view"))
     else:
+        logger.warning("Activation Link is invalid")
         return HttpResponse('Activation link is invalid!')
