@@ -1,4 +1,5 @@
 {% extends "mysite/base.html" %}
+{% load i18n %}
 {% block title %}
 <title>Profile Details</title>
 {% endblock title %}
@@ -12,47 +13,47 @@
                     <img src={{ user.photo.url }} alt="Profile Picture">
                 </div>
                 <div class="card-body col-6 m-sm-2 p-sm-2 m-md-4 p-md-4">
-                    <h5 class="card-title"><i class="fa-solid fa-user"></i> Profile Details</h5>
+                    <h5 class="card-title"><i class="fa-solid fa-user"></i> {% translate 'Profile' %} {% translate 'Details' %} </h5>
                     <p class="card-text">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            Email Address: {{ user.email }} {% if user.is_email_verified %} <i>(Email Verified)</i>{% else %}(<a href="{% url 'accounts:verify-email' %}">Verify Email</a>){% endif %}
+                            {% translate 'Email Address' %} : {{ user.email }} {% if user.is_email_verified %} <i>(Email Verified)</i>{% else %}(<a href="{% url 'accounts:verify-email' %}">Verify Email</a>){% endif %}
                         </li>
                         <li class="list-group-item">
-                            First Name: {{ user.first_name }}
+                            {% translate 'First Name' %} : {{ user.first_name }}
                         </li>
                         <li class="list-group-item">
-                            Middle Name: {{ user.middle_name }}
+                            {% translate 'Middle Name' %}: {{ user.middle_name }}
                         </li>
                         <li class="list-group-item">
-                            Last Name: {{ user.last_name }}
+                            {% translate 'Last Name' %}: {{ user.last_name }}
                         </li>
                         <li class="list-group-item">
-                            Date of Birth: {{ user.date_of_birth }}
+                            {% translate 'Date of Birth' %}: {{ user.date_of_birth }}
                         </li>
                         <li class="list-group-item">
-                            Gender: {{ user.gender }}
+                            {% translate 'Gender' %}: {{ user.gender }}
                         </li>
                         <li class="list-group-item">
-                            Identity Document Type: {{ user.identity_document_type }}
+                            {% translate 'Identity Document Type' %}: {{ user.identity_document_type }}
                         </li>
                         <li class="list-group-item">
-                            Identity Document Number: {{ user.identity_document_number }}
+                            {% translate 'Identity Document Number' %}: {{ user.identity_document_number }}
                         </li>
                         <li class="list-group-item">
-                            Date Joined: {{ user.date_joined }}
+                            {% translate 'Date Joined' %}: {{ user.date_joined }}
                         </li>
                     </ul>
                     </p>
-                    <p class="card-text"><small class="text-muted">Last updated on {{user.last_updated}}</small></p>
+                    <p class="card-text"><small class="text-muted">{% translate 'Last updated on' %} {{user.last_updated}}</small></p>
                     <div class="link-container">
                         <button class="btn btn-danger">
                             <a href="{% url 'accounts:change-password' %}" class="btn-link"><i
-                                    class="fa-solid fa-key"></i> Change Password</a>
+                                    class="fa-solid fa-key"></i> {% translate 'Change' %} {% translate 'Password' %}  </a>
                         </button>
                         <button class="btn btn-secondary">
                             <a href="{% url 'accounts:profile-update' %}" class="btn-link"><i
-                                    class="fa-solid fa-pen"></i> Update Profile</a>
+                                    class="fa-solid fa-pen"></i> {% translate 'Update' %} {% translate 'Profile' %} </a>
                         </button>
                     </div>
                 </div>

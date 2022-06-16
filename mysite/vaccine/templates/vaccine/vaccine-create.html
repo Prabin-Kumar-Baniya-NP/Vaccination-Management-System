@@ -1,10 +1,11 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
-<title>Create Vaccine</title>
+<title>{% translate 'Create Vaccine' %}</title>
 {% endblock title %}
 {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-  <h4 class="mb-3">Fill the following details to create a new vaccine</h4>
+  <h4 class="mb-3">{% translate 'Fill the following details to create a new vaccine' %}</h4>
   <form method="POST" action="">
     {% csrf_token %} {% for field in form %}
     <div class="mb-2 row">
@@ -15,7 +16,7 @@
       {% endif %}
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-success">Create Vaccine</button>
+    <button type="submit" class="btn btn-success">{% translate 'Create Vaccine' %}</button>
   </form>
   <div>
     {% endblock content %}

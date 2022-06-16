@@ -1,4 +1,5 @@
 {% extends 'mysite/base.html' %} {% block title %}
+{% load i18n %}
 <title>Book My Vaccine</title>
 {% endblock %}
 {% block content %}
@@ -12,7 +13,7 @@
                         <span>
                             <a href="{% url 'vaccination:campaign-list' %}" class="dashboard-card-link">
                                 <i class="fs-1 fa-solid fa-globe"></i> <br>
-                                Current<br> Campaigns
+                                {% translate 'Current' %} <br> {% translate 'Campaigns' %}
                             </a>
                         </span>
                     </div>
@@ -26,7 +27,7 @@
                         <span>
                             <a href="{% url 'center:center-list' %}" class="dashboard-card-link">
                                 <i class="fs-1 fa-solid fa-location-dot"></i><br>
-                                Vaccination<br> Center
+                                {% translate 'Vaccination' %}<br> {% translate 'Center' %} 
                             </a>
                         </span>
                     </div>
@@ -40,7 +41,7 @@
                         <span>
                             <a href="{% url 'vaccine:vaccine-list' %}" class="dashboard-card-link">
                                 <i class="fs-1 fa-solid fa-syringe"></i> <br>
-                                Available<br> Vaccines
+                                {% translate 'Available' %} {% translate 'Vaccines' %}<br> 
                             </a>
                         </span>
                     </div>
@@ -53,7 +54,7 @@
                         <span>
                             <a href="{% url 'vaccination:vaccination-list-patient' %}" class="dashboard-card-link">
                                 <i class="fs-1 fa-solid fa-shield-virus"></i><br>
-                                My<br> Vaccination
+                                {% translate 'My' %} <br> {% translate 'Vaccination' %}
                             </a>
                         </span>
                     </div>
@@ -65,7 +66,7 @@
                         <span>
                             <a href="{% url 'vaccination:choose-vaccine' %}" class="dashboard-card-link">
                                 <i class="fs-1 fa-solid fa-clock"></i> <br>
-                                Schedule<br> Vaccination
+                                {% translate 'Schedule' %}<br> {% translate 'Vaccination' %}
                             </a>
                         </span>
                     </div>
@@ -77,7 +78,7 @@
                         <span>
                             <a href="{% url 'accounts:profile-view' %}" class="dashboard-card-link">
                                 <i class="fs-1 fa-solid fa-id-card-clip"></i><br>
-                                Profile <br> Information
+                                {% translate 'Profile' %} <br> {% translate 'Information' %}
                             </a>
                         </span>
                     </div>

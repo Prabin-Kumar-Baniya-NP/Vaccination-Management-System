@@ -1,9 +1,11 @@
-{% extends 'mysite/base.html' %} {% block title %}
-<title>Update Vaccine</title>
+{% extends 'mysite/base.html' %} 
+{% load i18n %}
+{% block title %}
+<title>{% translate 'Update Vaccine' %}</title>
 {% endblock title %} {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
   <h4 class="mb-3">
-    Fill the following details to update the vaccine details.
+    {% translate 'Fill the following details to update the vaccine details.' %}
   </h4>
   <form method="POST" action="">
     {% csrf_token %} {% for field in form %}
@@ -16,7 +18,7 @@
     </div>
     {% endfor %}
     <button type="submit" class="btn btn-success">
-      <i class="fa-solid fa-pen"></i> Update Vaccine
+      <i class="fa-solid fa-pen"></i> {% translate 'Update Vaccine' %}
     </button>
   </form>
   <div>{% endblock content %}</div>

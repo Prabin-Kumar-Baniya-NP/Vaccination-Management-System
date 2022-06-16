@@ -1,4 +1,5 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
 <title>Center Details</title>
 {% endblock title %}
@@ -7,18 +8,18 @@
   <div class="row g-0">
     <div class="col-md-8">
       <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title"><i class="fa-solid fa-location-dot"></i> Center Details</h5>
+        <h5 class="card-title"><i class="fa-solid fa-location-dot"></i>{% translate 'Center Details' %} </h5>
         <p class="card-text">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            Name: {{ object.name }}
+            {% translate 'Name' %}: {{ object.name }}
           </li>
           <li class="list-group-item">
-            Address: {{ object.address }}
+            {% translate 'Address' %}: {{ object.address }}
           </li>
           {% if perms.center.view_storage %}
           <li class="list-group-item">
-            <i class="fa-solid fa-box-archive"></i> Storage:
+            <i class="fa-solid fa-box-archive"></i> {% translate 'Storage' %}:
             <div class="d-flex flex-wrap">
               {% for storage in storage_list %}
               <div class="card text-dark bg-light me-3 mb-3" style="width:fit-content;">
@@ -28,24 +29,24 @@
                 <div class="card-body row">
                   <div class="col-6 d-flex flex-column text-center">
                     <span><b>{{ storage.total_quantity }}</b></span>
-                    <span>Total<br>Quantity</span>
+                    <span>{% translate 'Total' %}<br>{% translate 'Quantity' %}</span>
                   </div>
                   <div class="col-6 d-flex flex-column text-center">
                     <span><b>{{ storage.booked_quantity }}</b></span>
-                    <span>Booked<br>Quantity</span>
+                    <span>{% translate 'Booked' %}<br>{% translate 'Quantity' %}</span>
                   </div>
                 </div>
               </div>
               {% endfor %}
             </div>
             <button type="button" class="btn btn-sm btn-info me-2">
-              <a href="{% url 'center:storage-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i> View
-                All</a>
+              <a href="{% url 'center:storage-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i> 
+                {% translate 'View All' %}</a>
             </button>
             {% if perms.center.add_storage %}
             <button type="button" class="btn btn-sm btn-primary me-2">
               <a href="{% url 'center:storage-create' object.id %}" class="btn-link"><i class="fa-solid fa-plus"></i>
-                Create Storage</a>
+                {% translate 'Create Storage' %}</a>
             </button>
             {% endif %}
           </li>
@@ -55,18 +56,17 @@
         <div class="link-container">
           {% if perms.center.change_center %}
           <button class="btn btn-sm btn-success">
-            <a href="{% url 'center:center-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> Update
-              Center</a>
+            <a href="{% url 'center:center-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> 
+              {% translate 'Update' %} {% translate 'Center' %}</a>
           </button>
           {% endif %}
           {% if perms.center.delete_center %}
           <button class="btn btn-sm btn-danger">
             <a href="{% url 'center:center-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i>
-              Delete Center</a>
+              {% translate 'Delete' %} {% translate 'Center' %}</a>
           </button>
           {% endif %}
         </div>
-
       </div>
     </div>
   </div>

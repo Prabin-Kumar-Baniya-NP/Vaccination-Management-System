@@ -1,12 +1,13 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
-<title>Delete Slot</title>
+<title>{% translate 'Delete Slot' %}</title>
 {% endblock title %}
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    <p>Are you sure you want to delete slot "{{ object }}"?</p>
+    <p>{% translate 'Are you sure you want to delete slot' %} "{{ object }}"?</p>
     {{ form }}
-    <button type="submit" class="btn btn-danger">Confirm</button>
+    <button type="submit" class="btn btn-danger">{% translate 'Confirm' %}</button>
 </form>
 {% endblock content %}

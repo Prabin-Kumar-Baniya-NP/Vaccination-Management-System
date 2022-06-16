@@ -1,50 +1,47 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
-<title>Slot Details</title>
+<title>{% translate 'Slot Details' %}</title>
 {% endblock title %}
 {% block content %}
 <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-8">
       <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title">Slot Details</h5>
+        <h5 class="card-title">{% translate 'Slot Details' %}</h5>
         <p class="card-text">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <span class="fw-bold me-5">Center Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'Center Name' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
             {{ object.campaign.center.name }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">Vaccine Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'Vaccine Name' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
             {{ object.campaign.vaccine.name }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">Start
-              Date:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'Start Date' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
               {{ object.campaign.start_date }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">End
-              Date:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'End Date' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
               {{ object.campaign.end_date }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">Start
-              Time:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'Start Time' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
               {{ object.start_time }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">End
-              Time:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'End Time' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
               {{ object.end_time }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">Max Capacity:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span> 
+            <span class="fw-bold me-5">{% translate 'Max Capacity' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span> 
             {{ object.max_capacity}}
           </li>
           <li class="list-group-item">
             <span
-              class="fw-bold me-5">Reserved:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+              class="fw-bold me-5">{% translate 'Reserved' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
             {{ object.reserved}}
           </li>
         </ul>
@@ -53,12 +50,12 @@
         <div class="link-container">
           {% if perms.vaccination.change_slot %}
           <button class="btn btn-sm btn-success">
-            <a href="{% url 'vaccination:slot-update' object.campaign.id object.id %}" class="btn-link">Update Slot</a>
+            <a href="{% url 'vaccination:slot-update' object.campaign.id object.id %}" class="btn-link">{% translate 'Update Slot' %}</a>
           </button>
           {% endif %}
           {% if perms.vaccination.delete_slot %}
           <button class="btn btn-sm btn-danger">
-            <a href="{% url 'vaccination:slot-delete' object.id %}" class="btn-link">Delete Slot</a>
+            <a href="{% url 'vaccination:slot-delete' object.id %}" class="btn-link">{% translate 'Delete Slot' %} </a>
           </button>
           {% endif %}
         </div>

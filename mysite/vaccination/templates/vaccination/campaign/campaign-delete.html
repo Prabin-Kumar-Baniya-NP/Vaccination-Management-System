@@ -1,12 +1,13 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
-<title>Delete Vaccination Campaign</title>
+<title>{% translate 'Delete Vaccination Campaign' %} </title>
 {% endblock title %}
 {% block content %}
 <form method="post">
     {% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <p>{% translate 'Are you sure you want to delete' %} "{{ object }}"?</p>
     {{ form }}
-    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Confirm Delete</button>
+    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> {% translate 'Confirm Delete' %}</button>
 </form>
 {% endblock content %}

@@ -1,7 +1,9 @@
 {% extends 'mysite/base.html' %} {% block title %}
+{% load i18n %}
 <title>Login</title>
 {% endblock %} {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
+  <h4>{% translate 'Enter your email and password to login' %}</h4>
   <form method="POST" action="">
     {% csrf_token %} {% for field in form %}
     <div class="mb-2 row">
@@ -12,6 +14,6 @@
       {% endif %}
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">{% translate 'Login' %}</button>
   </form>
   <div>{% endblock content %}

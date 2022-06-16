@@ -1,10 +1,11 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
-<title>Create Vaccination Campaign</title>
+<title>{% translate 'Create Vaccination Campaign' %} </title>
 {% endblock title %}
 {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-    <h4 class="mb-3">Fill the following details to create a new campaign</h4>
+    <h4 class="mb-3">{% translate 'Fill the following details to create a new campaign' %}</h4>
     <form method="POST" action="">
       {% csrf_token %} {% for field in form %}
       <div class="mb-2 row">
@@ -15,7 +16,7 @@
         {% endif %}
       </div>
       {% endfor %}
-      <button type="submit" class="btn btn-success"><i class="fa-solid fa-plus"></i> Create Campaign</button>
+      <button type="submit" class="btn btn-success"><i class="fa-solid fa-plus"></i> {% translate 'Create Campaign' %}</button>
     </form>
 <div>
 {% endblock content %}

@@ -1,8 +1,9 @@
 {% extends 'mysite/base.html' %} {% block title %}
+{% load i18n %}
 <title>Create Center</title>
 {% endblock title %} {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-  <h4 class="mb-3">Fill the following details to create a new center</h4>
+  <h4 class="mb-3">{% translate 'Fill the following details to create a new center' %}</h4>
   <form method="POST" action="">
     {% csrf_token %} {% for field in form %}
     <div class="mb-2 row">
@@ -14,7 +15,7 @@
     </div>
     {% endfor %}
     <button type="submit" class="btn btn-success">
-      <i class="fa-solid fa-plus"></i> Create Center
+      <i class="fa-solid fa-plus"></i>{% translate 'Create Center' %} 
     </button>
   </form>
   <div>{% endblock content %}</div>

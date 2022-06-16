@@ -4,14 +4,17 @@ from vaccine.models import Vaccine
 from center.models import Center
 from django.db.models import F
 from center.models import Storage
+from django.utils.translation import gettext_lazy as _
 
 
 class Vaccination_Campaign(models.Model):
-    center = models.ForeignKey(Center, on_delete=models.CASCADE, null=True)
-    vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE, null=True)
-    start_date = models.DateField("Vaccination Campaign Start Date", null=True)
-    end_date = models.DateField("Vaccination Campaign End Date", null=True)
-    agents = models.ManyToManyField(User, blank=True)
+    center = models.ForeignKey(
+        Center, on_delete=models.CASCADE, null=True, verbose_name=_("Center"))
+    vaccine = models.ForeignKey(
+        Vaccine, on_delete=models.CASCADE, null=True, verbose_name=_("Vaccine"))
+    start_date = models.DateField(_("Start Date"), null=True)
+    end_date = models.DateField(_("End Date"), null=True)
+    agents = models.ManyToManyField(User, blank=True, verbose_name=_("Agents"))
 
     def __str__(self):
         return str(self.vaccine.name).upper() + " | " + str(self.center.name).upper()
@@ -26,11 +29,11 @@ class Vaccination_Campaign(models.Model):
 class Slot(models.Model):
     campaign = models.ForeignKey(
         Vaccination_Campaign, on_delete=models.CASCADE, null=True)
-    date = models.DateField("Date", null=True)
-    start_time = models.TimeField("Start Time")
-    end_time = models.TimeField("End Time")
-    max_capacity = models.IntegerField("Maximum Capacity", default=0)
-    reserved = models.IntegerField("Total Reserved", default=0)
+    date = models.DateField(_("Date"), null=True)
+    start_time = models.TimeField(_("Start Time"))
+    end_time = models.TimeField(_("End Time"))
+    max_capacity = models.IntegerField(_("Maximum Capacity"), default=0)
+    reserved = models.IntegerField(_("Total Reserved"), default=0)
 
     def __str__(self):
         return str(self.date) + "|" + str(self.start_time) + " to " + str(self.end_time)
@@ -72,14 +75,17 @@ class Slot(models.Model):
 
 class Vaccination(models.Model):
     patient = models.ForeignKey(
-        User, related_name="patient", on_delete=models.CASCADE)
+        User, related_name="patient", on_delete=models.CASCADE, verbose_name=_("Patient"))
     campaign = models.ForeignKey(
-        Vaccination_Campaign, on_delete=models.CASCADE)
-    slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
-    is_vaccinated = models.BooleanField(default=False)
+        Vaccination_Campaign, on_delete=models.CASCADE, verbose_name=_("Campaign"))
+    slot = models.ForeignKey(
+        Slot, on_delete=models.CASCADE, verbose_name=_("Slot"))
+    is_vaccinated = models.BooleanField(
+        default=False, verbose_name=_("Is Vaccinated"))
     updated_by = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.CASCADE)
-    updated_on = models.DateTimeField(auto_now=True, null=True)
+        User, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_("Updated By"))
+    updated_on = models.DateTimeField(
+        auto_now=True, null=True, verbose_name=_("Updated On"))
 
     def __str__(self):
         return self.patient.get_full_name() + " | " + str(self.campaign.vaccine.name)

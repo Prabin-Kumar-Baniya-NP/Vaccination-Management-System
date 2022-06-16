@@ -1,4 +1,5 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
 <title>Storage Details</title>
 {% endblock title %}
@@ -7,26 +8,26 @@
   <div class="row g-0">
     <div class="col-md-8">
       <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title"><i class="fa-solid fa-box-archive"></i> Storage Details</h5>
+        <h5 class="card-title"><i class="fa-solid fa-box-archive"></i>{% translate 'Storage' %} {% translate 'Details' %}  </h5>
         <p class="card-text">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <span class="fw-bold me-5">Center Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'Center' %} {% translate 'Name' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
             {{ object.center.name }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">Vaccine Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'Vaccine' %} {% translate 'Name' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
             {{ object.vaccine.name }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">Total Quantity:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+            <span class="fw-bold me-5">{% translate 'Total' %} {% translate 'Quantity' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
             {{ object.total_quantity }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">Booked Quantity:&nbsp&nbsp&nbsp</span>{{ object.booked_quantity }}
+            <span class="fw-bold me-5">{% translate 'Booked' %} {% translate 'Quantity' %} :&nbsp&nbsp&nbsp</span>{{ object.booked_quantity }}
           </li>
           <li class="list-group-item">
-            <span class="fw-bold me-5">Available Quantity:</span>{{ available_quantity }}
+            <span class="fw-bold me-5">{% translate 'Available' %} {% translate 'Quantity' %} :</span>{{ available_quantity }}
           </li>
         </ul>
         </p>
@@ -35,13 +36,13 @@
           {% if perms.center.change_storage %}
           <button class="btn btn-sm btn-success">
             <a href="{% url 'center:storage-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i>
-              Update Storage</a>
+              {% translate 'Update' %} {% translate 'Storage' %} </a>
           </button>
           {% endif %}
           {% if perms.center.delete_storage %}
           <button class="btn btn-sm btn-danger">
             <a href="{% url 'center:storage-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i>
-              Delete Storage</a>
+              {% translate 'Delete' %} {% translate 'Storage' %} </a>
           </button>
           {% endif %}
         </div>

@@ -1,31 +1,32 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
-<title>Confirm Vaccination</title>
+<title>{% translate 'Confirm Vaccination' %}</title>
 {% endblock title %}
 {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-  <h4 class="mb-3">Are you sure, you want to schedule this vaccination ?</h4>
+  <h4 class="mb-3">{% translate 'Are you sure, you want to schedule this vaccination' %} ?</h4>
   <div class="patient-details">
-    <h6>Review the Vaccination Details</h6>
+    <h6>{% translate 'Review the Vaccination Details' %}</h6>
     <ul class="list-group list-group-flush" style="width: 40%">
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Patient Name</span>
+        <span class="title">{% translate 'Patient Name' %}</span>
         <span class="value">{{ patient.get_full_name }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Email</span>
+        <span class="title">{% translate 'Email' %}</span>
         <span class="value">{{ patient.email }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Gender</span>
+        <span class="title">{% translate 'Gender' %}</span>
         <span class="value">{{ patient.gender }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Date of Birth</span>
+        <span class="title">{% translate 'Date of Birth' %}</span>
         <span class="value">{{ patient.date_of_birth }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Blood Group</span>
+        <span class="title">{% translate 'Blood Group' %}</span>
         <span class="value">{{ patient.blood_group }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
@@ -33,23 +34,23 @@
         <span class="value">{{ patient.identity_document_number }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Vaccine</span>
+        <span class="title">{% translate 'Vaccine' %}</span>
         <span class="value">{{ campaign.vaccine.name }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Scheduled Date</span>
+        <span class="title">{% translate 'Scheduled Date' %}</span>
         <span class="value">{{ slot.date }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Reporting Time</span>
+        <span class="title">{% translate 'Reporting Time' %}</span>
         <span class="value">{{ slot.start_time }} - {{ slot.end_time}}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Center Name</span>
+        <span class="title">{% translate 'Center Name' %}</span>
         <span class="value">{{ campaign.center.name }}</span>
       </li>
       <li class="list-group-item d-flex justify-content-between">
-        <span class="title">Center Address</span>
+        <span class="title">{% translate 'Center Address' %}</span>
         <span class="value">{{ campaign.center.address }}</span>
       </li>
     </ul>
@@ -57,7 +58,7 @@
   <form method="POST" action="">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success m-3"><i class="fa-solid fa-clock"></i> Schedule</button>
+    <button type="submit" class="btn btn-success m-3"><i class="fa-solid fa-clock"></i> {% translate 'Schedule' %}</button>
   </form>
   <div>
     {% endblock content %}

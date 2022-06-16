@@ -1,6 +1,7 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
-<title>Update Storage</title>
+<title>{% translate 'Update' %} {% translate 'Storage' %} </title>
 {% endblock title %}
 {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
@@ -14,7 +15,7 @@
       {% endif %}
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen"></i> Update Storage</button>
+    <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen"></i>{% translate 'Update' %} {% translate 'Storage' %}</button>
   </form>
   <div>
     {% endblock content %}

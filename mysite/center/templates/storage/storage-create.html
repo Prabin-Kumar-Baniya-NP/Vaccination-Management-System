@@ -1,5 +1,6 @@
 {% extends 'mysite/base.html' %} {% block title %}
-<title>Create Storage</title>
+{% load i18n %}
+<title>{% translate 'Create' %} {% translate 'Storage' %} </title>
 {% endblock title %} {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
   <form method="POST" action="">
@@ -13,7 +14,7 @@
     </div>
     {% endfor %}
     <button type="submit" class="btn btn-success">
-      <i class="fa-solid fa-plus"></i> Create Storage
+      <i class="fa-solid fa-plus"></i> {% translate 'Create' %} {% translate 'Storage' %} 
     </button>
   </form>
   <div>{% endblock content %}</div>

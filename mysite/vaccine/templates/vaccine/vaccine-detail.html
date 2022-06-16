@@ -1,4 +1,5 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
 <title>Vaccine Details</title>
 {% endblock title %}
@@ -7,26 +8,26 @@
   <div class="row g-0">
     <div class="col-md-8">
       <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title"><i class="fa-solid fa-syringe"></i> Vaccine Details</h5>
+        <h5 class="card-title"><i class="fa-solid fa-syringe"></i> {% translate 'Vaccine Details' %}</h5>
         <p class="card-text">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            Vaccine Name: {{ object.name }}
+            {% translate 'Vaccine Name' %}: {{ object.name }}
           </li>
           <li class="list-group-item">
-            Description: {{ object.description }}
+            {% translate 'Description' %}: {{ object.description }}
           </li>
           <li class="list-group-item">
-            Vaccine Name: {{ object.number_of_doses }}
+            {% translate 'Vaccine Name' %}: {{ object.number_of_doses }}
           </li>
           <li class="list-group-item">
-            Description: {{ object.storage_temperature }}
+            {% translate 'Storage Temperature' %}: {{ object.storage_temperature }}
           </li>
           <li class="list-group-item">
-            Description: {{ object.interval }}
+            {% translate 'Interval' %}: {{ object.interval }}
           </li>
           <li class="list-group-item">
-            Vaccine Name: {{ object.minimum_age }}
+            {% translate 'Minimum Age' %}: {{ object.minimum_age }}
           </li>
         </ul>
         </p>
@@ -35,13 +36,13 @@
           {% if perms.vaccine.change_vaccine %}
           <button class="btn btn-sm btn-success">
             <a href="{% url 'vaccine:vaccine-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i>
-              Update Vaccine</a>
+              {% translate 'Update Vaccine' %}</a>
           </button>
           {% endif %}
           {% if perms.vaccine.delete_vaccine %}
           <button class="btn btn-sm btn-danger">
             <a href="{% url 'vaccine:vaccine-delete' object.id %}" class="btn-link"><i
-                class="fa-solid fa-trash-can"></i> Delete Vaccine</a>
+                class="fa-solid fa-trash-can"></i> {% translate 'Delete Vaccine' %}</a>
           </button>
           {% endif %}
         </div>

@@ -1,7 +1,8 @@
 {% extends 'mysite/base.html' %}
+{% load i18n %}
 {% block title %}
-<title>Schedule Successfull</title>
+<title>{% translate 'Schedule Successfull' %}</title>
 {% endblock title %}
 {% block content %}
-Congratulations! Your vaccination has been scheduled.
+{% translate 'Congratulations! Your vaccination has been scheduled.' %}
 {% endblock %}
