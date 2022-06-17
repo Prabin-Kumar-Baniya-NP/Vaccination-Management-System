@@ -2,7 +2,7 @@ import datetime
 import io
 from user.models import User
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
-from vaccination.models import Slot, Vaccination, Vaccination_Campaign
+from vaccination.models import Slot, Vaccination, Campaign
 from django.urls import reverse_lazy, reverse
 from vaccination.forms import CampaignCreateForm, CampaignUpdateForm, SlotCreateForm, SlotUpdateForm, VaccinationForm
 from vaccine.models import Vaccine
@@ -25,9 +25,9 @@ class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMes
     """
     Creates a new vaccination campaign
     """
-    model = Vaccination_Campaign
+    model = Campaign
     form_class = CampaignCreateForm
-    permission_required = ("vaccination.add_vaccination_campaign",)
+    permission_required = ("vaccination.add_campaign",)
     template_name = "vaccination/campaign/campaign-create.html"
     success_url = reverse_lazy("vaccination:campaign-list")
     success_message = "Campaign Created Successfully"
@@ -37,9 +37,9 @@ class CampaignUpdateForm(LoginRequiredMixin, PermissionRequiredMixin, SuccessMes
     """
     Updates the vaccination campaign
     """
-    model = Vaccination_Campaign
+    model = Campaign
     form_class = CampaignUpdateForm
-    permission_required = ("vaccination.change_vaccination_campaign",)
+    permission_required = ("vaccination.change_campaign",)
     template_name = "vaccination/campaign/campaign-update.html"
     success_url = reverse_lazy("vaccination:campaign-list")
     success_message = "Campaign Updated Successfully"
@@ -49,20 +49,20 @@ class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination campaign
     """
-    model = Vaccination_Campaign
+    model = Campaign
     template_name = "vaccination/campaign/campaign-list.html"
     paginate_by = 10
     ordering = ["-id"]
-    permission_required = ("vaccination.view_vaccination_campaign",)
+    permission_required = ("vaccination.view_campaign",)
 
 
 class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of vaccination campaign
     """
-    model = Vaccination_Campaign
+    model = Campaign
     template_name = "vaccination/campaign/campaign-detail.html"
-    permission_required = ("vaccination.view_vaccination_campaign", )
+    permission_required = ("vaccination.view_campaign", )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,9 +75,9 @@ class CampaignDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMes
     """
     Deletes the vaccination campaign
     """
-    model = Vaccination_Campaign
+    model = Campaign
     template_name = "vaccination/campaign/campaign-delete.html"
-    permission_required = ("vaccination.delete_vaccination_campaign", )
+    permission_required = ("vaccination.delete_campaign", )
     success_url = reverse_lazy("vaccination:campaign-list")
     success_message = "Campaign Deleted Successfully"
 
@@ -100,7 +100,7 @@ class SlotCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
     def get_initial(self):
         initial = super().get_initial()
-        initial["campaign"] = Vaccination_Campaign.objects.get(
+        initial["campaign"] = Campaign.objects.get(
             id=self.kwargs["campaign_id"])
         return initial
 
@@ -125,7 +125,7 @@ class SlotUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
     def get_initial(self):
         initial = super().get_initial()
-        initial["campaign"] = Vaccination_Campaign.objects.get(
+        initial["campaign"] = Campaign.objects.get(
             id=self.kwargs["campaign_id"])
         return initial
 
@@ -183,7 +183,7 @@ class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
     model = Vaccination
     template_name = "vaccination/vaccination-list.html"
     paginate_by = 10
-    permission_required = ("vaccination.view_vaccination_campaign", )
+    permission_required = ("vaccination.view_campaign", )
 
     def get_queryset(self):
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).order_by("-id")
@@ -240,7 +240,7 @@ def choose_campaign(request, vaccine_id):
     Handles the choose vaccination campaign part of vaccination registration
     """
     context = {
-        "campaign_list": Vaccination_Campaign.objects.filter(vaccine=vaccine_id)
+        "campaign_list": Campaign.objects.filter(vaccine=vaccine_id)
     }
     return render(request, "vaccination/choose-campaign.html", context)
 
@@ -277,7 +277,7 @@ def confirm_vaccination(request, campaign_id, slot_id):
             return HttpResponse("Unable to process your request! Please enter correct data")
     else:
         patient = User.objects.get(id=request.user.id)
-        campaign = Vaccination_Campaign.objects.get(id=campaign_id)
+        campaign = Campaign.objects.get(id=campaign_id)
         slot = Slot.objects.get(id=slot_id)
         form = VaccinationForm(
             initial={"patient": patient, "campaign": campaign, "slot": slot})

@@ -77,13 +77,13 @@
           </ul>
         </p>
         <div class="link-container">
-          {% if perms.vaccination.change_vaccination_campaign %}
+          {% if perms.vaccination.change_campaign %}
           <button class="btn btn-sm btn-success">
             <a href="{% url 'vaccination:campaign-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i>
               {% translate 'Update Campaign' %}</a>
           </button>
           {% endif %}
-          {% if perms.vaccination.delete_vaccination_campaign %}
+          {% if perms.vaccination.delete_campaign %}
           <button class="btn btn-sm btn-danger">
             <a href="{% url 'vaccination:campaign-delete' object.id %}" class="btn-link"><i
                 class="fa-solid fa-trash-can"></i> {% translate 'Delete Campaign' %}</a>

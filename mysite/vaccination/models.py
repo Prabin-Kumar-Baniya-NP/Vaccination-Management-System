@@ -7,7 +7,7 @@ from center.models import Storage
 from django.utils.translation import gettext_lazy as _
 
 
-class Vaccination_Campaign(models.Model):
+class Campaign(models.Model):
     center = models.ForeignKey(
         Center, on_delete=models.CASCADE, null=True, verbose_name=_("Center"))
     vaccine = models.ForeignKey(
@@ -19,16 +19,16 @@ class Vaccination_Campaign(models.Model):
     def __str__(self):
         return str(self.vaccine.name).upper() + " | " + str(self.center.name).upper()
 
-    def get_vaccination_campaign(center_id, vaccine_id):
+    def get_campaign(center_id, vaccine_id):
         """
         Returns the vaccination campaign for given center and vaccine
         """
-        return Vaccination_Campaign.objects.filter(center=center_id, vaccine=vaccine_id)
+        return Campaign.objects.filter(center=center_id, vaccine=vaccine_id)
 
 
 class Slot(models.Model):
     campaign = models.ForeignKey(
-        Vaccination_Campaign, on_delete=models.CASCADE, null=True)
+        Campaign, on_delete=models.CASCADE, null=True)
     date = models.DateField(_("Date"), null=True)
     start_time = models.TimeField(_("Start Time"))
     end_time = models.TimeField(_("End Time"))
@@ -77,7 +77,7 @@ class Vaccination(models.Model):
     patient = models.ForeignKey(
         User, related_name="patient", on_delete=models.CASCADE, verbose_name=_("Patient"))
     campaign = models.ForeignKey(
-        Vaccination_Campaign, on_delete=models.CASCADE, verbose_name=_("Campaign"))
+        Campaign, on_delete=models.CASCADE, verbose_name=_("Campaign"))
     slot = models.ForeignKey(
         Slot, on_delete=models.CASCADE, verbose_name=_("Slot"))
     is_vaccinated = models.BooleanField(

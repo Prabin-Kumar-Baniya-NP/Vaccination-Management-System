@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from vaccination.models import Vaccination_Campaign, Slot, Vaccination
+from vaccination.models import Campaign, Slot, Vaccination
 
 
 class CampaignCreateForm(ModelForm):
@@ -14,7 +14,7 @@ class CampaignCreateForm(ModelForm):
             visible.field.widget.attrs['class'] = 'form-control'
 
     class Meta:
-        model = Vaccination_Campaign
+        model = Campaign
         fields = "__all__"
 
 
@@ -29,7 +29,7 @@ class CampaignUpdateForm(ModelForm):
             visible.field.widget.attrs['class'] = 'form-control'
 
     class Meta:
-        model = Vaccination_Campaign
+        model = Campaign
         fields = "__all__"
 
 
@@ -41,7 +41,7 @@ class SlotCreateForm(ModelForm):
     def __init__(self, campaign_id, *args, **kwargs):
         super(SlotCreateForm, self).__init__(*args, **kwargs)
         self.fields["reserved"].disabled = True
-        self.fields["campaign"].queryset = Vaccination_Campaign.objects.filter(
+        self.fields["campaign"].queryset = Campaign.objects.filter(
             id=campaign_id)
         self.fields["campaign"].disabled = True
         for visible in self.visible_fields():
@@ -59,7 +59,7 @@ class SlotUpdateForm(ModelForm):
 
     def __init__(self, campaign_id, *args, **kwargs):
         super(SlotUpdateForm, self).__init__(*args, **kwargs)
-        self.fields["campaign"].queryset = Vaccination_Campaign.objects.filter(
+        self.fields["campaign"].queryset = Campaign.objects.filter(
             id=campaign_id)
         self.fields["reserved"].disabled = True
         self.fields["campaign"].disabled = True
