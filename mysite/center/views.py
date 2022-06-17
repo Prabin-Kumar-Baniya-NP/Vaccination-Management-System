@@ -5,6 +5,9 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
+from django.utils.decorators import method_decorator
 
 
 class CreateCenter(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -19,6 +22,8 @@ class CreateCenter(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMi
     success_message = "Center Created Successfully"
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class CenterList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     List all the center
@@ -30,6 +35,8 @@ class CenterList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = ("center.view_center",)
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class CenterDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of given center
@@ -116,6 +123,8 @@ class StorageUpdate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageM
         return initial
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class StorageList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     List all the storage of given center
@@ -135,6 +144,8 @@ class StorageList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return context
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class StorageDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of given storage

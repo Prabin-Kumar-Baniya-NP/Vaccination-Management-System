@@ -133,3 +133,6 @@ dmypy.json
 
 # Media Files
 media/
+
+# Cached File
+django_cache/

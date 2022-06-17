@@ -15,6 +15,9 @@ from django.contrib import messages
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.http import FileResponse
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
+from django.utils.decorators import method_decorator
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 from reportlab.lib.pagesizes import A4
@@ -45,6 +48,8 @@ class CampaignUpdateForm(LoginRequiredMixin, PermissionRequiredMixin, SuccessMes
     success_message = "Campaign Updated Successfully"
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination campaign
@@ -56,6 +61,8 @@ class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = ("vaccination.view_campaign",)
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of vaccination campaign
@@ -133,6 +140,8 @@ class SlotUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
         return reverse_lazy("vaccination:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]})
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class SlotListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the slot for given vaccination campaign
@@ -154,6 +163,8 @@ class SlotListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return context
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class SlotDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of given slot
@@ -176,6 +187,8 @@ class SlotDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
         return reverse_lazy("vaccination:slot-list", kwargs={"campaign_id": self.get_object().campaign.id})
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination registration for given vaccination campaign
@@ -189,6 +202,8 @@ class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).order_by("-id")
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
     """
     Lists all the vaccination registration done by the user
@@ -201,6 +216,8 @@ class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
         return Vaccination.objects.filter(patient=User.objects.get(id=self.request.user.id)).order_by("-id")
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class VaccinationDetailView(LoginRequiredMixin, DetailView):
     """
     Returns the details of vaccination registration
@@ -209,6 +226,7 @@ class VaccinationDetailView(LoginRequiredMixin, DetailView):
     template_name = "vaccination/vaccination-detail.html"
 
 
+@cache_page(60*15)
 @login_required
 def choose_vaccine(request):
     """
@@ -220,6 +238,7 @@ def choose_vaccine(request):
     return render(request, "vaccination/choose-vaccine.html", context)
 
 
+@cache_page(60*15)
 @login_required
 def check_dose(request, vaccine_id):
     """
@@ -234,6 +253,7 @@ def check_dose(request, vaccine_id):
         return render(request, "vaccination/dose-information.html", {"dose_taken": dose_taken, "dose_required": vaccine.number_of_doses})
 
 
+@cache_page(60*15)
 @login_required
 def choose_campaign(request, vaccine_id):
     """
@@ -245,6 +265,7 @@ def choose_campaign(request, vaccine_id):
     return render(request, "vaccination/choose-campaign.html", context)
 
 
+@cache_page(60*15)
 @login_required
 def choose_slot(request, campaign_id):
     """

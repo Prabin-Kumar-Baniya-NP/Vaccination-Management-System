@@ -129,7 +129,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Logging Settings
+# Caching Settings
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': f'{BASE_DIR}/django_cache',
+    }
+}
 # Logging Settings
 LOGGING = {
     'version': 1,

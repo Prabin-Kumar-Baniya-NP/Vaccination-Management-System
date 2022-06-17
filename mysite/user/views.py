@@ -11,6 +11,8 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from user.utils import EmailVerificationTokenGenerator
 from django.contrib import messages
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 
 logger = logging.getLogger('django')
 
@@ -57,7 +59,8 @@ def login(request):
                 return HttpResponseRedirect(reverse("index"))
             else:
                 logger.error("User is None")
-                messages.error(request, "Invalid Login! Please enter correct data")
+                messages.error(
+                    request, "Invalid Login! Please enter correct data")
                 return HttpResponseRedirect(reverse("accounts:login"))
         else:
             return HttpResponseRedirect(reverse("accounts:login"))
@@ -94,7 +97,8 @@ def change_password(request):
             return HttpResponseRedirect(reverse("accounts:profile-view"))
         else:
             logger.error("Invalid Data")
-            messages.error(request, "Unable to change password! Please enter valid data")
+            messages.error(
+                request, "Unable to change password! Please enter valid data")
             return HttpResponseRedirect(reverse("accounts:change-password"))
     else:
         context = {
@@ -103,6 +107,8 @@ def change_password(request):
         return render(request, "user/change-password.html", context)
 
 
+@cache_page(60 * 15)
+@vary_on_cookie
 @login_required
 def profile_view(request):
     """
@@ -129,7 +135,8 @@ def profile_update(request):
         if form.is_valid():
             form.save()
             logger.info("Profile Information Updated")
-            messages.success(request, "Profile Information Updated Successfully")
+            messages.success(
+                request, "Profile Information Updated Successfully")
             return HttpResponseRedirect(reverse("accounts:profile-view"))
         else:
             logger.error("Invalid Data")

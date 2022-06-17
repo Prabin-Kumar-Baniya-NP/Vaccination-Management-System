@@ -4,6 +4,9 @@ from vaccine.forms import VaccineCreateForm, VaccineUpdateForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
+from django.utils.decorators import method_decorator
 
 
 class VaccineCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -30,6 +33,8 @@ class VaccineUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMess
     success_message = "%(name)s was updated successfully"
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class VaccineListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     List all the vaccines
@@ -41,6 +46,8 @@ class VaccineListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     ordering = ["name"]
 
 
+@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(vary_on_cookie, name="dispatch")
 class VaccineDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of given vaccine
