@@ -8,7 +8,7 @@ from vaccination.forms import CampaignCreateForm, CampaignUpdateForm, SlotCreate
 from vaccine.models import Vaccine
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -21,35 +21,31 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 
 
-class CampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new vaccination campaign
     """
     model = Vaccination_Campaign
     form_class = CampaignCreateForm
+    permission_required = ("vaccination.add_vaccination_campaign",)
     template_name = "vaccination/campaign/campaign-create.html"
     success_url = reverse_lazy("vaccination:campaign-list")
     success_message = "Campaign Created Successfully"
 
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.add_vaccination_campaign")
 
-
-class CampaignUpdateForm(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class CampaignUpdateForm(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     """
     Updates the vaccination campaign
     """
     model = Vaccination_Campaign
     form_class = CampaignUpdateForm
+    permission_required = ("vaccination.change_vaccination_campaign",)
     template_name = "vaccination/campaign/campaign-update.html"
     success_url = reverse_lazy("vaccination:campaign-list")
     success_message = "Campaign Updated Successfully"
 
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.change_vaccination_campaign")
 
-
-class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination campaign
     """
@@ -57,17 +53,16 @@ class CampaignListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "vaccination/campaign/campaign-list.html"
     paginate_by = 10
     ordering = ["-id"]
-
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.view_vaccination_campaign")
+    permission_required = ("vaccination.view_vaccination_campaign",)
 
 
-class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of vaccination campaign
     """
     model = Vaccination_Campaign
     template_name = "vaccination/campaign/campaign-detail.html"
+    permission_required = ("vaccination.view_vaccination_campaign", )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,30 +70,26 @@ class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             campaign=self.kwargs["pk"]).count()
         return context
 
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.view_vaccination_campaign")
 
-
-class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class CampaignDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the vaccination campaign
     """
     model = Vaccination_Campaign
     template_name = "vaccination/campaign/campaign-delete.html"
+    permission_required = ("vaccination.delete_vaccination_campaign", )
     success_url = reverse_lazy("vaccination:campaign-list")
     success_message = "Campaign Deleted Successfully"
 
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.delete_vaccination_campaign")
 
-
-class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+class SlotCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new slot for given vaccination campaign
     """
     model = Slot
     form_class = SlotCreateForm
     template_name = "vaccination/slot/slot-create.html"
+    permission_required = ("vaccination.add_slot", )
     success_url = reverse_lazy("vaccination:slot-list")
     success_message = "Slot Created Successfully"
 
@@ -116,16 +107,14 @@ class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def get_success_url(self) -> str:
         return reverse_lazy("vaccination:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]})
 
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.add_slot")
 
-
-class SlotUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class SlotUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     """
     Updates the slot
     """
     model = Slot
     form_class = SlotUpdateForm
+    permission_required = ("vaccination.change_slot", )
     template_name = "vaccination/slot/slot-update.html"
     success_message = "Slot Updated Successfully"
 
@@ -143,17 +132,15 @@ class SlotUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def get_success_url(self):
         return reverse_lazy("vaccination:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]})
 
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.change_slot")
 
-
-class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class SlotListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the slot for given vaccination campaign
     """
     model = Slot
     template_name = "vaccination/slot/slot-list.html"
     paginate_by = 10
+    permission_required = ("vaccination.view_slot", )
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -166,49 +153,40 @@ class SlotListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context["campaign_id"] = self.kwargs["campaign_id"]
         return context
 
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.view_slot")
 
-
-class SlotDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class SlotDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of given slot
     """
     model = Slot
     template_name = "vaccination/slot/slot-detail.html"
-
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.view_slot")
+    permission_required = ("vaccination.view_slot", )
 
 
-class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class SlotDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the slot 
     """
     model = Slot
     template_name = "vaccination/slot/slot-delete.html"
+    permission_required = ("vaccination.delete_slot", )
     success_message = "Slot Deleted Successfully"
 
     def get_success_url(self) -> str:
         return reverse_lazy("vaccination:slot-list", kwargs={"campaign_id": self.get_object().campaign.id})
 
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.delete_slot")
 
-
-class VaccinationListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination registration for given vaccination campaign
     """
     model = Vaccination
     template_name = "vaccination/vaccination-list.html"
     paginate_by = 10
+    permission_required = ("vaccination.view_vaccination_campaign", )
 
     def get_queryset(self):
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).order_by("-id")
-
-    def test_func(self):
-        return self.request.user.has_perm("vaccination.view_vaccination_campaign")
 
 
 class VaccinationListViewForPatient(LoginRequiredMixin, ListView):

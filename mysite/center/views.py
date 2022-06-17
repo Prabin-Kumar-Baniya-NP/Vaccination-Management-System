@@ -4,24 +4,22 @@ from center.forms import CreateCenterForm, UpdateCenterForm, CreateStorageForm, 
 from django.urls import reverse_lazy, reverse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
-class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+class CreateCenter(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new center
     """
     model = Center
     form_class = CreateCenterForm
     template_name = "center/center-create.html"
+    permission_required = ("center.add_center",)
     success_url = reverse_lazy("center:center-list")
     success_message = "Center Created Successfully"
 
-    def test_func(self):
-        return self.request.user.has_perm("center.add_center")
 
-
-class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class CenterList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     List all the center
     """
@@ -29,17 +27,16 @@ class CenterList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "center/center-list.html"
     paginate_by = 10
     ordering = ["-name"]
-
-    def test_func(self):
-        return self.request.user.has_perm("center.view_center")
+    permission_required = ("center.view_center",)
 
 
-class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class CenterDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of given center
     """
     model = Center
     template_name = "center/center-detail.html"
+    permission_required = ("center.view_center", )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -47,44 +44,38 @@ class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             center=self.kwargs["pk"])
         return context
 
-    def test_func(self):
-        return self.request.user.has_perm("center.view_center")
 
-
-class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class CenterDelete(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the given center
     """
     model = Center
     template_name = "center/center-delete.html"
+    permission_required = ("center.delete_center",)
     success_url = reverse_lazy("center:center-list")
     success_message = "Center Deleted Successfully"
 
-    def test_func(self):
-        return self.request.user.has_perm("center.delete_center")
 
-
-class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class CenterUpdate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     """
     For Updating the center information
     """
     model = Center
     form_class = UpdateCenterForm
     template_name = "center/center-update.html"
+    permission_required = ("center.change_center", )
     success_url = reverse_lazy("center:center-list")
     success_message = "Center Updated Successfully"
 
-    def test_func(self):
-        return self.request.user.has_perm("center.change_center")
 
-
-class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+class CreateStorage(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new storage in the given center
     """
     model = Storage
     form_class = CreateStorageForm
     template_name = "storage/storage-create.html"
+    permission_required = ("center.add_storage", )
     success_message = "Storage Created Successfully"
 
     def get_form_kwargs(self):
@@ -100,16 +91,14 @@ class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"center_id": self.kwargs["center_id"]})
 
-    def test_func(self):
-        return self.request.user.has_perm("center.add_storage")
 
-
-class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class StorageUpdate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     """
     For updating the storage
     """
     model = Storage
     form_class = UpdateStorageForm
+    permission_required = ("center.change_storage", )
     template_name = "storage/storage-update.html"
     success_message = "Storage Updated Successfully"
 
@@ -126,11 +115,8 @@ class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin
         initial["center"] = Center.objects.get(id=self.get_object().center.id)
         return initial
 
-    def test_func(self):
-        return self.request.user.has_perm("center.change_storage")
 
-
-class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class StorageList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     List all the storage of given center
     """
@@ -138,6 +124,7 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "storage/storage-list.html"
     paginate_by = 10
     ordering = ["id"]
+    permission_required = ("center.view_storage", )
 
     def get_queryset(self):
         return super().get_queryset().filter(center=self.kwargs["center_id"])
@@ -147,16 +134,14 @@ class StorageList(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context["center_id"] = self.kwargs["center_id"]
         return context
 
-    def test_func(self):
-        return self.request.user.has_perm("center.view_storage")
 
-
-class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class StorageDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of given storage
     """
     model = Storage
     template_name = "storage/storage-detail.html"
+    permission_required = ("center.view_storage",)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -164,20 +149,15 @@ class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         ).total_quantity - self.get_object().booked_quantity
         return context
 
-    def test_func(self):
-        return self.request.user.has_perm("center.view_storage")
 
-
-class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class StorageDelete(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the given storage
     """
     model = Storage
     template_name = "storage/storage-delete.html"
+    permission_required = ("center.delete_storage", )
     success_message = "Storage Deleted Successfully"
 
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
-
-    def test_func(self):
-        return self.request.user.has_perm("center.delete_storage")
