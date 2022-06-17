@@ -10,6 +10,7 @@ from user.email import send_email_verification
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from user.utils import EmailVerificationTokenGenerator
+from django.contrib import messages
 
 logger = logging.getLogger('django')
 
@@ -24,9 +25,13 @@ def signup(request):
             user = form.save()
             send_email_verification(request, user.id)
             logger.info("New user Created")
+            messages.success(
+                request, "Account Created Successfully ! Please enter the username and password to login")
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
             logger.error("Invalid Data")
+            messages.error(
+                request, "Invalid Data! Please enter the correct data")
             return HttpResponseRedirect(reverse("accounts:signup"))
     else:
         context = {
@@ -47,8 +52,12 @@ def login(request):
             user = authenticate(email=email, password=password)
             if user is not None:
                 user_login(request, user)
+                logger.info("User Logged in")
+                messages.success(request, "Logged in Successfully")
                 return HttpResponseRedirect(reverse("index"))
             else:
+                logger.error("User is None")
+                messages.error(request, "Invalid Login! Please enter correct data")
                 return HttpResponseRedirect(reverse("accounts:login"))
         else:
             return HttpResponseRedirect(reverse("accounts:login"))
@@ -65,6 +74,8 @@ def logout(request):
     Logout the user from the current session
     """
     user_logout(request)
+    logger.info("Logged out successfully")
+    messages.info(request, "Logged out successfully")
     return HttpResponseRedirect(reverse("accounts:login"))
 
 
@@ -78,8 +89,12 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
+            logger.info("Password Changed")
+            messages.success(request, "Password Changed Successfully")
             return HttpResponseRedirect(reverse("accounts:profile-view"))
         else:
+            logger.error("Invalid Data")
+            messages.error(request, "Unable to change password! Please enter valid data")
             return HttpResponseRedirect(reverse("accounts:change-password"))
     else:
         context = {
@@ -114,9 +129,11 @@ def profile_update(request):
         if form.is_valid():
             form.save()
             logger.info("Profile Information Updated")
+            messages.success(request, "Profile Information Updated Successfully")
             return HttpResponseRedirect(reverse("accounts:profile-view"))
         else:
             logger.error("Invalid Data")
+            messages.error(request, "Invalid Data! Please enter correct data")
             return HttpResponseRedirect(reverse("accounts:profile-update"))
     else:
         context = {
@@ -152,6 +169,7 @@ def email_verifier(request, uidb64, token):
         user.is_email_verified = True
         user.save()
         logger.info("Account Verified")
+        messages.success("Email Address Verified Successfully")
         return HttpResponseRedirect(reverse("accounts:profile-view"))
     else:
         logger.warning("Activation Link is invalid")

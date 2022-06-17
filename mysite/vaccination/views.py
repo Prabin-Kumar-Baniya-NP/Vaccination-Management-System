@@ -10,6 +10,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.http import FileResponse
@@ -19,7 +21,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 
 
-class CampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class CampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new vaccination campaign
     """
@@ -27,12 +29,13 @@ class CampaignCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = CampaignCreateForm
     template_name = "vaccination/campaign/campaign-create.html"
     success_url = reverse_lazy("vaccination:campaign-list")
+    success_message = "Campaign Created Successfully"
 
     def test_func(self):
         return self.request.user.has_perm("vaccination.add_vaccination_campaign")
 
 
-class CampaignUpdateForm(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CampaignUpdateForm(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     """
     Updates the vaccination campaign
     """
@@ -40,6 +43,7 @@ class CampaignUpdateForm(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = CampaignUpdateForm
     template_name = "vaccination/campaign/campaign-update.html"
     success_url = reverse_lazy("vaccination:campaign-list")
+    success_message = "Campaign Updated Successfully"
 
     def test_func(self):
         return self.request.user.has_perm("vaccination.change_vaccination_campaign")
@@ -75,19 +79,20 @@ class CampaignDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.has_perm("vaccination.view_vaccination_campaign")
 
 
-class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class CampaignDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the vaccination campaign
     """
     model = Vaccination_Campaign
     template_name = "vaccination/campaign/campaign-delete.html"
     success_url = reverse_lazy("vaccination:campaign-list")
+    success_message = "Campaign Deleted Successfully"
 
     def test_func(self):
         return self.request.user.has_perm("vaccination.delete_vaccination_campaign")
 
 
-class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new slot for given vaccination campaign
     """
@@ -95,6 +100,7 @@ class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = SlotCreateForm
     template_name = "vaccination/slot/slot-create.html"
     success_url = reverse_lazy("vaccination:slot-list")
+    success_message = "Slot Created Successfully"
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -114,13 +120,14 @@ class SlotCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.has_perm("vaccination.add_slot")
 
 
-class SlotUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class SlotUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     """
     Updates the slot
     """
     model = Slot
     form_class = SlotUpdateForm
     template_name = "vaccination/slot/slot-update.html"
+    success_message = "Slot Updated Successfully"
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -174,12 +181,13 @@ class SlotDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.has_perm("vaccination.view_slot")
 
 
-class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class SlotDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the slot 
     """
     model = Slot
     template_name = "vaccination/slot/slot-delete.html"
+    success_message = "Slot Deleted Successfully"
 
     def get_success_url(self) -> str:
         return reverse_lazy("vaccination:slot-list", kwargs={"campaign_id": self.get_object().campaign.id})
@@ -281,8 +289,11 @@ def confirm_vaccination(request, campaign_id, slot_id):
         if form.is_valid():
             if Slot.reserve_vaccine(slot_id):
                 form.save()
+                messages.success(request, "Vaccination Scheduled Successfully")
                 return render(request, "vaccination/schedule-success.html", {})
             else:
+                messages.error(
+                    request, "Unable to schedule your vaccination. Please try again.")
                 return HttpResponse("Sorry! We are unable to reserve vaccine for you. Please Try Scheduling the vaccination again")
         else:
             return HttpResponse("Unable to process your request! Please enter correct data")
@@ -312,8 +323,11 @@ def approve_vaccination(request, vaccination_id):
         vaccination.is_vaccinated = True
         vaccination.updated_by = User.objects.get(id=request.user.id)
         vaccination.save()
+        messages.success(request, "Vaccination approved successfully")
         return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))
     else:
+        messages.error(
+            request, "You don't have permission to approve vaccination")
         raise PermissionDenied()
 
 

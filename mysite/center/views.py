@@ -2,11 +2,12 @@ from django.views.generic import CreateView, ListView, DetailView, DeleteView, U
 from center.models import Center, Storage
 from center.forms import CreateCenterForm, UpdateCenterForm, CreateStorageForm, UpdateStorageForm
 from django.urls import reverse_lazy, reverse
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 
-class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new center
     """
@@ -14,6 +15,7 @@ class CreateCenter(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = CreateCenterForm
     template_name = "center/center-create.html"
     success_url = reverse_lazy("center:center-list")
+    success_message = "Center Created Successfully"
 
     def test_func(self):
         return self.request.user.has_perm("center.add_center")
@@ -49,19 +51,20 @@ class CenterDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.has_perm("center.view_center")
 
 
-class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class CenterDelete(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the given center
     """
     model = Center
     template_name = "center/center-delete.html"
     success_url = reverse_lazy("center:center-list")
+    success_message = "Center Deleted Successfully"
 
     def test_func(self):
         return self.request.user.has_perm("center.delete_center")
 
 
-class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     """
     For Updating the center information
     """
@@ -69,18 +72,20 @@ class CenterUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = UpdateCenterForm
     template_name = "center/center-update.html"
     success_url = reverse_lazy("center:center-list")
+    success_message = "Center Updated Successfully"
 
     def test_func(self):
         return self.request.user.has_perm("center.change_center")
 
 
-class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new storage in the given center
     """
     model = Storage
     form_class = CreateStorageForm
     template_name = "storage/storage-create.html"
+    success_message = "Storage Created Successfully"
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -99,13 +104,14 @@ class CreateStorage(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.has_perm("center.add_storage")
 
 
-class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class StorageUpdate(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     """
     For updating the storage
     """
     model = Storage
     form_class = UpdateStorageForm
     template_name = "storage/storage-update.html"
+    success_message = "Storage Updated Successfully"
 
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})
@@ -162,12 +168,13 @@ class StorageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.has_perm("center.view_storage")
 
 
-class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class StorageDelete(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the given storage
     """
     model = Storage
     template_name = "storage/storage-delete.html"
+    success_message = "Storage Deleted Successfully"
 
     def get_success_url(self):
         return reverse("center:storage-list", kwargs={"center_id": self.get_object().center.id})

@@ -24,3 +24,8 @@ a {
   align-items: center;
   justify-content: center;
 }
+.messages{
+  list-style: none;
+  text-align: center;
+  margin-top: 5px;
+}

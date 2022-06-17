@@ -3,9 +3,10 @@ from vaccine.models import Vaccine
 from vaccine.forms import VaccineCreateForm, VaccineUpdateForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 
-class VaccineCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class VaccineCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     """
     Creates a new vaccine
     """
@@ -13,12 +14,13 @@ class VaccineCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = VaccineCreateForm
     template_name = "vaccine/vaccine-create.html"
     success_url = reverse_lazy("vaccine:vaccine-list")
+    success_message = "%(name)s was created successfully"
 
     def test_func(self):
         return self.request.user.has_perm("vaccine.add_vaccine")
 
 
-class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     """
     Updates the vaccine
     """
@@ -26,6 +28,7 @@ class VaccineUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     form_class = VaccineUpdateForm
     template_name = "vaccine/vaccine-update.html"
     success_url = reverse_lazy("vaccine:vaccine-list")
+    success_message = "%(name)s was updated successfully"
 
     def test_func(self):
         return self.request.user.has_perm("vaccine.change_vaccine")
@@ -55,13 +58,14 @@ class VaccineDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return self.request.user.has_perm("vaccine.view_vaccine")
 
 
-class VaccineDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class VaccineDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     """
     Deletes the vaccine
     """
     model = Vaccine
     template_name = "vaccine/vaccine-delete.html"
     success_url = reverse_lazy("vaccine:vaccine-list")
+    success_message = "Deleted successfully"
 
     def test_func(self):
         return self.request.user.has_perm("vaccine.delete_vaccine")
