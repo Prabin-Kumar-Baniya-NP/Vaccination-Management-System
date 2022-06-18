@@ -30,6 +30,7 @@ urlpatterns = [
     path("vaccine/", include("vaccine.urls", namespace="vaccine")),
     path("vaccination/", include("vaccination.urls", namespace="vaccination")),
 ]
+
 # Static and Media File URL
 urlpatterns += static(settings.STATIC_URL,
                       document_root=settings.STATIC_ROOT)
@@ -62,3 +63,8 @@ urlpatterns += [
         name="password_reset_complete",
     ),
 ]
+
+# Django Admin Panel Customization
+admin.site.site_header = "Book My Vaccine"
+admin.site.site_title = "Book My Vaccine | Admin"
+admin.site.index_title = "Admin Panel"
