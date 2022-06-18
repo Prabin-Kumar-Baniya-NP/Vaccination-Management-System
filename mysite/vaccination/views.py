@@ -71,6 +71,9 @@ class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView
     template_name = "vaccination/campaign/campaign-detail.html"
     permission_required = ("vaccination.view_campaign", )
 
+    def get_queryset(self):
+        return super().get_queryset().select_related("center", "vaccine")
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["registration"] = Vaccination.objects.filter(
@@ -173,6 +176,9 @@ class SlotDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     template_name = "vaccination/slot/slot-detail.html"
     permission_required = ("vaccination.view_slot", )
 
+    def get_queryset(self):
+        return super().get_queryset().select_related("campaign")
+
 
 class SlotDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     """
@@ -202,7 +208,7 @@ class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).order_by("-id")
 
 
-@method_decorator(cache_page(60*15), name="dispatch")
+@method_decorator(cache_page(60), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
 class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
     """
@@ -225,6 +231,9 @@ class VaccinationDetailView(LoginRequiredMixin, DetailView):
     model = Vaccination
     template_name = "vaccination/vaccination-detail.html"
 
+    def get_queryset(self):
+        return super().get_queryset().select_related("patient", "campaign", "slot")
+
 
 @cache_page(60*15)
 @login_required
@@ -233,12 +242,11 @@ def choose_vaccine(request):
     Handles the vaccine choose part of vaccination registration
     """
     context = {
-        "vaccine_list": Vaccine.objects.all().only("name", "description"),
+        "vaccine_list": Vaccine.objects.all().only("name", "number_of_doses", "interval"),
     }
     return render(request, "vaccination/choose-vaccine.html", context)
 
 
-@cache_page(60*15)
 @login_required
 def check_dose(request, vaccine_id):
     """
@@ -260,7 +268,7 @@ def choose_campaign(request, vaccine_id):
     Handles the choose vaccination campaign part of vaccination registration
     """
     context = {
-        "campaign_list": Campaign.objects.filter(vaccine=vaccine_id)
+        "campaign_list": Campaign.objects.filter(vaccine=vaccine_id).only("center", "start_date", "end_date").select_related("center")
     }
     return render(request, "vaccination/choose-campaign.html", context)
 
@@ -272,7 +280,7 @@ def choose_slot(request, campaign_id):
     Lists all the slot for given vaccination campaign to choose for vaccination registration
     """
     context = {
-        "slot_list": Slot.objects.filter(campaign=campaign_id, date__gte=datetime.date.today())
+        "slot_list": Slot.objects.filter(campaign=campaign_id, date__gte=datetime.date.today()).select_related("campaign")
     }
     return render(request, "vaccination/choose-slot.html", context)
 
@@ -297,13 +305,14 @@ def confirm_vaccination(request, campaign_id, slot_id):
         else:
             return HttpResponse("Unable to process your request! Please enter correct data")
     else:
-        patient = User.objects.get(id=request.user.id)
-        campaign = Campaign.objects.get(id=campaign_id)
-        slot = Slot.objects.get(id=slot_id)
+        campaign = Campaign.objects.select_related(
+            "center", "vaccine").get(id=campaign_id)
+        slot = Slot.objects.only("date", "start_time",
+                                 "end_time").get(id=slot_id)
         form = VaccinationForm(
-            initial={"patient": patient, "campaign": campaign, "slot": slot})
+            initial={"patient": request.user, "campaign": campaign, "slot": slot})
         context = {
-            "patient": patient,
+            "patient": request.user,
             "campaign": campaign,
             "slot": slot,
             "form": form
@@ -318,7 +327,8 @@ def approve_vaccination(request, vaccination_id):
     Approves the vaccination of patient
     """
     if request.user.has_perm("vaccination.change_vaccination"):
-        vaccination = Vaccination.objects.get(id=vaccination_id)
+        vaccination = Vaccination.objects.only(
+            "is_vaccinated", "updated_by").get(id=vaccination_id)
         vaccination.is_vaccinated = True
         vaccination.updated_by = User.objects.get(id=request.user.id)
         vaccination.save()
@@ -332,7 +342,8 @@ def approve_vaccination(request, vaccination_id):
 
 @login_required
 def vaccine_certificate(request, vaccination_id):
-    vaccination = Vaccination.objects.get(id=vaccination_id)
+    vaccination = Vaccination.objects.select_related(
+        "patient", "campaign", "slot").get(id=vaccination_id)
     dose_number = Vaccination.get_dose_number(
         request.user, vaccination.campaign.vaccine)
     context = {

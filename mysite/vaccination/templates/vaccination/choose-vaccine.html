@@ -12,15 +12,17 @@
     <thead>
       <tr>
         <th scope="col">{% translate 'Name' %}</th>
-        <th scope="col">{% translate 'Description' %}</th>
+        <th scope="col">{% translate 'Number of Doses' %}</th>
+        <th scope="col">{% translate 'Interval' %}</th>
         <th scope="col">{% translate 'Confirm' %}</th>
       </tr>
     </thead>
     <tbody>
       {% for vaccine in vaccine_list %}
       <tr>
-        <td>{{vaccine.name|upper}}</td>
-        <td>{{ vaccine.description }}</td>
+        <td>{{ vaccine.name|upper }}</td>
+        <td>{{ vaccine.number_of_doses }}</td>
+        <td>{{ vaccine.interval }}</td>
         <td><a href="{% url 'vaccination:check-dose' vaccine.id %}">{% translate 'Select' %}</a></td>
       </tr>
       {% endfor %}

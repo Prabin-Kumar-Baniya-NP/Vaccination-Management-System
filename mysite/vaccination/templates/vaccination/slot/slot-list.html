@@ -17,8 +17,6 @@
           <th scope="col">{% translate 'Start Time' %}</th>
           <th scope="col">{% translate 'End Time' %}</th>
           <th scope="col">{% translate 'Date' %}</th>
-          <th scope="col">{% translate 'Center Name' %}</th>
-          <th scope="col">{% translate 'Vaccine Name' %}</th>
           <th scope="col">{% translate 'Max Capacity' %}</th>
           <th scope="col">{% translate 'Reserved' %}</th>
         </tr>
@@ -29,8 +27,6 @@
           <td><a href="{% url 'vaccination:slot-detail' slot.id %}">{{ slot.start_time }}</a></td>
           <td>{{ slot.end_time }}</td>
           <td>{{ slot.date }}</td>
-          <td>{{ slot.campaign.center.name }}</td>
-          <td>{{ slot.campaign.vaccine.name }}</td>
           <td>{{ slot.max_capacity }}</td>
           <td>{{ slot.reserved }}</td>
         </tr>

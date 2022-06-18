@@ -154,10 +154,13 @@ class StorageDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     template_name = "storage/storage-detail.html"
     permission_required = ("center.view_storage",)
 
+    def get_queryset(self):
+        return super().get_queryset().select_related("center", "vaccine")
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["available_quantity"] = self.get_object(
-        ).total_quantity - self.get_object().booked_quantity
+        context["available_quantity"] = self.object.total_quantity - \
+            self.object.booked_quantity
         return context
 
 
