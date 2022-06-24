@@ -1,5 +1,5 @@
 import logging
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import render
 from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
@@ -160,7 +160,7 @@ def email_verification_request(request):
         return HttpResponse("Email Verification Link sent to your email address")
     else:
         logger.warning("Email Already Verified")
-        return HttpResponse("Email Already Verified")
+        return HttpResponseForbidden("Email Already Verified")
 
 
 def email_verifier(request, uidb64, token):
@@ -176,8 +176,8 @@ def email_verifier(request, uidb64, token):
         user.is_email_verified = True
         user.save()
         logger.info("Account Verified")
-        messages.success("Email Address Verified Successfully")
+        messages.success(request, "Email Address Verified Successfully")
         return HttpResponseRedirect(reverse("accounts:profile-view"))
     else:
         logger.warning("Activation Link is invalid")
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponseBadRequest('Activation link is invalid!')
