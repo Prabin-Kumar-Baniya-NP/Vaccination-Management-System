@@ -25,7 +25,7 @@ def signup(request):
         form = SignupForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
-            send_email_verification(request)
+            send_email_verification(request, user.id)
             logger.info("New user Created")
             messages.success(
                 request, "Account Created Successfully ! Please enter the username and password to login")
@@ -155,7 +155,7 @@ def email_verification_request(request):
     Handles the request for email verification
     """
     if not request.user.is_email_verified:
-        send_email_verification(request)
+        send_email_verification(request, request.user.id)
         logger.info("Email Verification Link Sent")
         return HttpResponse("Email Verification Link sent to your email address")
     else:
