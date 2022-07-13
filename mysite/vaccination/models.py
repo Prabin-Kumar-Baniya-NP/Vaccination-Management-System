@@ -9,9 +9,11 @@ from django.utils.translation import gettext_lazy as _
 
 class Campaign(models.Model):
     center = models.ForeignKey(
-        Center, on_delete=models.CASCADE, null=True, verbose_name=_("Center"))
+        Center, on_delete=models.CASCADE, null=True, verbose_name=_("Center")
+    )
     vaccine = models.ForeignKey(
-        Vaccine, on_delete=models.CASCADE, null=True, verbose_name=_("Vaccine"))
+        Vaccine, on_delete=models.CASCADE, null=True, verbose_name=_("Vaccine")
+    )
     start_date = models.DateField(_("Start Date"), null=True)
     end_date = models.DateField(_("End Date"), null=True)
     agents = models.ManyToManyField(User, blank=True, verbose_name=_("Agents"))
@@ -27,8 +29,7 @@ class Campaign(models.Model):
 
 
 class Slot(models.Model):
-    campaign = models.ForeignKey(
-        Campaign, on_delete=models.CASCADE, null=True)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, null=True)
     date = models.DateField(_("Date"), null=True)
     start_time = models.TimeField(_("Start Time"))
     end_time = models.TimeField(_("End Time"))
@@ -55,14 +56,18 @@ class Slot(models.Model):
         """
         Returns the available slot for given campaign
         """
-        return Slot.objects.filter(campaign=campaign_id, slot=slot_id, reserved__lt=F("max_capacity"))
+        return Slot.objects.filter(
+            campaign=campaign_id, slot=slot_id, reserved__lt=F("max_capacity")
+        )
 
     def reserve_vaccine(slot_id):
         """
         Reserves a vaccine for given slot for a patient
         """
         slot = Slot.objects.get(id=slot_id)
-        storage = Storage.objects.get(center=slot.campaign.center)
+        storage = Storage.objects.get(
+            center=slot.campaign.center, vaccine=slot.campaign.vaccine
+        )
         if slot.reserved < slot.max_capacity:
             slot.reserved = F("reserved") + 1
             storage.booked_quantity = F("booked_quantity") + 1
@@ -75,17 +80,26 @@ class Slot(models.Model):
 
 class Vaccination(models.Model):
     patient = models.ForeignKey(
-        User, related_name="patient", on_delete=models.CASCADE, verbose_name=_("Patient"))
+        User,
+        related_name="patient",
+        on_delete=models.CASCADE,
+        verbose_name=_("Patient"),
+    )
     campaign = models.ForeignKey(
-        Campaign, on_delete=models.CASCADE, verbose_name=_("Campaign"))
-    slot = models.ForeignKey(
-        Slot, on_delete=models.CASCADE, verbose_name=_("Slot"))
-    is_vaccinated = models.BooleanField(
-        default=False, verbose_name=_("Is Vaccinated"))
+        Campaign, on_delete=models.CASCADE, verbose_name=_("Campaign")
+    )
+    slot = models.ForeignKey(Slot, on_delete=models.CASCADE, verbose_name=_("Slot"))
+    is_vaccinated = models.BooleanField(default=False, verbose_name=_("Is Vaccinated"))
     updated_by = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_("Updated By"))
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        verbose_name=_("Updated By"),
+    )
     updated_on = models.DateTimeField(
-        auto_now=True, null=True, verbose_name=_("Updated On"))
+        auto_now=True, null=True, verbose_name=_("Updated On")
+    )
 
     def __str__(self):
         return self.patient.get_full_name() + " | " + str(self.campaign.vaccine.name)
@@ -95,8 +109,7 @@ class Vaccination(models.Model):
         Returns the dose number of the patient
         """
         count = 0
-        vaccination = Vaccination.objects.filter(
-            patient=patient, is_vaccinated=True)
+        vaccination = Vaccination.objects.filter(patient=patient, is_vaccinated=True)
         for each in vaccination.all():
             if each.campaign.vaccine == vaccine:
                 count = count + 1
