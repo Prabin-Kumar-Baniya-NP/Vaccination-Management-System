@@ -7,11 +7,11 @@ from user.utils import EmailVerificationTokenGenerator
 from user.models import User
 
 
-def send_email_verification(request, id):
+def send_email_verification(request):
     """
     Sends email to the user regarding email verification
     """
-    user = User.objects.get(pk=id)
+    user = User.objects.get(pk=request.user.id)
     current_site = get_current_site(request)
     subject = "Request for Email Verification | Vaccine Scheduling App Account"
     message = render_to_string('user/email-verify.html', {
