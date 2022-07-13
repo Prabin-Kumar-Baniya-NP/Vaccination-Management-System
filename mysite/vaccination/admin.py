@@ -2,12 +2,6 @@ from django.contrib import admin
 from vaccination.models import Slot, Campaign, Vaccination
 
 
-class CustomSlotAdmin(admin.ModelAdmin):
-    list_display = ["campaign", "date", "start_time", "end_time"]
-    ordering = ["campaign"]
-    search_fields = ["campaign", "date", "start_time", "end_time"]
-
-
 class SlotInline(admin.TabularInline):
     model = Slot
     exclude = ["reserved"]
@@ -26,6 +20,5 @@ class CustomVaccinationAdmin(admin.ModelAdmin):
     list_filter = ["is_vaccinated"]
 
 
-admin.site.register(Slot, CustomSlotAdmin)
 admin.site.register(Campaign, CustomCampaignAdmin)
 admin.site.register(Vaccination, CustomVaccinationAdmin)

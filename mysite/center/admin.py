@@ -2,15 +2,10 @@ from django.contrib import admin
 from center.models import Center, Storage
 
 
-class CustomStorageAdmin(admin.ModelAdmin):
-    fields = ["center", "vaccine", "total_quantity", "booked_quantity"]
-    list_display = ["center", "vaccine"]
-    ordering = ["center"]
-
-
 class StorageInline(admin.TabularInline):
     model = Storage
     fk_name = "center"
+    fields = ["center", "vaccine", "total_quantity"]
 
 
 class CustomCenterAdmin(admin.ModelAdmin):
@@ -21,4 +16,3 @@ class CustomCenterAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Center, CustomCenterAdmin)
-admin.site.register(Storage, CustomStorageAdmin)
