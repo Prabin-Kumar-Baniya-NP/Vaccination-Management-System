@@ -1,4 +1,3 @@
-from gettext import find
 from django.test import TestCase, Client
 from user.models import User
 from django.urls.base import reverse
@@ -146,7 +145,7 @@ class TestUserAuthView(TestCase):
                     "gender": "F",
                     "photo": profile_image,
                     "date_of_birth": "2001-02-02",
-                    "identity_document_type": "passport",
+                    "identity_document_type": "Passport",
                     "identity_document_number": "123456",
                 },
             )

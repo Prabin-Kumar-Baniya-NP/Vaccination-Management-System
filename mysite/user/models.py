@@ -3,6 +3,23 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
+DOCUMENT_CHOICES = [
+    (_("Voter Id"), _("Voter ID")),
+    (_("Passport"), _("Passport")),
+    (_("Citizenship Number"), _("Citizenship Number")),
+]
+
+BLOOD_GROUP_CHOICES = [
+    ("A+", "A+"),
+    ("A-", "A-"),
+    ("B+", "B+"),
+    ("B-", "B-"),
+    ("O+", "O+"),
+    ("O-", "O-"),
+    ("AB+", "AB+"),
+    ("AB-", "AB-"),
+]
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -35,19 +52,17 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('Email Address'), max_length=320, unique=True)
     first_name = models.CharField(_('First Name'), max_length=30, blank=True)
-    middle_name = models.CharField(_('Middle Name'), max_length=30, blank=True)
+    middle_name = models.CharField(
+        _('Middle Name'), max_length=30, null=True, blank=True)
     last_name = models.CharField(_('Last Name'), max_length=30, blank=True)
     date_of_birth = models.DateField(
         _('Date of Birth'), null=True, blank=True, help_text="Enter Date in this Format: Year-Month-Day")
     gender = models.CharField(_("Gender"), max_length=1, choices=[
                               ("M", "Male"), ("F", "Female")], null=True)
     blood_group = models.CharField(
-        _("Blood Group"), max_length=3, null=True, blank=True)
-    identity_document_type = models.CharField(_("Identity Document Type"), max_length=32, null=True, choices=[
-        (_("Voter_Id"), _("Voter ID")),
-        (_("passport"), _("Passport")),
-        (_("Citizenship_Number"), _("Citizenship Number")),
-    ])
+        _("Blood Group"), max_length=3, null=True, choices=BLOOD_GROUP_CHOICES)
+    identity_document_type = models.CharField(
+        _("Identity Document Type"), max_length=32, null=True, choices=DOCUMENT_CHOICES)
     identity_document_number = models.CharField(
         _('Identity Document Number'), max_length=32)
     photo = models.ImageField(
