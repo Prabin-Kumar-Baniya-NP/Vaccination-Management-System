@@ -170,4 +170,4 @@ class TestVaccineView(TestCase):
         """
         response = self.c.get(
             reverse("vaccine:vaccine-detail", kwargs={"pk": self.vaccine1.id}))
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 200)
