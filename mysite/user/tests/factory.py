@@ -2,6 +2,9 @@ import factory.fuzzy
 
 
 class SuperUserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "user.User"
+
     email = factory.faker.Faker("email")
     password = factory.PostGenerationMethodCall(
         'set_password', raw_password='abcde@12345')
@@ -19,11 +22,11 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
     is_staff = True
     is_superuser = True
 
+
+class AdminUserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "user.User"
 
-
-class AdminUserFactory(factory.django.DjangoModelFactory):
     email = factory.faker.Faker("email")
     password = factory.PostGenerationMethodCall(
         'set_password', raw_password='abcde@12345')
@@ -41,11 +44,11 @@ class AdminUserFactory(factory.django.DjangoModelFactory):
     is_staff = True
     is_superuser = False
 
+
+class PatientUserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = "user.User"
 
-
-class PatientUserFactory(factory.django.DjangoModelFactory):
     email = factory.faker.Faker("email")
     password = factory.PostGenerationMethodCall(
         'set_password', raw_password='abcde@12345')
@@ -62,6 +65,3 @@ class PatientUserFactory(factory.django.DjangoModelFactory):
     is_active = True
     is_staff = False
     is_superuser = False
-
-    class Meta:
-        model = "user.User"
