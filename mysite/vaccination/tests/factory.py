@@ -4,13 +4,16 @@ from center.tests.factory import CenterFactory
 from vaccine.tests.factory import VaccineFactory
 from faker import Faker
 from datetime import datetime, time, timedelta
-from user.tests.factory import AdminUserFactory
+from user.tests.factory import PatientUserFactory
 
 
 fake = Faker()
 
 
 class CampaignFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = "vaccination.Campaign"
+
     center = factory.SubFactory(CenterFactory)
     vaccine = factory.SubFactory(VaccineFactory)
     start_date = fake.date_between(
@@ -18,11 +21,11 @@ class CampaignFactory(factory.django.DjangoModelFactory):
     end_date = fake.date_between(datetime.now().date(
     ) + timedelta(days=20), datetime.now().date() + timedelta(days=30))
 
-    class Meta:
-        model = "vaccination.Campaign"
-
     @factory.post_generation
     def agents(self, create, extracted):
+        """
+        Add agents to the objects by extracting agents from extracted.
+        """
         if not create:
             return
 
@@ -30,13 +33,14 @@ class CampaignFactory(factory.django.DjangoModelFactory):
             for agent in extracted:
                 self.agents.add(agent)
 
-
-campaign = CampaignFactory.create(
-    agents=[AdminUserFactory() for i in [1, 2, 3, 4, 5]])
+# campaign = CampaignFactory.create(agents=[AdminUserFactory() for i in range(5)])
 
 
 class SlotFactory(factory.django.DjangoModelFactory):
-    campaign = campaign
+    class Meta:
+        model = "vaccination.Slot"
+
+    campaign = factory.SubFactory(CampaignFactory)
     date = fake.date_between(datetime.now().date(
     ) + timedelta(days=11), datetime.now().date() + timedelta(days=19))
     start_time = factory.Iterator([
@@ -54,20 +58,22 @@ class SlotFactory(factory.django.DjangoModelFactory):
     max_capacity = factory.Iterator([10, 11, 12, 13, 14, 15])
     reserved = factory.Iterator([1, 2, 3, 4, 5])
 
-    class Meta:
-        model = "vaccination.Slot"
-
-
-slot = SlotFactory()
-
 
 class VaccinationFactory(factory.django.DjangoModelFactory):
-    patient = factory.SubFactory(AdminUserFactory)
-    campaign = slot.campaign
-    slot = slot
-    is_vaccinated = False
-    updated_by = slot.campaign.agents.all()[0]
-    updated_on = fake.date_time()
-
     class Meta:
         model = "vaccination.Vaccination"
+        
+    patient = factory.SubFactory(PatientUserFactory)
+    campaign = factory.SubFactory(CampaignFactory)
+    slot = factory.SubFactory(SlotFactory)
+    is_vaccinated = False
+
+    @factory.post_generation
+    def manage_campaign_slot(self, create, extracted):
+        """
+        Sets the slot.campaign to object's campaign
+        """
+        if not create:
+            return
+
+        self.campaign = self.slot.campaign
