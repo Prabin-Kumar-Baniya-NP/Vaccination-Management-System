@@ -1,10 +1,13 @@
 import factory
 from vaccine.tests.factory import VaccineFactory
+from faker import Faker
+
+fake = Faker()
 
 
 class CenterFactory(factory.django.DjangoModelFactory):
     name = factory.faker.Faker("name")
-    address = factory.faker.Faker("paragraph")
+    address = fake.address()
 
     class Meta:
         model = "center.Center"
