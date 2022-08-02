@@ -45,7 +45,7 @@
                 {% for slot in object.slot_set.all %}
                 <div class="card text-dark bg-light me-3 mb-3" style="width:fit-content;">
                   <div class="card-header"><b>
-                      <a href="{% url 'vaccination:slot-detail' slot.id %}">
+                      <a href="{% url 'campaign:slot-detail' slot.id %}">
                         {{ slot.date }} | {{ slot.start_time}} to {{ slot.end_time }}</a>
                     </b></div>
                   <div class="card-body row">
@@ -62,12 +62,12 @@
                 {% endfor %}
               </div>
               <button type="button" class="btn btn-sm btn-info me-2">
-                <a href="{% url 'vaccination:slot-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i>
+                <a href="{% url 'campaign:slot-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i>
                   {% translate 'View All' %}</a>
               </button>
               {% if perms.vaccination.add_slot %}
               <button type="button" class="btn btn-sm btn-primary me-2">
-                <a href="{% url 'vaccination:slot-create' object.id %}" class="btn-link"><i
+                <a href="{% url 'campaign:slot-create' object.id %}" class="btn-link"><i
                     class="fa-solid fa-plus"></i>
                     {% translate 'Create Slot' %}</a>
               </button>
@@ -79,13 +79,13 @@
         <div class="link-container">
           {% if perms.vaccination.change_campaign %}
           <button class="btn btn-sm btn-success">
-            <a href="{% url 'vaccination:campaign-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i>
+            <a href="{% url 'campaign:campaign-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i>
               {% translate 'Update Campaign' %}</a>
           </button>
           {% endif %}
           {% if perms.vaccination.delete_campaign %}
           <button class="btn btn-sm btn-danger">
-            <a href="{% url 'vaccination:campaign-delete' object.id %}" class="btn-link"><i
+            <a href="{% url 'campaign:campaign-delete' object.id %}" class="btn-link"><i
                 class="fa-solid fa-trash-can"></i> {% translate 'Delete Campaign' %}</a>
           </button>
           {% endif %}

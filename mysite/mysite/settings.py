@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "user.apps.UserConfig",
     "vaccine.apps.VaccineConfig",
     "center.apps.CenterConfig",
+    "campaign.apps.CampaignConfig",
     "vaccination.apps.VaccinationConfig",
     "rosetta",
 ]

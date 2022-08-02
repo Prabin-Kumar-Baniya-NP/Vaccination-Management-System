@@ -28,6 +28,7 @@ urlpatterns = [
     path("accounts/", include("user.urls", namespace="accounts")),
     path("center/", include("center.urls", namespace="center")),
     path("vaccine/", include("vaccine.urls", namespace="vaccine")),
+    path("campaign/", include("campaign.urls", namespace="campaign")),
     path("vaccination/", include("vaccination.urls", namespace="vaccination")),
 ]
 

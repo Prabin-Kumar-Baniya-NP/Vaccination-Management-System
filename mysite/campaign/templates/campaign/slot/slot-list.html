@@ -8,7 +8,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <h3 class="text-center">{% translate 'Slot List' %}</h3>
       {% if perms.vaccination.add_slot %}
-      <a href="{% url 'vaccination:slot-create' campaign_id %}"><i class="fa-solid fa-plus"></i> Create Slot</a>
+      <a href="{% url 'campaign:slot-create' campaign_id %}"><i class="fa-solid fa-plus"></i> Create Slot</a>
       {% endif %}
     </div>
     <table class="table table-responsive table-hover">
@@ -24,7 +24,7 @@
       <tbody>
         {% for slot in object_list %}
         <tr>
-          <td><a href="{% url 'vaccination:slot-detail' slot.id %}">{{ slot.start_time }}</a></td>
+          <td><a href="{% url 'campaign:slot-detail' slot.id %}">{{ slot.start_time }}</a></td>
           <td>{{ slot.end_time }}</td>
           <td>{{ slot.date }}</td>
           <td>{{ slot.max_capacity }}</td>

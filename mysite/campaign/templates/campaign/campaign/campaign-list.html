@@ -8,7 +8,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <h3 class="text-center"><i class="fa-solid fa-globe"></i> {% translate 'Campaign List' %}</h3>
       {% if perms.vaccination.add_campaign %}
-      <a href="{% url 'vaccination:campaign-create' %}"><i class="fa-solid fa-plus"></i> {% translate 'Create Campaign' %}</a>
+      <a href="{% url 'campaign:campaign-create' %}"><i class="fa-solid fa-plus"></i> {% translate 'Create Campaign' %}</a>
       {% endif %}
     </div>
     <table class="table table-hover">
@@ -23,7 +23,7 @@
       <tbody>
         {% for campaign in object_list %}
         <tr>
-          <td><a href="{% url 'vaccination:campaign-detail' campaign.id %}">{{campaign.vaccine.name|upper}}</a></td>
+          <td><a href="{% url 'campaign:campaign-detail' campaign.id %}">{{campaign.vaccine.name|upper}}</a></td>
           <td>{{ campaign.center.name }}</td>
           <td>{{ campaign.start_date }}</td>
           <td>{{ campaign.end_date }}</td>

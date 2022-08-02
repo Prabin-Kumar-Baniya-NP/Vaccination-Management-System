@@ -50,12 +50,12 @@
         <div class="link-container">
           {% if perms.vaccination.change_slot %}
           <button class="btn btn-sm btn-success">
-            <a href="{% url 'vaccination:slot-update' object.campaign.id object.id %}" class="btn-link">{% translate 'Update Slot' %}</a>
+            <a href="{% url 'campaign:slot-update' object.campaign.id object.id %}" class="btn-link">{% translate 'Update Slot' %}</a>
           </button>
           {% endif %}
           {% if perms.vaccination.delete_slot %}
           <button class="btn btn-sm btn-danger">
-            <a href="{% url 'vaccination:slot-delete' object.id %}" class="btn-link">{% translate 'Delete Slot' %} </a>
+            <a href="{% url 'campaign:slot-delete' object.id %}" class="btn-link">{% translate 'Delete Slot' %} </a>
           </button>
           {% endif %}
         </div>
