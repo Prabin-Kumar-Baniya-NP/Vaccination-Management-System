@@ -11,7 +11,6 @@ urlpatterns = [
     path("<int:pk>/", views.VaccinationDetailView.as_view(),
          name="vaccination-detail"),
     path("choose-vaccine/", views.choose_vaccine, name="choose-vaccine"),
-    path("check-dose/<int:vaccine_id>/", views.check_dose, name="check-dose"),
     path("choose-campaign/<int:vaccine_id>/",
          views.choose_campaign, name="choose-campaign"),
     path("choose-slot/<int:campaign_id>/",

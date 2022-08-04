@@ -1,11 +1,10 @@
-{% extends 'mysite/base.html' %}
-{% load i18n %}
-{% block title %}
+{% extends 'mysite/base.html' %} {% load i18n %} {% block title %}
 <title>{% translate 'Confirm Vaccination' %}</title>
-{% endblock title %}
-{% block content %}
+{% endblock title %} {% block content %}
 <div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-  <h4 class="mb-3">{% translate 'Are you sure, you want to schedule this vaccination' %} ?</h4>
+  <h4 class="mb-3">
+    {% translate 'Are you sure, you want to schedule this vaccination' %} ?
+  </h4>
   <div class="patient-details">
     <h6>{% translate 'Review the Vaccination Details' %}</h6>
     <ul class="list-group list-group-flush" style="width: 40%">
@@ -55,10 +54,28 @@
       </li>
     </ul>
   </div>
+  {% if checks.items %}
+    <div class="text-danger mt-3">
+    {% for key, value in checks.items %}
+      {% if key == "documents" %}
+        Please Upload you indentity documents.
+      {% elif key == "age" %}
+        You are ineligible to take this vaccine at this age.
+      {% elif key == "dose" %}
+        You have completed/scheduled for all the doses of this vaccine.
+      {% elif key == "interval" %}
+        You need to wait for some days for scheduling this vaccination.
+      {% endif %}
+    {% endfor %}
+    <div>
+  {% else %}
   <form method="POST" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success m-3"><i class="fa-solid fa-clock"></i> {% translate 'Schedule' %}</button>
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-success m-3">
+      <i class="fa-solid fa-clock"></i> {% translate 'Schedule' %}
+    </button>
   </form>
-  <div>
-    {% endblock content %}
+  {% endif %}
+  
+  <div>{% endblock content %}</div>
+</div>

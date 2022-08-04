@@ -23,7 +23,7 @@
         <td>{{ vaccine.name|upper }}</td>
         <td>{{ vaccine.number_of_doses }}</td>
         <td>{{ vaccine.interval }}</td>
-        <td><a href="{% url 'vaccination:check-dose' vaccine.id %}">{% translate 'Select' %}</a></td>
+        <td><a href="{% url 'vaccination:choose-campaign' vaccine.id %}">{% translate 'Select' %}</a></td>
       </tr>
       {% endfor %}
     </tbody>

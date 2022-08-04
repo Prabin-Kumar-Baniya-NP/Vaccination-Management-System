@@ -32,7 +32,7 @@ class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
     model = Vaccination
     template_name = "vaccination/vaccination-list.html"
     paginate_by = 10
-    permission_required = ("campaign.view_campaign", )
+    permission_required = ("vaccination.view_vaccination", )
 
     def get_queryset(self):
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).order_by("-id")
@@ -40,12 +40,13 @@ class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
 
 @method_decorator(cache_page(60), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
+class VaccinationListViewForPatient(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination registration done by the user
     """
     model = Vaccination
     template_name = "vaccination/vaccination-list-patient.html"
+    permission_required = ("vaccination.view_vaccination", )
     paginate_by = 10
 
     def get_queryset(self):
@@ -54,11 +55,12 @@ class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class VaccinationDetailView(LoginRequiredMixin, DetailView):
+class VaccinationDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Returns the details of vaccination registration
     """
     model = Vaccination
+    permission_required = ("vaccination.view_vaccination", )
     template_name = "vaccination/vaccination-detail.html"
 
     def get_queryset(self):
@@ -75,20 +77,6 @@ def choose_vaccine(request):
         "vaccine_list": Vaccine.objects.all().only("name", "number_of_doses", "interval"),
     }
     return render(request, "vaccination/choose-vaccine.html", context)
-
-
-@login_required
-def check_dose(request, vaccine_id):
-    """
-    View to check dose of vaccine for given patient
-    """
-    patient = User.objects.get(id=request.user.id)
-    vaccine = Vaccine.objects.get(id=vaccine_id)
-    dose_taken = Vaccination.get_dose_number(patient, vaccine)
-    if dose_taken < vaccine.number_of_doses:
-        return HttpResponseRedirect(reverse("vaccination:choose-campaign", kwargs={"vaccine_id": vaccine_id}))
-    else:
-        return render(request, "vaccination/dose-information.html", {"dose_taken": dose_taken, "dose_required": vaccine.number_of_doses})
 
 
 @cache_page(60*15)
@@ -124,7 +112,7 @@ def confirm_vaccination(request, campaign_id, slot_id):
     if request.method == "POST":
         form = VaccinationForm(request.POST)
         if form.is_valid():
-            if Slot.reserve_vaccine(slot_id):
+            if Slot.reserve_vaccine(campaign_id, slot_id):
                 form.save()
                 messages.success(request, "Vaccination Scheduled Successfully")
                 return render(request, "vaccination/schedule-success.html", {})
@@ -145,7 +133,8 @@ def confirm_vaccination(request, campaign_id, slot_id):
             "patient": request.user,
             "campaign": campaign,
             "slot": slot,
-            "form": form
+            "form": form,
+            "checks": Vaccination.check_eligibility(request.user, campaign, slot)
         }
         return render(request, "vaccination/confirm-vaccination.html", context)
 
@@ -157,13 +146,18 @@ def approve_vaccination(request, vaccination_id):
     Approves the vaccination of patient
     """
     if request.user.has_perm("vaccination.change_vaccination"):
-        vaccination = Vaccination.objects.only(
-            "is_vaccinated", "updated_by").get(id=vaccination_id)
-        vaccination.is_vaccinated = True
-        vaccination.updated_by = User.objects.get(id=request.user.id)
-        vaccination.save()
-        messages.success(request, "Vaccination approved successfully")
-        return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))
+        vaccination = Vaccination.objects.only("campaign",
+                                               "is_vaccinated", "updated_by").get(id=vaccination_id)
+        if request.user in vaccination.campaign.agents.all():
+            vaccination.is_vaccinated = True
+            vaccination.updated_by = User.objects.get(id=request.user.id)
+            vaccination.save()
+            messages.success(request, "Vaccination approved successfully")
+            return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))
+        else:
+            messages.error(
+                request, "You are not assigned to approve this vaccination")
+        raise PermissionDenied()
     else:
         messages.error(
             request, "You don't have permission to approve vaccination")
