@@ -1,6 +1,8 @@
+from tabnanny import check
 from django.db import models
 from user.models import User
 from campaign.models import Campaign, Slot
+from datetime import date, datetime, timedelta
 from django.utils.translation import gettext_lazy as _
 
 
@@ -43,3 +45,44 @@ class Vaccination(models.Model):
             if each.campaign.vaccine == vaccine:
                 count = count + 1
         return count
+
+    def check_eligibility(user, campaign, slot):
+        '''
+        Check whether the user is eligible to take part in vaccination campaign in the choosen slot
+        '''
+        def calculate_age(born):
+            today = date.today()
+            return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+        checks = {}
+
+        # Check identity documents is submitted
+        patient = User.objects.get(id=user.id)
+        if patient.identity_document_number is None:
+            checks["documents"] = False
+
+        # check age eligibility
+        vaccine = campaign.vaccine
+        if calculate_age(patient.date_of_birth) < vaccine.minimum_age:
+            checks["age"] = False
+
+        # check dose number
+        current_dose_num = Vaccination.get_dose_number(patient, vaccine)
+        required_dose_num = vaccine.number_of_doses
+        if current_dose_num >= required_dose_num:
+            checks["dose"] = False
+
+        # check interval for taking more than one dose
+        if current_dose_num == 1 and required_dose_num > 1:
+            # Get the last dose date
+            campaign_list = Campaign.objects.filter(vaccine=vaccine)
+            last_vaccination = Vaccination.objects.filter(
+                patient=patient, campaign__in=campaign_list).last()
+            # Add interval to that last dose date
+            eligible_date = last_vaccination.slot.date + \
+                timedelta(days=vaccine.interval)
+            # Check whether slot date is less than eligible date
+            if slot.date < eligible_date:
+                checks["interval"] = False
+
+        return checks
