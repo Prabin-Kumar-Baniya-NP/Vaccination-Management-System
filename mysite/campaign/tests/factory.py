@@ -1,4 +1,3 @@
-from datetime import datetime
 import factory
 from center.tests.factory import CenterFactory
 from vaccine.tests.factory import VaccineFactory

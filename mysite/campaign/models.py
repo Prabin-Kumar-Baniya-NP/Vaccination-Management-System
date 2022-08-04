@@ -21,12 +21,6 @@ class Campaign(models.Model):
     def __str__(self):
         return str(self.vaccine.name).upper() + " | " + str(self.center.name).upper()
 
-    def get_campaign(center_id, vaccine_id):
-        """
-        Returns the vaccination campaign for given center and vaccine
-        """
-        return Campaign.objects.filter(center=center_id, vaccine=vaccine_id)
-
 
 class Slot(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, null=True)
@@ -38,27 +32,6 @@ class Slot(models.Model):
 
     def __str__(self):
         return str(self.date) + "|" + str(self.start_time) + " to " + str(self.end_time)
-
-    def get_available_capacity(self):
-        """
-        Returns the available vaccine quantity for given slot
-        """
-        slot = Slot.objects.get(id=self.id)
-        return slot.max_capacity - slot.reserved
-
-    def get_slots_by_campaign_id(campaign_id):
-        """
-        Returns all the slot for given campaign
-        """
-        return Slot.objects.filter(campaign=campaign_id)
-
-    def get_available_slots(campaign_id, slot_id):
-        """
-        Returns the available slot for given campaign
-        """
-        return Slot.objects.filter(
-            campaign=campaign_id, slot=slot_id, reserved__lt=F("max_capacity")
-        )
 
     def reserve_vaccine(slot_id):
         """

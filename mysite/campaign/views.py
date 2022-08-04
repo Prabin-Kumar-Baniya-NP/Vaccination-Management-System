@@ -73,7 +73,7 @@ class CampaignDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMes
     model = Campaign
     template_name = "campaign/campaign/campaign-delete.html"
     permission_required = ("campaign.delete_campaign", )
-    success_url = reverse_lazy("vaccination:campaign-list")
+    success_url = reverse_lazy("campaign:campaign-list")
     success_message = "Campaign Deleted Successfully"
 
 
