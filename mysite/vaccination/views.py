@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponseForbidden
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.utils.decorators import method_decorator
@@ -112,16 +112,23 @@ def confirm_vaccination(request, campaign_id, slot_id):
     if request.method == "POST":
         form = VaccinationForm(request.POST)
         if form.is_valid():
-            if Slot.reserve_vaccine(campaign_id, slot_id):
-                form.save()
-                messages.success(request, "Vaccination Scheduled Successfully")
-                return render(request, "vaccination/schedule-success.html", {})
+            checks = Vaccination.check_eligibility(
+                request.user, form.cleaned_data["campaign"], form.cleaned_data["slot"])
+            if len(checks.keys()) == 0:
+                if Slot.reserve_vaccine(campaign_id, slot_id):
+                    form.save()
+                    messages.success(
+                        request, "Vaccination Scheduled Successfully")
+                    return render(request, "vaccination/schedule-success.html", {})
+                else:
+                    messages.error(
+                        request, "Unable to reserve vaccine. Please try again.")
+                    return HttpResponseForbidden("Sorry! We are unable to reserve vaccine for you. Please Try Scheduling the vaccination again")
             else:
-                messages.error(
-                    request, "Unable to schedule your vaccination. Please try again.")
-                return HttpResponse("Sorry! We are unable to reserve vaccine for you. Please Try Scheduling the vaccination again")
+                messages.error(request, f"{checks}")
+                return HttpResponseForbidden(f"{checks}")
         else:
-            return HttpResponse("Unable to process your request! Please enter correct data")
+            return HttpResponseForbidden(f"{form.errors}")
     else:
         campaign = Campaign.objects.select_related(
             "center", "vaccine").get(id=campaign_id)

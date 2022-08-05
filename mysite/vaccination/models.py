@@ -1,8 +1,7 @@
-from tabnanny import check
 from django.db import models
 from user.models import User
 from campaign.models import Campaign, Slot
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from django.utils.translation import gettext_lazy as _
 
 
@@ -59,21 +58,21 @@ class Vaccination(models.Model):
         # Check identity documents is submitted
         patient = User.objects.get(id=user.id)
         if patient.identity_document_number is None:
-            checks["documents"] = False
+            checks["document"] = "Identity Document Number Not submitted"
 
         # check age eligibility
         vaccine = campaign.vaccine
         if calculate_age(patient.date_of_birth) < vaccine.minimum_age:
-            checks["age"] = False
+            checks["age"] = f"Your age should be more than or equal to {vaccine.minimum_age} to take this vaccine."
 
         # check dose number
         current_dose_num = Vaccination.get_dose_number(patient, vaccine)
         required_dose_num = vaccine.number_of_doses
         if current_dose_num >= required_dose_num:
-            checks["dose"] = False
+            checks["dose"] = f"You have already taken {current_dose_num} doses of this vaccine."
 
         # check interval for taking more than one dose
-        if current_dose_num == 1 and required_dose_num > 1:
+        if current_dose_num >= 1 and required_dose_num > 1:
             # Get the last dose date
             campaign_list = Campaign.objects.filter(vaccine=vaccine)
             last_vaccination = Vaccination.objects.filter(
@@ -83,6 +82,6 @@ class Vaccination(models.Model):
                 timedelta(days=vaccine.interval)
             # Check whether slot date is less than eligible date
             if slot.date < eligible_date:
-                checks["interval"] = False
+                checks["interval"] = f"You need to wait till {eligible_date} to schedule this vaccination"
 
         return checks
