@@ -4,7 +4,7 @@ from django.shortcuts import render
 from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
 from django.urls import reverse
-from user.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from user.email import send_email_verification
 from django.utils.http import urlsafe_base64_decode
@@ -13,6 +13,8 @@ from user.utils import EmailVerificationTokenGenerator
 from django.contrib import messages
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
+
+User = get_user_model()
 
 logger = logging.getLogger('django')
 

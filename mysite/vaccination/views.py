@@ -1,6 +1,6 @@
 import datetime
 import io
-from user.models import User
+from django.contrib.auth import get_user_model
 from django.views.generic import ListView, DetailView
 from vaccination.models import Slot, Vaccination, Campaign
 from django.urls import reverse
@@ -21,6 +21,8 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
+
+User = get_user_model()
 
 
 @method_decorator(cache_page(60*15), name="dispatch")

@@ -1,7 +1,9 @@
 from django.contrib import admin
-from user.models import User
+from django.contrib.auth import get_user_model
 from django.contrib import messages
 from vaccination.models import Vaccination
+
+User = get_user_model()
 
 
 @admin.action(description="Mark Selected As Staff", permissions=["change"])

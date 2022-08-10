@@ -4,7 +4,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from user.utils import EmailVerificationTokenGenerator
-from user.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 def send_email_verification(request, id):

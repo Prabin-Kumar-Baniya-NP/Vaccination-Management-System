@@ -1,8 +1,10 @@
 from django.db import models
-from user.models import User
+from django.contrib.auth import get_user_model
 from campaign.models import Campaign, Slot
 from datetime import date, timedelta
 from django.utils.translation import gettext_lazy as _
+
+User = get_user_model()
 
 
 class Vaccination(models.Model):

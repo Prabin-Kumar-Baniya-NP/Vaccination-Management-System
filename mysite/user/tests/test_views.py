@@ -1,10 +1,12 @@
 from django.test import TestCase, Client
-from user.models import User
+from django.contrib.auth import get_user_model
 from django.urls.base import reverse
 from django.contrib.staticfiles import finders
 from django.contrib.auth.hashers import check_password
 from django.core import mail
 import re
+
+User = get_user_model()
 
 user = {
     "email": "user@gmail.com",
@@ -56,7 +58,8 @@ class TestUserAuthView(TestCase):
                     "photo": profile_image,
                 },
             )
-        self.assertTrue(User.objects.filter(email="dummyuser@gmail.com").exists())
+        self.assertTrue(User.objects.filter(
+            email="dummyuser@gmail.com").exists())
         self.assertRedirects(response, reverse("accounts:login"))
 
     def test_user_can_view_login_page(self):
@@ -110,7 +113,8 @@ class TestUserAuthView(TestCase):
                 "new_password2": "mnop@12345",
             },
         )
-        password = User.objects.only("password").get(email=user["email"]).password
+        password = User.objects.only("password").get(
+            email=user["email"]).password
         self.assertTrue(check_password("mnop@12345", password))
         self.assertRedirects(response, reverse("accounts:profile-view"))
 
@@ -171,6 +175,8 @@ class TestUserAuthView(TestCase):
         """
         self.c.login(email=user["email"], password=user["password"])
         self.c.get(reverse("accounts:verify-email"))
-        url = re.search("(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
+        url = re.search(
+            "(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
         self.c.get(url)
-        self.assertTrue(User.objects.get(email=user["email"]).is_email_verified)
+        self.assertTrue(User.objects.get(
+            email=user["email"]).is_email_verified)

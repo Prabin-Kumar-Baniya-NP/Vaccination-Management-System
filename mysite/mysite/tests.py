@@ -1,6 +1,8 @@
-from user.models import User
+from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.urls.base import reverse
+
+User = get_user_model()
 
 user = {
     "email": "user@gmail.com",
@@ -28,4 +30,3 @@ class TestIndexView(TestCase):
     def test_authenticated_user_can_access_index_page(self):
         self.c.login(email=user["email"], password=user["password"])
         response = self.c.get(reverse("index"))
-

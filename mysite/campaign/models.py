@@ -1,10 +1,12 @@
 from django.db import models
-from user.models import User
+from django.contrib.auth import get_user_model
 from vaccine.models import Vaccine
 from center.models import Center
 from django.db.models import F
 from center.models import Storage
 from django.utils.translation import gettext_lazy as _
+
+User = get_user_model()
 
 
 class Campaign(models.Model):

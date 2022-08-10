@@ -1,7 +1,9 @@
 import os
 from django.dispatch import receiver
 from django.db import models
-from user.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 @receiver(models.signals.post_delete, sender=User)
