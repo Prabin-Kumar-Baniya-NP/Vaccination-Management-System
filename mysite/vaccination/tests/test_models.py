@@ -26,6 +26,9 @@ class TestVaccinationView(TestCase):
         self.assertFalse("document" in checks.keys())
 
     def test_check_age_eligibility(self):
+        vaccine = self.vaccination.campaign.vaccine
+        vaccine.minimum_age = 0
+        vaccine.save()
         checks = Vaccination.check_eligibility(
             self.vaccination.patient, self.vaccination.campaign, self.vaccination.slot)
         self.assertFalse("age" in checks.keys())
@@ -43,4 +46,8 @@ class TestVaccinationView(TestCase):
         self.assertFalse("interval" in checks.keys())
 
     def test_vaccine_interval_ineligibility(self):
-        pass
+        self.vaccination.is_vaccinated = True
+        self.vaccination.save()
+        checks = Vaccination.check_eligibility(
+            self.vaccination.patient, self.vaccination.campaign, self.vaccination.slot)
+        self.assertTrue("interval" in checks.keys())
