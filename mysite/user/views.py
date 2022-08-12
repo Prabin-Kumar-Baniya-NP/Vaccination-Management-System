@@ -174,12 +174,15 @@ def email_verifier(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    if user is not None and EmailVerificationTokenGenerator.check_token(user, token):
-        user.is_email_verified = True
-        user.save()
-        logger.info("Account Verified")
-        messages.success(request, "Email Address Verified Successfully")
-        return HttpResponseRedirect(reverse("accounts:profile-view"))
+    if user == request.user:
+        if EmailVerificationTokenGenerator.check_token(user, token):
+            user.is_email_verified = True
+            user.save()
+            logger.info("Account Verified")
+            messages.success(request, "Email Address Verified Successfully")
+            return HttpResponseRedirect(reverse("accounts:profile-view"))
+        else:
+            logger.warning("Activation Link is invalid")
+            return HttpResponseBadRequest('Activation link is invalid!')
     else:
-        logger.warning("Activation Link is invalid")
-        return HttpResponseBadRequest('Activation link is invalid!')
+        return HttpResponseForbidden(content="You don't have permission to use this link")
