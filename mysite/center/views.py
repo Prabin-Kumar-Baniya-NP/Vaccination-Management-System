@@ -24,7 +24,7 @@ class CreateCenter(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMi
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class CenterList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class CenterList(LoginRequiredMixin, ListView):
     """
     List all the center
     """
@@ -32,18 +32,16 @@ class CenterList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "center/center-list.html"
     paginate_by = 10
     ordering = ["-name"]
-    permission_required = ("center.view_center",)
 
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class CenterDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class CenterDetail(LoginRequiredMixin, DetailView):
     """
     Returns the details of given center
     """
     model = Center
     template_name = "center/center-detail.html"
-    permission_required = ("center.view_center", )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -125,7 +123,7 @@ class StorageUpdate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageM
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class StorageList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class StorageList(LoginRequiredMixin, ListView):
     """
     List all the storage of given center
     """
@@ -133,7 +131,6 @@ class StorageList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "storage/storage-list.html"
     paginate_by = 10
     ordering = ["id"]
-    permission_required = ("center.view_storage", )
 
     def get_queryset(self):
         return super().get_queryset().filter(center=self.kwargs["center_id"])
@@ -146,13 +143,12 @@ class StorageList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class StorageDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class StorageDetail(LoginRequiredMixin, DetailView):
     """
     Returns the details of given storage
     """
     model = Storage
     template_name = "storage/storage-detail.html"
-    permission_required = ("center.view_storage",)
 
     def get_queryset(self):
         return super().get_queryset().select_related("center", "vaccine")

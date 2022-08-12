@@ -35,28 +35,6 @@ class TestPermissionsOnCampaignView(TestCase):
             reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id}))
         self.assertEqual(response.status_code, 200)
 
-    def test_unauthorized_access_on_campaign_list_view(self):
-        response = self.c.get(reverse("campaign:campaign-list"))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_campaign_list_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_campaign"))
-        response = self.c.get(reverse("campaign:campaign-list"))
-        self.assertEqual(response.status_code, 200)
-
-    def test_unauthorized_access_on_campaign_detail_view(self):
-        response = self.c.get(
-            reverse("center:center-detail", kwargs={"pk": self.campaign.id}))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_campaign_detail_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_campaign"))
-        response = self.c.get(
-            reverse("campaign:campaign-detail", kwargs={"pk": self.campaign.id}))
-        self.assertEqual(response.status_code, 200)
-
     def test_unauthorized_access_on_delete_campaign_view(self):
         response = self.c.get(
             reverse("campaign:campaign-delete", kwargs={"pk": self.campaign.id}))

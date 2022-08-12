@@ -39,28 +39,6 @@ class TestPermissionsOnCenterView(TestCase):
             reverse("center:center-update", kwargs={"pk": self.center.id}))
         self.assertEqual(response.status_code, 200)
 
-    def test_unauthorized_access_on_center_list_view(self):
-        response = self.c.get(reverse("center:center-list"))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_center_list_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_center"))
-        response = self.c.get(reverse("center:center-list"))
-        self.assertEqual(response.status_code, 200)
-
-    def test_unauthorized_access_on_center_detail_view(self):
-        response = self.c.get(
-            reverse("center:center-detail", kwargs={"pk": self.center.id}))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_center_detail_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_center"))
-        response = self.c.get(
-            reverse("center:center-detail", kwargs={"pk": self.center.id}))
-        self.assertEqual(response.status_code, 200)
-
     def test_unauthorized_access_on_delete_center_view(self):
         response = self.c.get(
             reverse("center:center-delete", kwargs={"pk": self.center.id}))

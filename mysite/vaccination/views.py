@@ -42,13 +42,12 @@ class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
 
 @method_decorator(cache_page(60), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class VaccinationListViewForPatient(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
     """
     Lists all the vaccination registration done by the user
     """
     model = Vaccination
     template_name = "vaccination/vaccination-list-patient.html"
-    permission_required = ("vaccination.view_vaccination", )
     paginate_by = 10
 
     def get_queryset(self):

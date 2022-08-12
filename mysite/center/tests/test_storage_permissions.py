@@ -42,30 +42,6 @@ class TestPermissionsOnStorageView(TestCase):
             reverse("center:storage-update", kwargs={"pk": self.storage.id}))
         self.assertEqual(response.status_code, 200)
 
-    def test_unauthorized_access_on_storage_list_view(self):
-        response = self.c.get(
-            reverse("center:storage-list", kwargs={"center_id": self.storage.center.id}))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_storage_list_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_storage"))
-        response = self.c.get(
-            reverse("center:storage-list", kwargs={"center_id": self.storage.center.id}))
-        self.assertEqual(response.status_code, 200)
-
-    def test_unauthorized_access_on_storage_detail_view(self):
-        response = self.c.get(
-            reverse("center:storage-detail", kwargs={"pk": self.storage.id}))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_storage_detail_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_storage"))
-        response = self.c.get(
-            reverse("center:storage-detail", kwargs={"pk": self.storage.id}))
-        self.assertEqual(response.status_code, 200)
-
     def test_unauthorized_access_on_delete_storage_view(self):
         response = self.c.get(
             reverse("center:storage-delete", kwargs={"pk": self.storage.id}))

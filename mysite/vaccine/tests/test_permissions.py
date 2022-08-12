@@ -49,25 +49,3 @@ class TestPermissionOnVaccineView(TestCase):
         response = self.c.get(
             reverse("vaccine:vaccine-delete", kwargs={"pk": self.vaccine.id}))
         self.assertEqual(response.status_code, 200)
-
-    def test_unauthorized_access_on_vaccine_list_view(self):
-        response = self.c.get(reverse("vaccine:vaccine-list"))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_vaccine_list_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_vaccine"))
-        response = self.c.get(reverse("vaccine:vaccine-list"))
-        self.assertEqual(response.status_code, 200)
-
-    def test_unauthorized_access_on_vaccine_detail_view(self):
-        response = self.c.get(
-            reverse("vaccine:vaccine-detail", kwargs={"pk": self.vaccine.id}))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_vaccine_detail_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_vaccine"))
-        response = self.c.get(
-            reverse("vaccine:vaccine-detail", kwargs={"pk": self.vaccine.id}))
-        self.assertEqual(response.status_code, 200)

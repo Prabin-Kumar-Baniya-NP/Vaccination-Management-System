@@ -37,30 +37,6 @@ class TestPermissionsOnSlotView(TestCase):
             reverse("campaign:slot-update", kwargs={"pk": self.slot.id, "campaign_id": self.slot.campaign.id}))
         self.assertEqual(response.status_code, 200)
 
-    def test_unauthorized_access_on_slot_list_view(self):
-        response = self.c.get(
-            reverse("campaign:slot-list", kwargs={"campaign_id": self.slot.campaign.id}))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_slot_list_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_slot"))
-        response = self.c.get(
-            reverse("campaign:slot-list", kwargs={"campaign_id": self.slot.campaign.id}))
-        self.assertEqual(response.status_code, 200)
-
-    def test_unauthorized_access_on_slot_detail_view(self):
-        response = self.c.get(
-            reverse("campaign:slot-detail", kwargs={"pk": self.slot.id}))
-        self.assertEqual(response.status_code, 403)
-
-    def test_authorized_access_on_slot_detail_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="view_slot"))
-        response = self.c.get(
-            reverse("campaign:slot-detail", kwargs={"pk": self.slot.id}))
-        self.assertEqual(response.status_code, 200)
-
     def test_unauthorized_access_on_delete_slot_view(self):
         response = self.c.get(
             reverse("campaign:slot-delete", kwargs={"pk": self.slot.id}))

@@ -35,26 +35,24 @@ class VaccineUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMess
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class VaccineListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class VaccineListView(LoginRequiredMixin, ListView):
     """
     List all the vaccines
     """
     model = Vaccine
     template_name = "vaccine/vaccine-list.html"
-    permission_required = ("vaccine.view_vaccine",)
     paginate_by = 10
     ordering = ["name"]
 
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class VaccineDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class VaccineDetailView(LoginRequiredMixin, DetailView):
     """
     Returns the details of given vaccine
     """
     model = Vaccine
     template_name = "vaccine/vaccine-detail.html"
-    permission_required = ("vaccine.view_vaccine",)
 
 
 class VaccineDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):

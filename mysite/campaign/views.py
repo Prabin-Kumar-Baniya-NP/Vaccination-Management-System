@@ -35,7 +35,7 @@ class CampaignUpdateForm(LoginRequiredMixin, PermissionRequiredMixin, SuccessMes
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class CampaignListView(LoginRequiredMixin, ListView):
     """
     Lists all the vaccination campaign
     """
@@ -43,18 +43,16 @@ class CampaignListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "campaign/campaign/campaign-list.html"
     paginate_by = 10
     ordering = ["-id"]
-    permission_required = ("campaign.view_campaign",)
 
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class CampaignDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class CampaignDetailView(LoginRequiredMixin, DetailView):
     """
     Returns the details of vaccination campaign
     """
     model = Campaign
     template_name = "campaign/campaign/campaign-detail.html"
-    permission_required = ("campaign.view_campaign", )
 
     def get_queryset(self):
         return super().get_queryset().select_related("center", "vaccine")
@@ -130,14 +128,13 @@ class SlotUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class SlotListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class SlotListView(LoginRequiredMixin, ListView):
     """
     Lists all the slot for given vaccination campaign
     """
     model = Slot
     template_name = "campaign/slot/slot-list.html"
     paginate_by = 10
-    permission_required = ("campaign.view_slot", )
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -153,13 +150,12 @@ class SlotListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class SlotDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class SlotDetailView(LoginRequiredMixin, DetailView):
     """
     Returns the details of given slot
     """
     model = Slot
     template_name = "campaign/slot/slot-detail.html"
-    permission_required = ("campaign.view_slot", )
 
     def get_queryset(self):
         return super().get_queryset().select_related("campaign")
