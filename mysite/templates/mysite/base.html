@@ -17,56 +17,14 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'index' %}"><i class="fa-solid fa-shield-virus"></i> Book My Vaccine</a>
-      <div class="form-container d-flex flex-row">
-        <form action="{% url 'set_language' %}" method="post" class="d-flex justify-content-center align-items-center">
-          {% csrf_token %}
-          <div class="me-3">
-            <input name="next" type="hidden" value="{{ redirect_to }}">
-            <select name="language" class="form-select form-select-sm" onchange="this.form.submit()">
-              {% get_current_language as LANGUAGE_CODE %}
-              {% get_available_languages as LANGUAGES %}
-              {% get_language_info_list for LANGUAGES as languages %}
-              {% for language in languages %}
-              <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                {{ language.name_local }} ({{ language.code }})
-              </option>
-              {% endfor %}
-            </select>
-          </div>
-        </form>
-        <form class="d-flex">
-          {% if request.user.is_authenticated %}
-          <button class="btn btn-secondary" type="button">
-            <a href="{% url 'accounts:logout' %}" class="btn-link">{% translate 'Logout' %}</a>
-          </button>
-          {% else %}
-          <button class="btn btn-primary me-2" type="button">
-            <a href="{% url 'accounts:login' %}" class="btn-link">{% translate 'Login' %}</a>
-          </button>
-          <button class="btn btn-danger me-2" type="button">
-            <a href="{% url 'accounts:signup' %}" class="btn-link">{% translate 'Signup' %}</a>
-          </button>
-          {% endif %}
-        </form>
-      </div>
-    </div>
-  </nav>
-  {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
-      {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-      <h5>{{ message }}</h5>
-      </li>
-      {% endfor %}
-  </ul>
-  {% endif %}
+  {% include 'components/navbar.html' %}
+  
+  {% include 'components/message.html' %}
+  
   <div class="container mt-2 p-2">
     {% block content %} {% endblock %}
   </div>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
   </script>

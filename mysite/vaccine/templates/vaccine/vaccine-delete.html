@@ -4,10 +4,5 @@
 <title>{% translate 'Delete Vaccine' %}</title>
 {% endblock title %}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <p>{% translate 'Are you sure you want to delete' %} "{{ object }}"?</p>
-    {{ form }}
-    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> {% translate 'Confirm Delete' %}</button>
-</form>
+{% include 'components/delete-form.html' %}
 {% endblock content %}
