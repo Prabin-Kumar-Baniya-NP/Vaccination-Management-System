@@ -1,11 +1,15 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
+
 {% block title %}
 <title>{% translate 'Update Slot Details' %}</title>
 {% endblock title %}
+
 {% block content %}
-<div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-    <h4 class="mb-3">{% translate 'Fill the following details to update slot details' %}</h4>
-    {% include "components/update-form.html" %}
-<div>
+<div class="card p-3">
+    <div class="card-body">
+        <h4 class="mb-3">{% translate 'Fill the following details to update slot details' %}</h4>
+        {% include "components/form.html" with form_name="Update Slot" %}
+    </div>
+</div>
 {% endblock content %}

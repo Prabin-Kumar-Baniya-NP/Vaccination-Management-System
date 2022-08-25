@@ -1,72 +1,57 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
+
 {% block title %}
 <title>Center Details</title>
 {% endblock title %}
+
 {% block content %}
 <div class="card mb-3">
-  <div class="row g-0">
-    <div class="col-md-8">
-      <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title"><i class="fa-solid fa-location-dot"></i>{% translate 'Center Details' %} </h5>
-        <p class="card-text">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            {% translate 'Name' %}: {{ object.name }}
-          </li>
-          <li class="list-group-item">
-            {% translate 'Address' %}: {{ object.address }}
-          </li>
-          {% if perms.center.view_storage %}
-          <li class="list-group-item">
-            <i class="fa-solid fa-box-archive"></i> {% translate 'Storage' %}:
-            <div class="d-flex flex-wrap">
-              {% for storage in storage_list %}
-              <div class="card text-dark bg-light me-3 mb-3" style="width:fit-content;">
-                <div class="card-header"><b>
-                    <a href="{% url 'center:storage-detail' storage.id %}">{{ storage.vaccine.name|upper}}</a>
-                  </b></div>
-                <div class="card-body row">
-                  <div class="col-6 d-flex flex-column text-center">
-                    <span><b>{{ storage.total_quantity }}</b></span>
-                    <span>{% translate 'Total' %}<br>{% translate 'Quantity' %}</span>
-                  </div>
-                  <div class="col-6 d-flex flex-column text-center">
-                    <span><b>{{ storage.booked_quantity }}</b></span>
-                    <span>{% translate 'Booked' %}<br>{% translate 'Quantity' %}</span>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-            <button type="button" class="btn btn-sm btn-info me-2">
-              <a href="{% url 'center:storage-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i> 
-                {% translate 'View All' %}</a>
-            </button>
-            {% if perms.center.add_storage %}
-            <button type="button" class="btn btn-sm btn-primary me-2">
-              <a href="{% url 'center:storage-create' object.id %}" class="btn-link"><i class="fa-solid fa-plus"></i>
-                {% translate 'Create Storage' %}</a>
-            </button>
-            {% endif %}
-          </li>
-          {% endif %}
-        </ul>
-        </p>
-        <div class="link-container">
-          {% if perms.center.change_center %}
-          <button class="btn btn-sm btn-success">
-            <a href="{% url 'center:center-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i> 
-              {% translate 'Update' %} {% translate 'Center' %}</a>
-          </button>
-          {% endif %}
-          {% if perms.center.delete_center %}
-          <button class="btn btn-sm btn-danger">
-            <a href="{% url 'center:center-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i>
-              {% translate 'Delete' %} {% translate 'Center' %}</a>
-          </button>
-          {% endif %}
+  <div class="card-body">
+    <h5 class="card-title mb-4"><i class="fas fa-map-marker-alt"></i> {% translate 'Center Details' %} </h5>
+    
+    <div class="row mb-1">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+          Center Name
         </div>
+        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+          {{ object.name }}
+        </div>
+    </div>
+    
+    <div class="row mb-1">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+          Address
+        </div>
+        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+          {{ object.address }}
+        </div>
+    </div>
+    
+    <div class="row mb-1 btn-container">
+      <div class="col-12">
+
+        <button class="btn btn-sm btn-dark m-1">
+          <a href="{% url 'center:storage-list' object.id %}">
+            <i class="fas fa-eye"></i> {% translate 'View Storage' %}
+          </a>
+        </button>
+
+        {% if perms.vaccination.change_center %}
+        <button class="btn btn-sm btn-success m-1">
+          <a href="{% url 'center:center-update' object.id %}">
+            <i class="fas fa-pen"></i> {% translate 'Update Center' %}
+          </a>
+        </button>
+        {% endif %}
+            
+        {% if perms.vaccination.delete_center %}
+        <button class="btn btn-sm btn-danger m-1">
+          <a href="{% url 'center:center-delete' object.id %}">
+            <i class="fas fa-trash"></i> {% translate 'Delete Center' %}
+          </a>
+        </button>
+        {% endif %}
       </div>
     </div>
   </div>

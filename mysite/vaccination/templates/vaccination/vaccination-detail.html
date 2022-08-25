@@ -1,59 +1,93 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
+
 {% block title %}
 <title>{% translate 'Vaccination List' %}</title>
 {% endblock title %}
+
 {% block content %}
 <div class="card mb-3">
-  <div class="row g-0">
-    <div class="col-md-8">
-      <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title"><i class="fa-solid fa-syringe"></i> {% translate 'Vaccination Details' %}</h5>
-        <p class="card-text">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Patient Name' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.patient.get_full_name }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Center Name' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.campaign.center.name }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Vaccine Name' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.campaign.vaccine.name }}
-          </li>
-          <li class="list-group-item">
-            <span
-              class="fw-bold me-5">{% translate 'Date' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.slot.date }}
-          </li>
-          <li class="list-group-item">
-            <span
-              class="fw-bold me-5">{% translate 'Slot' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.slot.start_time }} to {{ object.slot.end_time }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Vaccination Status' %}:</span>{{ object.is_vaccinated }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Updated By' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.updated_by.get_full_name }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Updated On' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>{{ object.updated_on }}
-          </li>
-        </ul>
-        </p>
+  <div class="card-body">
+    <h5 class="card-title mb-4"><i class="fas fa-syringe"></i> {% translate 'Vaccination Details' %} </h5>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Patient Name
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.patient.get_full_name }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Center Name
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.campaign.center.name }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Vaccine Name
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.campaign.vaccine.name }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Slot Date
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.slot.date }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Slot Time
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.slot.start_time }} to {{ object.slot.end_time }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Last Modified On
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.updated_on }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Last Updated By
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.updated_by }}
+      </div>
+    </div>
+
+    <div class="row mb-1 btn-container">
+      <div class="col-12">
         {% if object.is_vaccinated %}
-        <button type="button" class="btn btn-success"><a href="{% url 'vaccination:get-certificate' object.id %}" class="btn-link">Download Certificate</a></button>
+        <button class="btn btn-sm btn-success m-1">
+          <a href="{% url 'vaccination:get-certificate' object.id %}">
+            <i class="fas fa-download"></i> Download Certificate</a>
+        </button>
         {% endif %}
+
         {% if perms.vaccination.change_vaccination %}
         {% if not object.is_vaccinated %}
-        <div class="link-container">
-          <button class="btn btn-sm btn-success">
-            <a href="{% url 'vaccination:approve-vaccination' object.id %}" class="btn-link"> <i class="fa-solid fa-circle-check"></i> {% translate 'Approve Vaccination' %}</a>
-          </button>
-        </div>
+        <button class="btn btn-sm btn-success m-1">
+          <a href="{% url 'vaccination:approve-vaccination' object.id %}"> 
+            <i class="fas fa-circle-check"></i> {% translate 'Approve Vaccination' %}</a>
+        </button>
         {% endif %}
         {% endif %}
       </div>

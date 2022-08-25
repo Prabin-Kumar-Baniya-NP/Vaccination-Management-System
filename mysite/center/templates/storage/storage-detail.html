@@ -1,54 +1,80 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
+
 {% block title %}
-<title>Storage Details</title>
+<title>{% translate 'Storage Details' %}</title>
 {% endblock title %}
+
 {% block content %}
 <div class="card mb-3">
-  <div class="row g-0">
-    <div class="col-md-8">
-      <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title"><i class="fa-solid fa-box-archive"></i>{% translate 'Storage' %} {% translate 'Details' %}  </h5>
-        <p class="card-text">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Center' %} {% translate 'Name' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.center.name }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Vaccine' %} {% translate 'Name' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.vaccine.name }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Total' %} {% translate 'Quantity' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.total_quantity }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Booked' %} {% translate 'Quantity' %} :&nbsp&nbsp&nbsp</span>{{ object.booked_quantity }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Available' %} {% translate 'Quantity' %} :</span>{{ available_quantity }}
-          </li>
-        </ul>
-        </p>
+  <div class="card-body">
+    <h5 class="card-title mb-4"><i class="fas fa-box"></i> {% translate 'Storage Details' %} </h5>
 
-        <div class="link-container">
-          {% if perms.center.change_storage %}
-          <button class="btn btn-sm btn-success">
-            <a href="{% url 'center:storage-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i>
-              {% translate 'Update' %} {% translate 'Storage' %} </a>
-          </button>
-          {% endif %}
-          {% if perms.center.delete_storage %}
-          <button class="btn btn-sm btn-danger">
-            <a href="{% url 'center:storage-delete' object.id %}" class="btn-link"><i class="fa-solid fa-trash-can"></i>
-              {% translate 'Delete' %} {% translate 'Storage' %} </a>
-          </button>
-          {% endif %}
-        </div>
-
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Center Name
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.center.name }}
       </div>
     </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Vaccine Name
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.vaccine.name }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Total Quantity
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.total_quantity }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Booked Quantity
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.booked_quantity }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Available Quantity
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ available_quantity }}
+      </div>
+    </div>
+
+    <div class="row mb-1 btn-container">
+      <div class="col-12">
+        {% if perms.vaccination.change_storage %}
+        <button class="btn btn-sm btn-success m-1">
+          <a href="{% url 'center:storage-update' object.id %}">
+            <i class="fas fa-pen"></i> {% translate 'Update Storage' %}
+          </a>
+        </button>
+        {% endif %}
+
+        {% if perms.vaccination.delete_storage %}
+        <button class="btn btn-sm btn-danger m-1">
+          <a href="{% url 'center:storage-delete' object.id %}">
+            <i class="fas fa-trash"></i> {% translate 'Delete Storage' %}
+          </a>
+        </button>
+        {% endif %}
+      </div>
+    </div>
+
   </div>
 </div>
 {% endblock content %}

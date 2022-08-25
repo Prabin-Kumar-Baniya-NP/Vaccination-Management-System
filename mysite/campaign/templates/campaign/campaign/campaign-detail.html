@@ -1,92 +1,98 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
+
 {% block title %}
 <title>{% translate 'Vaccination Campaign Details' %}</title>
 {% endblock title %}
+
 {% block content %}
 <div class="card mb-3">
-  <div class="row g-0">
-    <div class="col-md-8">
-      <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title"><i class="fa-solid fa-globe"></i>{% translate 'Vaccination Campaign Details' %} </h5>
-        <p class="card-text">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <span class="fw-bold me-5">{% translate 'Center Name' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.center.name }}
-            </li>
-            <li class="list-group-item">
-              <span class="fw-bold me-5">{% translate 'Vaccine Name' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.vaccine.name }}
-            </li>
-            <li class="list-group-item">
-              <span class="fw-bold me-5">{% translate 'Start Date' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.start_date }}
-            </li>
-            <li class="list-group-item">
-              <span class="fw-bold me-5">{% translate 'End Date' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.end_date }}
-            </li>
-            {% if perms.vaccination.view_vaccination %}
-            <li class="list-group-item">
-              <span class="fw-bold me-5">{% translate 'Registration' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{registration}}<a href="{% url 'vaccination:vaccination-list' object.id %}"
-                class="ms-2 btn btn-sm btn-dark text-white"><i class="fa-solid fa-eye"></i> View All</a>
-            </li>
-            {% endif %}
-            <li class="list-group-item">
-              <span class="fw-bold me-5">{% translate 'Agents Assigned' %}:&nbsp</span>{% for agent in object.agents.all %} {{agent}},
-              {% endfor %}
-            </li>
-            {% if perms.vaccination.view_slot %}
-            <li class="list-group-item">
-              <span class="fw-bold me-5">{% translate 'Slots List' %}:&nbsp</span>
-              <div class="d-flex flex-wrap">
-                {% for slot in object.slot_set.all %}
-                <div class="card text-dark bg-light me-3 mb-3" style="width:fit-content;">
-                  <div class="card-header"><b>
-                      <a href="{% url 'campaign:slot-detail' slot.id %}">
-                        {{ slot.date }} | {{ slot.start_time}} to {{ slot.end_time }}</a>
-                    </b></div>
-                  <div class="card-body row">
-                    <div class="col-6 d-flex flex-column text-center">
-                      <span><b>{{ slot.max_capacity }}</b></span>
-                      <span>{% translate 'Max' %}<br>{% translate 'Capacity' %}</span>
-                    </div>
-                    <div class="col-6 d-flex flex-column text-center">
-                      <span><b>{{ slot.reserved }}</b></span>
-                      <span>{% translate 'Reserved' %}<br>{% translate 'Capacity' %}</span>
-                    </div>
-                  </div>
-                </div>
-                {% endfor %}
-              </div>
-              <button type="button" class="btn btn-sm btn-info me-2">
-                <a href="{% url 'campaign:slot-list' object.id %}" class="btn-link"><i class="fa-solid fa-eye"></i>
-                  {% translate 'View All' %}</a>
-              </button>
-              {% if perms.vaccination.add_slot %}
-              <button type="button" class="btn btn-sm btn-primary me-2">
-                <a href="{% url 'campaign:slot-create' object.id %}" class="btn-link"><i
-                    class="fa-solid fa-plus"></i>
-                    {% translate 'Create Slot' %}</a>
-              </button>
-              {% endif %}
-              {% endif %}
-            </li>
-          </ul>
-        </p>
-        <div class="link-container">
+  <div class="card-body">
+    <h5 class="card-title mb-4"><i class="fas fa-calendar"></i> {% translate 'Campaign Details' %} </h5>
+    <div class="container">
+
+      <div class="row mb-1">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+          Center Name
+        </div>
+        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+          {{ object.center.name }}
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+          Vaccine Name
+        </div>
+        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+          {{ object.vaccine.name }}
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+          Start Date
+        </div>
+        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+          {{ object.start_date }}
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+          End Date
+        </div>
+        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+          {{ object.end_date }}
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+          Registrations
+        </div>
+        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+          {{ registration }}
+        </div>
+      </div>
+
+      <div class="row mb-1">
+        <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+          Agents Assigned
+        </div>
+        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+          {% for agent in object.agents.all %}
+          {{agent.get_full_name }},
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="row mb-1 btn-container">
+        <div class="col-12">
+          
+          {% if perms.vaccination.view_vaccination %}
+          <button class="btn btn-sm btn-dark m-1">
+            <a href="{% url 'vaccination:vaccination-list' object.id %}"><i class="fas fa-eye"></i> View
+              Registrations</a>
+          </button>
+          {% endif %}
+
+          <button class="btn btn-sm btn-primary m-1">
+            <a href="{% url 'campaign:slot-list' object.id %}"><i class="fas fa-eye"></i>
+              {% translate 'View Slots' %}</a>
+          </button>
+
           {% if perms.vaccination.change_campaign %}
-          <button class="btn btn-sm btn-success">
-            <a href="{% url 'campaign:campaign-update' object.id %}" class="btn-link"><i class="fa-solid fa-pen"></i>
+          <button class="btn btn-sm btn-success m-1">
+            <a href="{% url 'campaign:campaign-update' object.id %}"><i class="fas fa-pen"></i>
               {% translate 'Update Campaign' %}</a>
           </button>
           {% endif %}
+
           {% if perms.vaccination.delete_campaign %}
-          <button class="btn btn-sm btn-danger">
-            <a href="{% url 'campaign:campaign-delete' object.id %}" class="btn-link"><i
-                class="fa-solid fa-trash-can"></i> {% translate 'Delete Campaign' %}</a>
+          <button class="btn btn-sm btn-danger m-1">
+            <a href="{% url 'campaign:campaign-delete' object.id %}"><i class="fas fa-trash"></i>
+              {% translate 'Delete Campaign' %}</a>
           </button>
           {% endif %}
         </div>

@@ -1,66 +1,80 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
+
 {% block title %}
 <title>{% translate 'Slot Details' %}</title>
 {% endblock title %}
+
 {% block content %}
 <div class="card mb-3">
-  <div class="row g-0">
-    <div class="col-md-8">
-      <div class="card-body m-sm-2 p-sm-2 m-md-4 p-md-4">
-        <h5 class="card-title">{% translate 'Slot Details' %}</h5>
-        <p class="card-text">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Center Name' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.campaign.center.name }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Vaccine Name' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.campaign.vaccine.name }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Start Date' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.campaign.start_date }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'End Date' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.campaign.end_date }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Start Time' %}:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.start_time }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'End Time' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-              {{ object.end_time }}
-          </li>
-          <li class="list-group-item">
-            <span class="fw-bold me-5">{% translate 'Max Capacity' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span> 
-            {{ object.max_capacity}}
-          </li>
-          <li class="list-group-item">
-            <span
-              class="fw-bold me-5">{% translate 'Reserved' %} :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-            {{ object.reserved}}
-          </li>
-        </ul>
-        </p>
+  <div class="card-body">
+    <h5 class="card-title mb-4"><i class="fas fa-clock"></i> {% translate 'Slot Details' %} </h5>
 
-        <div class="link-container">
-          {% if perms.vaccination.change_slot %}
-          <button class="btn btn-sm btn-success">
-            <a href="{% url 'campaign:slot-update' object.campaign.id object.id %}" class="btn-link">{% translate 'Update Slot' %}</a>
-          </button>
-          {% endif %}
-          {% if perms.vaccination.delete_slot %}
-          <button class="btn btn-sm btn-danger">
-            <a href="{% url 'campaign:slot-delete' object.id %}" class="btn-link">{% translate 'Delete Slot' %} </a>
-          </button>
-          {% endif %}
-        </div>
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Date
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.date }}
       </div>
     </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Start Time
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.start_time }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        End Time
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.end_time }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Max Capacity
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.max_capacity }}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        Reserved
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.reserved }}
+      </div>
+    </div>
+
+    <div class="row mb-1 btn-container">
+      <div class="col-12">
+        {% if perms.vaccination.change_slot %}
+        <button class="btn btn-sm btn-success m-1">
+          <a href="{% url 'campaign:slot-update' object.campaign.id object.id %}">
+            <i class="fas fa-pen"></i> {% translate 'Update Slot' %}
+          </a>
+        </button>
+        {% endif %}
+
+        {% if perms.vaccination.delete_slot %}
+        <button class="btn btn-sm btn-danger m-1">
+          <a href="{% url 'campaign:slot-delete' object.id %}">
+            <i class="fas fa-trash"></i> {% translate 'Delete Slot' %}
+          </a>
+        </button>
+        {% endif %}
+      </div>
+    </div>
+
   </div>
 </div>
 {% endblock content %}

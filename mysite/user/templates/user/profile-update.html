@@ -1,22 +1,13 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
+
 {% block title %}
-<title>Profile Update</title>
+  <title>Profile Update</title>
 {% endblock title %}
+
 {% block content %}
-<div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-    <h4>{% translate 'Fill the following details to update the profile' %}</h4>
-    <form method="POST" action="" enctype="multipart/form-data">
-      {% csrf_token %} {% for field in form %}
-      <div class="mb-2 row">
-        {{ field.errors }} {{ field.label_tag }}
-        <div class="col-sm-10">{{ field }}</div>
-        {% if field.help_text %}
-        <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
-      </div>
-      {% endfor %}
-      <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-pen"></i> {% translate 'Update' %} {% translate 'Profile' %} </button>
-    </form>
-    <div>
+<div class="m-2 p-2">
+  <h4>{% translate 'Fill the following details to update the profile' %}</h4>
+  {% include "components/form.html" with form_name="Update Profile" %}
+</div>
 {% endblock content %}

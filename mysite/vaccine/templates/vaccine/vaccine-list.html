@@ -4,14 +4,16 @@
 <title>{% translate 'Vaccine List' %}</title>
 {% endblock title %} {% block content %}
 <div class="mt-3">
+  
   <div class="d-flex align-items-center justify-content-between">
     <h3 class="text-center">
-      <i class="fa-solid fa-syringe"></i> Vaccine List
+      <i class="fas fa-syringe"></i> Vaccine List
     </h3>
     {% if perms.vaccine.add_vaccine %}
-    <a href="{% url 'vaccine:vaccine-create' %}"><i class="fa-solid fa-plus"></i> {% translate 'Create Vaccine' %}</a>
+    <a href="{% url 'vaccine:vaccine-create' %}"><i class="fas fa-plus"></i> {% translate 'Create Vaccine' %}</a>
     {% endif %}
   </div>
+  
   <table class="table table-hover">
     <thead>
       <tr>
@@ -20,22 +22,24 @@
         <th scope="col">{% translate 'Interval' %}</th>
         <th scope="col">{% translate 'Minimum Age' %}</th>
         <th scope="col">{% translate 'Storage Temperature' %}</th>
+        <th scope="col">Select</th>
       </tr>
     </thead>
+    
     <tbody>
       {% for vaccine in object_list %}
       <tr>
-        <td>
-          <a href="{% url 'vaccine:vaccine-detail' vaccine.id %}">{{vaccine.name|upper}}</a>
-        </td>
+        <td>{{vaccine.name|upper}}</td>
         <td>{{ vaccine.number_of_doses }}</td>
         <td>{{ vaccine.interval }}</td>
         <td>{{ vaccine.minimum_age }}</td>
         <td>{{ vaccine.storage_temperature }}</td>
+        <td><a href="{% url 'vaccine:vaccine-detail' vaccine.id %}" class="btn-sm btn-outline-primary">View Details</a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+
   {% include 'components/pagination.html' %}
 </div>
 {% endblock content %}

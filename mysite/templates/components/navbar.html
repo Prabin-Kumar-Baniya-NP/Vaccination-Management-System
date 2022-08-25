@@ -1,38 +1,62 @@
+{% load static %}
 {% load i18n %}
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'index' %}"><i class="fa-solid fa-shield-virus"></i> Book My Vaccine</a>
-      <div class="form-container d-flex flex-row">
-        <form action="{% url 'set_language' %}" method="post" class="d-flex justify-content-center align-items-center">
-          {% csrf_token %}
-          <div class="me-3">
-            <input name="next" type="hidden" value="{{ redirect_to }}">
-            <select name="language" class="form-select form-select-sm" onchange="this.form.submit()">
-              {% get_current_language as LANGUAGE_CODE %}
-              {% get_available_languages as LANGUAGES %}
-              {% get_language_info_list for LANGUAGES as languages %}
-              {% for language in languages %}
-              <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                {{ language.name_local }} ({{ language.code }})
-              </option>
-              {% endfor %}
-            </select>
-          </div>
-        </form>
-        <form class="d-flex">
+<header class="header_wrapper">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img src="{% static 'images/logo.png' %}" height="50">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-stream navbar-toggler-icon"></i>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav menu-navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'index' %}"><i class="fas fa-home"></i>
+              Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'vaccine:vaccine-list' %}"><i class="fas fa-syringe"></i> Vaccines</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'center:center-list' %}"><i class="fas fa-map-marker-alt"></i> Center</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'campaign:campaign-list' %}"><i class="fas fa-calendar"></i> Campaign</a>
+          </li>
           {% if request.user.is_authenticated %}
-          <button class="btn btn-secondary" type="button">
-            <a href="{% url 'accounts:logout' %}" class="btn-link">{% translate 'Logout' %}</a>
-          </button>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-in-alt"></i> Logout</a>
+          </li>
           {% else %}
-          <button class="btn btn-primary me-2" type="button">
-            <a href="{% url 'accounts:login' %}" class="btn-link">{% translate 'Login' %}</a>
-          </button>
-          <button class="btn btn-danger me-2" type="button">
-            <a href="{% url 'accounts:signup' %}" class="btn-link">{% translate 'Signup' %}</a>
-          </button>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:signup' %}"><i class="fas fa-plus"></i> Create Account</a>
+          </li>
           {% endif %}
-        </form>
+          <li class="nav-item">
+            <form action="{% url 'set_language' %}" method="post" class="d-flex justify-content-center align-items-center">
+              {% csrf_token %}
+              <div class="mt-2">
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                <select name="language" class="form-select form-select-sm" onchange="this.form.submit()">
+                  {% get_current_language as LANGUAGE_CODE %}
+                  {% get_available_languages as LANGUAGES %}
+                  {% get_language_info_list for LANGUAGES as languages %}
+                  {% for language in languages %}
+                  <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }} ({{ language.code }})
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </form>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
+</header>

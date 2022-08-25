@@ -1,63 +1,109 @@
 {% extends "mysite/base.html" %}
 {% load i18n %}
+
 {% block title %}
 <title>Profile Details</title>
 {% endblock title %}
 
 {% block content %}
-<div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-    <div class="card mb-3">
-        <div class="row g-0">
-            <div class="col-12 row">
-                <div class="profile-image col-4 d-flex align-items-center justify-content-center">
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title mb-4">
+            <i class="fas fa-calendar"></i> {% translate 'Profile Details' %}
+        </h5>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-4">
                     {% if user.photo %}
-                    <img src={{ user.photo.url }} alt="Profile Picture">
+                    <img src={{ user.photo.url }} alt="Profile Picture" class="profile-img">
                     {% endif %}
                 </div>
-                <div class="card-body col-6 m-sm-2 p-sm-2 m-md-4 p-md-4">
-                    <h5 class="card-title"><i class="fa-solid fa-user"></i> {% translate 'Profile' %} {% translate 'Details' %} </h5>
-                    <p class="card-text">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            {% translate 'Email Address' %} : {{ user.email }} {% if user.is_email_verified %} <i>(Email Verified)</i>{% else %}(<a href="{% url 'accounts:verify-email' %}">Verify Email</a>){% endif %}
-                        </li>
-                        <li class="list-group-item">
-                            {% translate 'First Name' %} : {{ user.first_name }}
-                        </li>
-                        <li class="list-group-item">
-                            {% translate 'Middle Name' %}: {{ user.middle_name }}
-                        </li>
-                        <li class="list-group-item">
-                            {% translate 'Last Name' %}: {{ user.last_name }}
-                        </li>
-                        <li class="list-group-item">
-                            {% translate 'Date of Birth' %}: {{ user.date_of_birth }}
-                        </li>
-                        <li class="list-group-item">
-                            {% translate 'Gender' %}: {{ user.gender }}
-                        </li>
-                        <li class="list-group-item">
-                            {% translate 'Identity Document Type' %}: {{ user.identity_document_type }}
-                        </li>
-                        <li class="list-group-item">
-                            {% translate 'Identity Document Number' %}: {{ user.identity_document_number }}
-                        </li>
-                        <li class="list-group-item">
-                            {% translate 'Date Joined' %}: {{ user.date_joined }}
-                        </li>
-                    </ul>
-                    </p>
-                    <p class="card-text"><small class="text-muted">{% translate 'Last updated on' %} {{user.last_updated}}</small></p>
-                    <div class="link-container">
-                        <button class="btn btn-danger">
-                            <a href="{% url 'accounts:change-password' %}" class="btn-link"><i
-                                    class="fa-solid fa-key"></i> {% translate 'Change' %} {% translate 'Password' %}  </a>
-                        </button>
-                        <button class="btn btn-secondary">
-                            <a href="{% url 'accounts:profile-update' %}" class="btn-link"><i
-                                    class="fa-solid fa-pen"></i> {% translate 'Update' %} {% translate 'Profile' %} </a>
-                        </button>
-                    </div>
+                <div class="col-12 col-lg-8">
+                    <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          Email Address
+                        </div>
+                        <div class="col-7 col-sm-8">
+                            {{ user.email }} 
+                            {% if user.is_email_verified %} 
+                                <i>(Email Verified)</i>
+                            {% else %}
+                                (<a href="{% url 'accounts:verify-email' %}">Verify Email</a>)
+                            {% endif %}
+                        </div>
+                      </div>
+                
+                      <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          First Name
+                        </div>
+                        <div class="col-7 col-sm-8">
+                          {{ user.first_name }}
+                        </div>
+                      </div>
+                
+                      <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          Middle Name
+                        </div>
+                        <div class="col-7 col-sm-8">
+                          {{ user.middle_name }}
+                        </div>
+                      </div>
+                
+                      <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          Last Name
+                        </div>
+                        <div class="col-7 col-sm-8">
+                          {{ user.last_name }}
+                        </div>
+                      </div>
+                
+                      <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          Date of Birth 
+                        </div>
+                        <div class="col-7 col-sm-8">
+                          {{ user.date_of_birth }}
+                        </div>
+                      </div>
+
+                      <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          Gender 
+                        </div>
+                        <div class="col-7 col-sm-8">
+                          {{ user.gender }}
+                        </div>
+                      </div>
+
+                      <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          Identity Document Type 
+                        </div>
+                        <div class="col-7 col-sm-8">
+                          {{ user.identity_document_type }}
+                        </div>
+                      </div>
+
+                      <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          Identity Document Number
+                        </div>
+                        <div class="col-7 col-sm-8">
+                          {{ user.identity_document_number }}
+                        </div>
+                      </div>
+
+                      <div class="row mb-1">
+                        <div class="col-5 col-sm-4 fw-bold">
+                          Date Joined 
+                        </div>
+                        <div class="col-7 col-sm-8">
+                          {{ user.date_joined }}
+                        </div>
+                      </div>
                 </div>
             </div>
         </div>

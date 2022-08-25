@@ -1,54 +1,47 @@
-{% extends 'mysite/base.html' %} {% block title %}
+{% extends 'mysite/base.html' %} 
 {% load i18n %}
+
+{% block title %}
 <title>Center List</title>
-{% endblock title %} {% block content %}
+{% endblock title %} 
+
+{% block content %}
 <div class="mt-3">
+
   <div class="d-flex align-items-center justify-content-between">
     <h3 class="text-center">
-      <i class="fa-solid fa-location-dot"></i> {% translate 'Center List' %}
+      <i class="fas fa-map-marker-alt"></i> {% translate 'Vaccination Center List' %}
     </h3>
     {% if perms.center.add_center %}
-    <a href="{% url 'center:create-center' %}"><i class="fa-solid fa-plus"></i>{% translate 'Create Center' %} </a>
+    <a href="{% url 'center:create-center' %}"><i class="fas fa-plus"></i> {% translate 'Create Center' %} </a>
     {% endif %}
   </div>
+
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">{% translate 'Center' %} {% translate 'Name' %} </th>
         <th scope="col">{% translate 'Storages' %}</th>
+        <th scope="col">Select</th>
       </tr>
     </thead>
+    
     <tbody>
       {% for center in object_list %}
       <tr>
-        <td>
-          <a href="{% url 'center:center-detail' center.id %}">{{center.name|upper}}</a>
-        </td>
+        <td>{{center.name|upper}}</td>
         <td>
           {% for storage in center.storage_set.all %} 
             {{storage.vaccine.name|upper}},
           {% endfor %}
         </td>
+        <td><a href="{% url 'center:center-detail' center.id %}" class="btn-sm btn-outline-primary">View Details</a></td>
       </tr>
       {% endfor %}
     </tbody>
+    
   </table>
-  <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; First</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+  {% include "components/pagination.html" %}
 </div>
 {% endblock content %}
