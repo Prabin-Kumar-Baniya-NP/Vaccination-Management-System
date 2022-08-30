@@ -16,27 +16,23 @@
             <a class="nav-link" aria-current="page" href="{% url 'index' %}"><i class="fas fa-home"></i>
               Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'vaccine:vaccine-list' %}"><i class="fas fa-syringe"></i> Vaccines</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'center:center-list' %}"><i class="fas fa-map-marker-alt"></i> Center</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'campaign:campaign-list' %}"><i class="fas fa-calendar"></i> Campaign</a>
-          </li>
+      
           {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-in-alt"></i> Logout</a>
           </li>
+          
           {% else %}
+          
           <li class="nav-item">
             <a class="nav-link" href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'accounts:signup' %}"><i class="fas fa-plus"></i> Create Account</a>
+            <a class="nav-link" href="{% url 'accounts:signup' %}"><i class="fas fa-plus"></i> Signup</a>
           </li>
+          
           {% endif %}
+          
           <li class="nav-item">
             <form action="{% url 'set_language' %}" method="post" class="d-flex justify-content-center align-items-center">
               {% csrf_token %}
@@ -55,6 +51,7 @@
               </div>
             </form>
           </li>
+        
         </ul>
       </div>
     </div>

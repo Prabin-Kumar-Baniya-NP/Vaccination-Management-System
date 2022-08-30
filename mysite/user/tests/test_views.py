@@ -56,6 +56,8 @@ class TestUserAuthView(TestCase):
                     "gender": "M",
                     "date_of_birth": "2001-01-01",
                     "photo": profile_image,
+                    "identity_document_type": "Passport",
+                    "identity_document_number": "123456",
                 },
             )
         self.assertTrue(User.objects.filter(

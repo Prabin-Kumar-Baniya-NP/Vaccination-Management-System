@@ -30,9 +30,10 @@ def signup(request):
             send_email_verification(request, user.id)
             logger.info("New user Created")
             messages.success(
-                request, "Account Created Successfully ! Please enter the username and password to login")
+                request, "Account Created Successfully ! Please enter the email and password to login")
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
+            print(form.errors)
             logger.error("Invalid Data")
             messages.error(
                 request, "Invalid Data! Please enter the correct data")
@@ -65,6 +66,8 @@ def login(request):
                     request, "Invalid Login! Please enter correct data")
                 return HttpResponseRedirect(reverse("accounts:login"))
         else:
+            logger.error("Invalid Username and Passsword")
+            messages.error(request, "Please Enter Correct Username and Password")
             return HttpResponseRedirect(reverse("accounts:login"))
     else:
         context = {

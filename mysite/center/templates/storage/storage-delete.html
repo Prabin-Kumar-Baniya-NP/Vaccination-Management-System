@@ -8,6 +8,6 @@
 {% block content %}
 <div class="m-2 p-2">
     <h4>{% translate 'Are you sure you want to delete' %} "{{ object }}" ?</h4>
-    {% include "components/delete-form.html" %}
+    {% include "components/form.html" with form_name="Delete Storage" %}
 </div>
 {% endblock content %}

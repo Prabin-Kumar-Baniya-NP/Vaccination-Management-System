@@ -1,81 +1,143 @@
-{% extends 'mysite/base.html' %} {% load i18n %} {% block title %}
+{% extends 'mysite/base.html' %}
+{% load i18n %}
+{% block title %}
 <title>{% translate 'Confirm Vaccination' %}</title>
-{% endblock title %} {% block content %}
-<div class="m-sm-2 p-sm-2 m-md-4 p-md-4">
-  <h4 class="mb-3">
-    {% translate 'Are you sure, you want to schedule this vaccination' %} ?
-  </h4>
-  <div class="patient-details">
-    <h6>{% translate 'Review the Vaccination Details' %}</h6>
-    <ul class="list-group list-group-flush" style="width: 40%">
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Patient Name' %}</span>
-        <span class="value">{{ patient.get_full_name }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Email' %}</span>
-        <span class="value">{{ patient.email }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Gender' %}</span>
-        <span class="value">{{ patient.gender }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Date of Birth' %}</span>
-        <span class="value">{{ patient.date_of_birth }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Blood Group' %}</span>
-        <span class="value">{{ patient.blood_group }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{{ patient.identity_document_type }}</span>
-        <span class="value">{{ patient.identity_document_number }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Vaccine' %}</span>
-        <span class="value">{{ campaign.vaccine.name }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Scheduled Date' %}</span>
-        <span class="value">{{ slot.date }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Reporting Time' %}</span>
-        <span class="value">{{ slot.start_time }} - {{ slot.end_time}}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Center Name' %}</span>
-        <span class="value">{{ campaign.center.name }}</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between">
-        <span class="title">{% translate 'Center Address' %}</span>
-        <span class="value">{{ campaign.center.address }}</span>
-      </li>
-    </ul>
+{% endblock title %}
+
+{% block content %}
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title mb-4">
+      <i class="fas fa-calendar"></i> {% translate 'Profile Details' %}
+    </h5>
+    <div class="container">
+      <div class="row">
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Patient Name' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ patient.get_full_name }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Email' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ patient.email }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Gender' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ patient.gender }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Date of Birth' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ patient.date_of_birth }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Blood Group' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ patient.blood_group }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {{ patient.identity_document_type }}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ patient.identity_document_number }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Vaccine' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ campaign.vaccine.name }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Scheduled Date' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ slot.date }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Reporting Time' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ slot.start_time }} - {{ slot.end_time}}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Center Name' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ campaign.center.name }}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-5 col-md-4 fw-bold">
+            {% translate 'Center Address' %}
+          </div>
+          <div class="col-7 col-md-8">
+            {{ campaign.center.address}}
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          {% if checks.items %}
+          <div class="text-danger mt-3">
+            {% for key, value in checks.items %}
+            {% if key == "documents" %}
+            {{ value }} <br>
+            {% elif key == "age" %}
+            {{ value }} <br>
+            {% elif key == "dose" %}
+            {{ value }} <br>
+            {% elif key == "interval" %}
+            {{ value }} <br>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% else %}
+          <form method="POST" action="">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit" class="btn btn-success m-3">
+              <i class="fas fa-clock"></i> {% translate 'Schedule' %}
+            </button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
-  {% if checks.items %}
-    <div class="text-danger mt-3">
-    {% for key, value in checks.items %}
-      {% if key == "documents" %}
-        {{ value }} <br>
-      {% elif key == "age" %}
-        {{ value }} <br>
-      {% elif key == "dose" %}
-        {{ value }} <br>
-      {% elif key == "interval" %}
-        {{ value }} <br>
-      {% endif %}
-    {% endfor %}
-    <div>
-  {% else %}
-  <form method="POST" action="">
-    {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="btn btn-success m-3">
-      <i class="fa-solid fa-clock"></i> {% translate 'Schedule' %}
-    </button>
-  </form>
-  {% endif %}
-  
-  <div>{% endblock content %}</div>
 </div>
+{% endblock content %}

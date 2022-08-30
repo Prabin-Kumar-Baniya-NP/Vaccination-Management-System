@@ -5,6 +5,7 @@ from django import forms
 
 User = get_user_model()
 
+
 class SignupForm(UserCreationForm):
     """
     Form to create a new user
@@ -18,7 +19,8 @@ class SignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["email", "first_name", "middle_name",
-                  "last_name", "date_of_birth", "gender", "photo"]
+                  "last_name", "date_of_birth", "gender", "photo",
+                  "identity_document_type", "identity_document_number"]
 
 
 class LoginForm(AuthenticationForm):

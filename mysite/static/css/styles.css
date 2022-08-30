@@ -9,17 +9,23 @@
 
 :root {
   /* Color */
-  --primary-color: #004caa;
-  --secondary-color: #fc5185;
-  --bg-light-blue: #3672bc;
+  --primary-color: #1D3354;
+  --secondary-color: #424B4D;
+  --success-color: #017A39;
+  --info-color: #00708F;
+  --danger-color: #9E2B25;
+  --warning-color: #FBE44B;
+
+  /* Background Color */
+  --bg-light-blue: #00708F;
   --bg-light: #666;
   --bg-white: #fff;
 
   /* Text */
   --primary-font: "Fira Sans", sans-serif;
   --secondary-font: "Signika Negative", sans-serif;
-  --primary-text: #004caa;
-  --secondary-text: #fc5185;
+  --primary-text: #1D3354;
+  --secondary-text: #9E2B25;
   --text-white: #fff;
   --text-black: #222;
   --text-grey: #666;
@@ -34,7 +40,7 @@ a {
   text-decoration: none;
 }
 .wrapper {
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 .main-btn {
   display: inline-block;
@@ -54,12 +60,12 @@ a {
   color: var(--text-white);
 }
 .fill-btn {
-  background-color: var(--secondary-color);
-  border-color: var(--secondary-color);
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
   color: var(--text-white);
 }
 .fill-btn:hover {
-  border-color: var(--bg-white);
+  background-color: var(--primary-color);
 }
 h1 {
   font-size: 3.875rem;
@@ -117,7 +123,7 @@ p {
   border-radius: 0.625rem;
   background-color: var(--bg-white);
   box-shadow: 0.5084rem 1.1419rem 2.5rem 1rem rgb(0 0 0 / 8%);
-  padding: 3.75rem 3.125rem 4.6875rem;
+  padding: 0.5rem;
   transition: all 0.4s;
   border: 0;
 }
@@ -214,28 +220,57 @@ footer {
   color: #fff !important;
 }
 .profile-img{
+  height: 100%;
   width: 100%;
   padding: 1rem;
 }
-@media (max-width: 460px) {
-  /* Custom CSS */
+.dashboard-card-link{
+  color: var(--primary-color);
+}
+.dashboard-card-link:hover{
+  color: var(--danger-color);
+}
+/* Bootstrap Buttons */
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: var(--primary-color) !important;
+}
+.btn-secondary, .btn-secondary, .btn-secondary:active, .btn-secondary:visited {
+  background-color: var(--secondary-color) !important;
+}
+.btn-success, .btn-success:hover, .btn-success:active, .btn-success:visited {
+  background-color: var(--success-color) !important;
+}
+.btn-danger, .btn-danger:hover, .btn-danger:active, .btn-danger:visited {
+  background-color: var(--danger-color) !important;
+}
+.btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited {
+  background-color: var(--info-color) !important;
+}
+.btn-warning, .btn-warning:hover, .btn-warning:active, .btn-warning:visited {
+  background-color: var(--warning-color) !important;
+}
+@media (max-width: 576px){
   .wrapper {
     padding: 0.5rem 0;
   }
+  .card{
+    padding: 0.8rem;
+  }
 }
 
-@media (max-width: 767px) {
-  /* Custom CSS */
+@media (min-width: 567px) and (max-width: 768px) {
   .wrapper {
     padding: 1rem 0;
   }
   .main-btn {
     font-size: 0.875rem;
   }
+  .card{
+    padding: 1.2rem;
+  }
 }
 
-@media (max-width: 991px) {
-  /* Custom CSS */
+@media (min-width: 769px) and (max-width: 922px) {
   .wrapper {
     padding: 3.125rem 0;
   }
@@ -246,26 +281,27 @@ footer {
     font-size: 0.875rem;
     line-height: 1.35rem;
   }
-  .card {
-    padding: 1.875rem 1rem;
-  }
   .header_wrapper .nav-item .nav-link {
     margin-top: 0.9375rem;
   }
-  /* banner */
   .banner_wrapper p {
     max-width: 100%;
   }
+  .card{
+    padding: 1.5rem;
+  }
 }
 
-@media (max-width: 1199.5px) {
-  /* Custom CSS */
-  .card {
-    padding: 2.5rem 1.875rem;
-  }
-
-  /* header  */
+@media (min-width: 923px) and (max-width: 1200px) {
   .header_wrapper .navbar-nav .nav-link {
     font-size: 1rem;
+  }
+  .card{
+    padding: 1.8rem;
+  }
+}
+@media (min-width: 1201px){
+  .card{
+    padding: 2.2rem;
   }
 }

@@ -3,6 +3,7 @@
 {% block title %}
     <title>My Vaccination </title>
 {% endblock %}
+
 {% block content %}
 <!--    Banner Starts Here      -->
 <section id="home" class="home">
@@ -15,7 +16,7 @@
                     <p>Vaccines can lower your chance of getting certain diseases. Vaccines work with your body’s
                         natural defenses to help you safely develop immunity to disease. This lowers your chances of
                         getting certain diseases and suffering from their complications. </p>
-                    <a href="#" class="main-btn mt-4 fill-btn">Schedule Vaccination</a>
+                    <a href="{% url 'accounts:login' %}" class="main-btn mt-4 fill-btn">Schedule Vaccination</a>
                 </div>
                 <div class="col-md-6 order-md-2 order-1 mb-md-0 b-5">
                     <div class="top-right-sec">
@@ -27,7 +28,7 @@
             </div>
         </div>
     </div>
-    <div class="wrapper pb-0">
+    <div class="wrapper mt-1 pb-0">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-6 mb-4">

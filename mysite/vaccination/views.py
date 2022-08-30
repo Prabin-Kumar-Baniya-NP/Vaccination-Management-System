@@ -118,12 +118,8 @@ def confirm_vaccination(request, campaign_id, slot_id):
             if len(checks.keys()) == 0:
                 if Slot.reserve_vaccine(campaign_id, slot_id):
                     form.save()
-                    messages.success(
-                        request, "Vaccination Scheduled Successfully")
                     return render(request, "vaccination/schedule-success.html", {})
                 else:
-                    messages.error(
-                        request, "Unable to reserve vaccine. Please try again.")
                     return HttpResponseForbidden("Sorry! We are unable to reserve vaccine for you. Please Try Scheduling the vaccination again")
             else:
                 messages.error(request, f"{checks}")

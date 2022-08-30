@@ -10,14 +10,14 @@
 
   <div class="d-flex align-items-center justify-content-between">
     <h3 class="text-center">
-      <i class="fas fa-map-marker-alt"></i> {% translate 'Vaccination Center List' %}
+      <i class="fas fa-map-marker-alt"></i> {% translate 'Center List' %}
     </h3>
     {% if perms.center.add_center %}
     <a href="{% url 'center:create-center' %}"><i class="fas fa-plus"></i> {% translate 'Create Center' %} </a>
     {% endif %}
   </div>
 
-  <table class="table table-hover">
+  <table class="table table-responsive table-hover">
     <thead>
       <tr>
         <th scope="col">{% translate 'Center' %} {% translate 'Name' %} </th>
