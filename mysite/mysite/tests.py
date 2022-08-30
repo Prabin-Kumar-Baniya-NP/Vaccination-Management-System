@@ -30,3 +30,4 @@ class TestIndexView(TestCase):
     def test_authenticated_user_can_access_index_page(self):
         self.c.login(email=user["email"], password=user["password"])
         response = self.c.get(reverse("index"))
+        self.assertEqual(response.status_code, 200)
