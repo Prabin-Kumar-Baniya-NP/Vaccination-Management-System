@@ -233,6 +233,7 @@ footer {
 /* Bootstrap Buttons */
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
   background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 .btn-secondary, .btn-secondary, .btn-secondary:active, .btn-secondary:visited {
   background-color: var(--secondary-color) !important;
