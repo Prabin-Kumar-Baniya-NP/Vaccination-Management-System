@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-30 18:44+0000\n"
-"PO-Revision-Date: 2022-09-02 19:27+0000\n"
+"POT-Creation-Date: 2022-09-02 19:42+0000\n"
+"PO-Revision-Date: 2022-09-02 19:43+0000\n"
 "Last-Translator: Admin Admin <admin@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -22,15 +22,15 @@ msgstr ""
 #: campaign/models.py:14
 #: campaign/templates/campaign/campaign/campaign-list.html:22
 #: center/models.py:17 center/templates/center/center-list.html:23
-#: center/templates/center/center-update.html:5
-#: templates/mysite/dashboard.html:33
+#: templates/mysite/dashboard.html:33 templates/mysite/index.html:50
 #: vaccination/templates/vaccination/choose-campaign.html:14
 msgid "Center"
 msgstr "केंद्र"
 
 #: campaign/models.py:17
 #: campaign/templates/campaign/campaign/campaign-list.html:21
-#: center/models.py:19 vaccination/templates/vaccination/choose-vaccine.html:9
+#: center/models.py:19 templates/mysite/index.html:40
+#: vaccination/templates/vaccination/choose-vaccine.html:9
 #: vaccination/templates/vaccination/confirm-vaccination.html:72
 msgid "Vaccine"
 msgstr "टीका"
@@ -81,16 +81,17 @@ msgid "Total Reserved"
 msgstr "कुल आरक्षित"
 
 #: campaign/templates/campaign/campaign/campaign-create.html:5
-msgid "Create Vaccination Campaign"
-msgstr "टीकाकरण अभियान बनाएं"
+msgid "Create New Campaign"
+msgstr "अभियान बनाएं"
 
 #: campaign/templates/campaign/campaign/campaign-create.html:11
 msgid "Fill the following details to create a new campaign"
 msgstr "नया अभियान बनाने के लिए निम्नलिखित विवरण भरें"
 
 #: campaign/templates/campaign/campaign/campaign-delete.html:5
-msgid "Delete Vaccination Campaign"
-msgstr "टीकाकरण अभियान हटाएं"
+#: campaign/templates/campaign/campaign/campaign-detail.html:95
+msgid "Delete Campaign"
+msgstr "अभियान हटाएं"
 
 #: campaign/templates/campaign/campaign/campaign-delete.html:11
 #: campaign/templates/campaign/slot/slot-delete.html:11
@@ -101,9 +102,6 @@ msgid "Are you sure you want to delete"
 msgstr "क्या आप आश्वस्त है कि आपको डिलीट करना है"
 
 #: campaign/templates/campaign/campaign/campaign-detail.html:5
-msgid "Vaccination Campaign Details"
-msgstr "टीकाकरण अभियान विवरण"
-
 #: campaign/templates/campaign/campaign/campaign-detail.html:11
 msgid "Campaign Details"
 msgstr "अभियान विवरण"
@@ -120,9 +118,9 @@ msgstr "केंद्र का नाम"
 #: campaign/templates/campaign/campaign/campaign-detail.html:25
 #: center/templates/storage/storage-detail.html:24
 #: center/templates/storage/storage-list.html:24
+#: vaccination/templates/vaccination/registration-list.html:18
 #: vaccination/templates/vaccination/vaccination-detail.html:33
 #: vaccination/templates/vaccination/vaccination-list-patient.html:17
-#: vaccination/templates/vaccination/vaccination-list.html:19
 #: vaccine/models.py:5 vaccine/templates/vaccine/vaccine-detail.html:15
 #: vaccine/templates/vaccine/vaccine-list.html:20
 msgid "Vaccine Name"
@@ -145,13 +143,11 @@ msgid "View Slots"
 msgstr "स्लॉट देखें"
 
 #: campaign/templates/campaign/campaign/campaign-detail.html:88
+#: campaign/templates/campaign/campaign/campaign-update.html:5
 msgid "Update Campaign"
 msgstr "अभियान अपडेट करें"
 
-#: campaign/templates/campaign/campaign/campaign-detail.html:95
-msgid "Delete Campaign"
-msgstr "अभियान हटाएं"
-
+#: campaign/templates/campaign/campaign/campaign-list.html:5
 #: campaign/templates/campaign/campaign/campaign-list.html:12
 msgid "Campaign List"
 msgstr "अभियान सूची"
@@ -166,13 +162,10 @@ msgstr "अभियान बनाएं"
 #: center/templates/storage/storage-list.html:27
 #: vaccination/templates/vaccination/choose-campaign.html:26
 #: vaccination/templates/vaccination/choose-vaccine.html:26
-#: vaccination/templates/vaccination/vaccination-list.html:20
+#: vaccination/templates/vaccination/registration-list.html:19
+#: vaccination/templates/vaccination/vaccination-list-patient.html:21
 msgid "Select"
 msgstr "इसे चुनें"
-
-#: campaign/templates/campaign/campaign/campaign-update.html:5
-msgid "Update Campaign Details"
-msgstr "अभियान विवरण अपडेट करें"
 
 #: campaign/templates/campaign/campaign/campaign-update.html:11
 msgid "Fill the following details to update campaign details"
@@ -213,6 +206,7 @@ msgstr "सुरक्षित"
 msgid "Update Slot"
 msgstr "स्लॉट अपडेट करें"
 
+#: campaign/templates/campaign/slot/slot-list.html:5
 #: campaign/templates/campaign/slot/slot-list.html:12
 msgid "Slot List"
 msgstr "स्लॉट सूची"
@@ -243,10 +237,21 @@ msgstr "कुल मात्रा"
 msgid "Booked Quantity"
 msgstr "बुक की गई मात्रा"
 
+#: center/templates/center/center-create.html:5
+#: center/templates/center/center-list.html:16
+msgid "Create Center"
+msgstr "केंद्र बनाएं"
+
 #: center/templates/center/center-create.html:11
 msgid "Fill the following details to create a new center"
 msgstr "नया केंद्र बनाने के लिए निम्नलिखित विवरण भरें"
 
+#: center/templates/center/center-delete.html:5
+#: center/templates/center/center-detail.html:51
+msgid "Delete Center"
+msgstr "केंद्र हटाएं"
+
+#: center/templates/center/center-detail.html:5
 #: center/templates/center/center-detail.html:11
 msgid "Center Details"
 msgstr "केंद्र विवरण"
@@ -256,20 +261,14 @@ msgid "View Storage"
 msgstr "भंडारण देखें"
 
 #: center/templates/center/center-detail.html:43
+#: center/templates/center/center-update.html:5
 msgid "Update Center"
 msgstr "अद्यतन केंद्र"
 
-#: center/templates/center/center-detail.html:51
-msgid "Delete Center"
-msgstr "केंद्र हटाएं"
-
+#: center/templates/center/center-list.html:5
 #: center/templates/center/center-list.html:13
 msgid "Center List"
 msgstr "केंद्र सूची"
-
-#: center/templates/center/center-list.html:16
-msgid "Create Center"
-msgstr "केंद्र बनाएं"
 
 #: center/templates/center/center-list.html:23
 #: vaccination/templates/vaccination/choose-vaccine.html:14
@@ -280,32 +279,23 @@ msgstr "नाम"
 msgid "Storages"
 msgstr "भंडार"
 
-#: center/templates/center/center-update.html:5
-#: center/templates/storage/storage-update.html:5
-msgid "Update"
-msgstr "अद्यतन"
-
 #: center/templates/center/center-update.html:11
 msgid "Fill the following details to update this center"
 msgstr "इस केंद्र को अद्यतन करने के लिए निम्नलिखित विवरण भरें"
 
 #: center/templates/storage/storage-create.html:5
-msgid "Create"
-msgstr "सृजन करना"
-
-#: center/templates/storage/storage-create.html:5
-#: center/templates/storage/storage-delete.html:5
-#: center/templates/storage/storage-update.html:5
-msgid "Storage"
-msgstr "भंडारण"
+#: center/templates/storage/storage-list.html:16
+msgid "Create Storage"
+msgstr "संग्रहण बनाएं"
 
 #: center/templates/storage/storage-create.html:10
 msgid "Fill the following details to create a new storage"
 msgstr "नया संग्रहण बनाने के लिए निम्नलिखित विवरण भरें"
 
 #: center/templates/storage/storage-delete.html:5
-msgid "Delete"
-msgstr "मिटाना"
+#: center/templates/storage/storage-detail.html:71
+msgid "Delete Storage"
+msgstr "संग्रहण हटाएं"
 
 #: center/templates/storage/storage-detail.html:5
 #: center/templates/storage/storage-detail.html:11
@@ -317,20 +307,17 @@ msgid "Available Quantity"
 msgstr "उपलब्ध मात्रा"
 
 #: center/templates/storage/storage-detail.html:63
+#: center/templates/storage/storage-update.html:5
 msgid "Update Storage"
 msgstr "संग्रहण अपडेट करें"
 
-#: center/templates/storage/storage-detail.html:71
-msgid "Delete Storage"
-msgstr "संग्रहण हटाएं"
+#: center/templates/storage/storage-list.html:5
+msgid "Storage List"
+msgstr "भंडार"
 
 #: center/templates/storage/storage-list.html:13
 msgid "Vaccine Storage List"
 msgstr "वैक्सीन भंडारण सूची"
-
-#: center/templates/storage/storage-list.html:16
-msgid "Create Storage"
-msgstr "संग्रहण बनाएं"
 
 #: center/templates/storage/storage-update.html:10
 msgid "Fill the following details to update this storage"
@@ -418,6 +405,97 @@ msgstr "प्रोफ़ाइल"
 msgid "Information"
 msgstr "जानकारी"
 
+#: templates/mysite/index.html:5
+msgid "Book My Vaccine"
+msgstr "वैक्सीन चुनें"
+
+#: templates/mysite/index.html:15
+msgid "Save Life"
+msgstr "जीवन बचाएं"
+
+#: templates/mysite/index.html:16
+msgid "Get Vaccinated"
+msgstr "टीका लगाया"
+
+#: templates/mysite/index.html:17
+msgid ""
+"Vaccines can lower your chance of getting certain diseases. Vaccines work "
+"with your body’snatural defenses to help you safely develop immunity to "
+"disease. This lowers your chances of getting certain diseases and suffering "
+"from their complications."
+msgstr ""
+"टीके कुछ बीमारियों के होने की संभावना को कम कर सकते हैं। टीके आपके शरीर की "
+"प्राकृतिक सुरक्षा के साथ काम करते हैं ताकि आपको रोग प्रतिरोधक क्षमता को "
+"सुरक्षित रूप से विकसित करने में मदद मिल सके। यह कुछ बीमारियों और उनकी "
+"जटिलताओं से पीड़ित होने की संभावना को कम करता है।"
+
+#: templates/mysite/index.html:20
+#| msgid "Successful Vaccination"
+msgid "Schedule Vaccination"
+msgstr "अनुसूची टीकाकरण"
+
+#: templates/mysite/index.html:41
+msgid ""
+"Get different types of vaccines for various infections or disease like "
+"Covid-19, Polio, Chickenpox, Typhoid, Yellow Fever, Rabies etc."
+msgstr ""
+"विभिन्न संक्रमणों या बीमारी जैसे कोविड -19, पोलियो, चिकनपॉक्स, टाइफाइड, पीला"
+" बुखार, रेबीज आदि के लिए विभिन्न प्रकार के टीके प्राप्त करें।"
+
+#: templates/mysite/index.html:51
+msgid ""
+"Book your vaccine from your nearest vaccination center. This saves your "
+"time, money and energy for getting vaccinated as soon as possible."
+msgstr ""
+"अपने नजदीकी टीकाकरण केंद्र से अपना टीका बुक करें। यह आपके समय, धन और ऊर्जा "
+"को जल्द से जल्द टीका लगवाने के लिए बचाता है।"
+
+#: templates/mysite/index.html:60 vaccination/models.py:18
+msgid "Campaign"
+msgstr "अभियान"
+
+#: templates/mysite/index.html:61
+msgid ""
+"Choose your desired campaign and book a slot based on your availabity. "
+"There's no need to stay on line and become a part of crowd."
+msgstr ""
+"अपना वांछित अभियान चुनें और अपनी उपलब्धता के आधार पर एक स्लॉट बुक करें। लाइन"
+" में रहने और भीड़ का हिस्सा बनने की कोई जरूरत नहीं है।"
+
+#: templates/mysite/index.html:75
+msgid "Our Journey"
+msgstr "हमारी यात्रा"
+
+#: templates/mysite/index.html:76
+msgid ""
+"We launched this platform on 2020 and so far, we have onboarded various "
+"hosiptals, collaborated with various local health authorities for conduction"
+" mass vaccination campaign. We are committed to make a healthy society "
+"through our platform. Our mission is to help every single organization "
+"involved in vaccination drives."
+msgstr ""
+"हमने इस प्लेटफॉर्म को 2020 में लॉन्च किया था और अब तक, हमने विभिन्न "
+"अस्पतालों में, विभिन्न स्थानीय स्वास्थ्य अधिकारियों के साथ मिलकर सामूहिक "
+"टीकाकरण अभियान चलाया है। हम अपने मंच के माध्यम से एक स्वस्थ समाज बनाने के "
+"लिए प्रतिबद्ध हैं। हमारा मिशन टीकाकरण अभियान में शामिल हर एक संगठन की मदद "
+"करना है।"
+
+#: templates/mysite/index.html:89
+msgid "Vaccines Available"
+msgstr "उपलब्ध"
+
+#: templates/mysite/index.html:93
+msgid "Vaccination Center"
+msgstr "टीकाकरण केंद्र का नाम"
+
+#: templates/mysite/index.html:99
+msgid "Campaign Created"
+msgstr "अभियान सूची"
+
+#: templates/mysite/index.html:103
+msgid "Successful Vaccination"
+msgstr "टीकाकरण"
+
 #: user/models.py:7
 msgid "Voter Id"
 msgstr "मतदाता पहचान पत्र"
@@ -434,28 +512,28 @@ msgstr "पासपोर्ट"
 msgid "Citizenship Number"
 msgstr "नागरिकता संख्या"
 
-#: user/models.py:53 user/templates/user/profile-view.html:24
+#: user/models.py:53 user/templates/user/profile-view.html:27
 msgid "Email Address"
 msgstr "ईमेल पता"
 
-#: user/models.py:54 user/templates/user/profile-view.html:38
+#: user/models.py:54 user/templates/user/profile-view.html:41
 msgid "First Name"
 msgstr "पहला नाम"
 
-#: user/models.py:56 user/templates/user/profile-view.html:47
+#: user/models.py:56 user/templates/user/profile-view.html:50
 msgid "Middle Name"
 msgstr "मध्य नाम"
 
-#: user/models.py:57 user/templates/user/profile-view.html:56
+#: user/models.py:57 user/templates/user/profile-view.html:59
 msgid "Last Name"
 msgstr "उपनाम"
 
-#: user/models.py:59 user/templates/user/profile-view.html:65
+#: user/models.py:59 user/templates/user/profile-view.html:68
 #: vaccination/templates/vaccination/confirm-vaccination.html:45
 msgid "Date of Birth"
 msgstr "जन्म की तारीख"
 
-#: user/models.py:60 user/templates/user/profile-view.html:74
+#: user/models.py:60 user/templates/user/profile-view.html:77
 #: vaccination/templates/vaccination/confirm-vaccination.html:36
 msgid "Gender"
 msgstr "लिंग"
@@ -465,11 +543,11 @@ msgstr "लिंग"
 msgid "Blood Group"
 msgstr "ब्लड ग्रुप"
 
-#: user/models.py:65 user/templates/user/profile-view.html:83
+#: user/models.py:65 user/templates/user/profile-view.html:86
 msgid "Identity Document Type"
 msgstr "पहचान दस्तावेज़ प्रकार"
 
-#: user/models.py:67 user/templates/user/profile-view.html:92
+#: user/models.py:67 user/templates/user/profile-view.html:95
 msgid "Identity Document Number"
 msgstr "पहचान दस्तावेज संख्या"
 
@@ -485,7 +563,7 @@ msgstr "शामिल होने का दिनांक"
 msgid "Last updated"
 msgstr "आखरी अपडेट"
 
-#: user/models.py:72 user/templates/user/profile-view.html:29
+#: user/models.py:72 user/templates/user/profile-view.html:32
 msgid "Email Verified"
 msgstr "ईमेल सत्यापित हुआ"
 
@@ -502,7 +580,7 @@ msgid "superuser status"
 msgstr "सुपर उपयोक्ता स्थिति"
 
 #: user/templates/user/change-password.html:5
-#: user/templates/user/profile-view.html:116
+#: user/templates/user/profile-view.html:119
 msgid "Change Password"
 msgstr "पासवर्ड बदलें"
 
@@ -519,15 +597,14 @@ msgid "Fill the following details to update the profile"
 msgstr "प्रोफाइल अपडेट करने के लिए निम्नलिखित विवरण भरें"
 
 #: user/templates/user/profile-view.html:12
-#: vaccination/templates/vaccination/confirm-vaccination.html:11
 msgid "Profile Details"
 msgstr "प्रोफ़ाइल विवरण"
 
-#: user/templates/user/profile-view.html:101
+#: user/templates/user/profile-view.html:104
 msgid "Date Joined"
 msgstr "शामिल होने का दिनांक"
 
-#: user/templates/user/profile-view.html:111
+#: user/templates/user/profile-view.html:114
 msgid "Update Profile"
 msgstr "प्रोफ़ाइल को नवीनतम बनाओ"
 
@@ -538,10 +615,6 @@ msgstr "नया खाता बनाने के लिए निम्न�
 #: vaccination/models.py:15
 msgid "Patient"
 msgstr "मरीज़"
-
-#: vaccination/models.py:18
-msgid "Campaign"
-msgstr "अभियान"
 
 #: vaccination/models.py:21
 msgid "Slot"
@@ -609,9 +682,13 @@ msgstr "मध्यान्तर"
 msgid "Confirm Vaccination"
 msgstr "टीकाकरण की पुष्टि करें"
 
+#: vaccination/templates/vaccination/confirm-vaccination.html:11
+msgid "Review the vaccination details"
+msgstr "टीकाकरण विवरण"
+
 #: vaccination/templates/vaccination/confirm-vaccination.html:18
+#: vaccination/templates/vaccination/registration-list.html:17
 #: vaccination/templates/vaccination/vaccination-detail.html:15
-#: vaccination/templates/vaccination/vaccination-list.html:18
 msgid "Patient Name"
 msgstr "रोगी का नाम"
 
@@ -639,6 +716,16 @@ msgstr "खुराक की जानकारी"
 msgid "You have completed all the doses of this vaccine."
 msgstr "आपने इस टीके की सभी खुराकें पूरी कर ली हैं।"
 
+#: vaccination/templates/vaccination/registration-list.html:5
+#: vaccination/templates/vaccination/vaccination-detail.html:5
+#: vaccination/templates/vaccination/vaccination-list-patient.html:5
+msgid "Vaccination List"
+msgstr "टीकाकरण सूची"
+
+#: vaccination/templates/vaccination/registration-list.html:11
+msgid "Vaccination Registration List"
+msgstr "टीकाकरण पंजीकरण सूची"
+
 #: vaccination/templates/vaccination/schedule-success.html:4
 msgid "Schedule Successfull"
 msgstr "शेड्यूल सफल"
@@ -646,12 +733,6 @@ msgstr "शेड्यूल सफल"
 #: vaccination/templates/vaccination/schedule-success.html:7
 msgid "Congratulations! Your vaccination has been scheduled."
 msgstr "बधाई हो! आपका टीकाकरण निर्धारित किया गया है।"
-
-#: vaccination/templates/vaccination/vaccination-detail.html:5
-#: vaccination/templates/vaccination/vaccination-list-patient.html:5
-#: vaccination/templates/vaccination/vaccination-list.html:5
-msgid "Vaccination List"
-msgstr "टीकाकरण सूची"
 
 #: vaccination/templates/vaccination/vaccination-detail.html:11
 msgid "Vaccination Details"
@@ -666,28 +747,25 @@ msgid "Slot Time"
 msgstr "टाइम स्लॉट"
 
 #: vaccination/templates/vaccination/vaccination-detail.html:60
+#: vaccination/templates/vaccination/vaccination-list-patient.html:19
+msgid "Status"
+msgstr "दर्जा"
+
+#: vaccination/templates/vaccination/vaccination-detail.html:73
 msgid "Last Modified On"
 msgstr "अंतिम बार संशोधित"
 
-#: vaccination/templates/vaccination/vaccination-detail.html:69
+#: vaccination/templates/vaccination/vaccination-detail.html:82
 msgid "Last Updated By"
 msgstr "पिछली बार अपडेट किया गया"
 
-#: vaccination/templates/vaccination/vaccination-detail.html:89
+#: vaccination/templates/vaccination/vaccination-detail.html:102
 msgid "Approve Vaccination"
 msgstr "टीकाकरण को स्वीकृति दें"
 
 #: vaccination/templates/vaccination/vaccination-list-patient.html:11
 msgid "Your Vaccination History"
 msgstr "आपका टीकाकरण इतिहास"
-
-#: vaccination/templates/vaccination/vaccination-list-patient.html:19
-msgid "Vaccinated"
-msgstr "टीका लगाया"
-
-#: vaccination/templates/vaccination/vaccination-list.html:12
-msgid "Vaccination Registration List"
-msgstr "टीकाकरण पंजीकरण सूची"
 
 #: vaccine/models.py:6 vaccine/templates/vaccine/vaccine-detail.html:24
 msgid "Description"
@@ -725,6 +803,7 @@ msgstr "नया टीका बनाने के लिए निम्न�
 msgid "Delete Vaccine"
 msgstr "वैक्सीन हटाएं"
 
+#: vaccine/templates/vaccine/vaccine-detail.html:5
 #: vaccine/templates/vaccine/vaccine-detail.html:11
 msgid "Vaccine Details"
 msgstr "वैक्सीन विवरण"
@@ -745,3 +824,27 @@ msgstr "वैक्सीन सूची"
 #: vaccine/templates/vaccine/vaccine-update.html:10
 msgid "Fill the following details to update the vaccine details."
 msgstr "वैक्सीन विवरण अपडेट करने के लिए निम्नलिखित विवरण भरें।"
+
+#~ msgid "Create Vaccination Campaign"
+#~ msgstr "टीकाकरण अभियान बनाएं"
+
+#~ msgid "Delete Vaccination Campaign"
+#~ msgstr "टीकाकरण अभियान हटाएं"
+
+#~ msgid "Vaccination Campaign Details"
+#~ msgstr "टीकाकरण अभियान विवरण"
+
+#~ msgid "Update Campaign Details"
+#~ msgstr "अभियान विवरण अपडेट करें"
+
+#~ msgid "Update"
+#~ msgstr "अद्यतन"
+
+#~ msgid "Create"
+#~ msgstr "सृजन करना"
+
+#~ msgid "Storage"
+#~ msgstr "भंडारण"
+
+#~ msgid "Delete"
+#~ msgstr "मिटाना"

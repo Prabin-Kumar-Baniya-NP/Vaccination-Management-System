@@ -1,7 +1,8 @@
-{% extends 'mysite/base.html' %} 
+{% extends 'mysite/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block title %}
-    <title>Book My Vaccine</title>
+<title>{% translate "Book My Vaccine" %}</title>
 {% endblock %}
 
 {% block content %}
@@ -11,12 +12,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 order-md-1 order-2 p-5">
-                    <h3>Save Life</h3>
-                    <h2>Get Vaccinated</h2>
-                    <p>Vaccines can lower your chance of getting certain diseases. Vaccines work with your body’s
-                        natural defenses to help you safely develop immunity to disease. This lowers your chances of
-                        getting certain diseases and suffering from their complications. </p>
-                    <a href="{% url 'accounts:login' %}" class="main-btn mt-4 fill-btn">Schedule Vaccination</a>
+                    <h3>{% translate "Save Life" %}</h3>
+                    <h2>{% translate "Get Vaccinated" %}</h2>
+                    <p>{% translate "Vaccines can lower your chance of getting certain diseases. Vaccines work with your body’snatural defenses to help you safely develop immunity to disease. This lowers your chances of getting certain diseases and suffering from their complications." %}
+                    </p>
+                    <a href="{% url 'accounts:login' %}"
+                        class="main-btn mt-4 fill-btn">{% translate "Schedule Vaccination" %}</a>
                 </div>
                 <div class="col-md-6 order-md-2 order-1 mb-md-0 b-5">
                     <div class="top-right-sec">
@@ -36,9 +37,8 @@
                         <div class="icon-box fs-1 text-success">
                             <i class="fas fa-syringe"></i>
                         </div>
-                        <h4>Vaccine</h4>
-                        <p>Get different types of vaccines for various infections or disease like Covid-19,
-                            Polio, Chickenpox, Typhoid, Yellow Fever, Rabies etc.
+                        <h4>{% translate "Vaccine" %}</h4>
+                        <p>{% translate "Get different types of vaccines for various infections or disease like Covid-19, Polio, Chickenpox, Typhoid, Yellow Fever, Rabies etc." %}
                         </p>
                     </div>
                 </div>
@@ -47,9 +47,8 @@
                         <div class="icon-box fs-1 text-primary">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <h4>Center</h4>
-                        <p>Book your vaccine from your nearest vaccination center. This saves your time, money and
-                            energy for getting vaccinated as soon as possible.
+                        <h4>{% translate "Center" %}</h4>
+                        <p>{% translate "Book your vaccine from your nearest vaccination center. This saves your time, money and energy for getting vaccinated as soon as possible." %}
                         </p>
                     </div>
                 </div>
@@ -58,9 +57,8 @@
                         <div class="icon-box fs-1 text-warning">
                             <i class="fas fa-calendar"></i>
                         </div>
-                        <h4>Campaign</h4>
-                        <p>Choose your desired campaign and book a slot based on your availabity. There's no need to
-                            stay on line and become a part of crowd.
+                        <h4>{% translate "Campaign" %}</h4>
+                        <p>{% translate "Choose your desired campaign and book a slot based on your availabity. There's no need to stay on line and become a part of crowd." %}
                         </p>
                     </div>
                 </div>
@@ -74,11 +72,9 @@
 <!--    About Starts Here       -->
 <section id="about" class="about_wrapper wrapper">
     <div class="container text-center">
-        <h2>Our Journey</h2>
-        <p>We launched this platform on 2020 and so far, we have onboarded various hosiptals, collaborated with
-            various local health authorities for conduction mass vaccination campaign. We are committed to make a
-            healthy society through our platform. Our mission is to help every single organization involved
-            in vaccination drives.</p>
+        <h2>{% translate "Our Journey" %}</h2>
+        <p>{% translate "We launched this platform on 2020 and so far, we have onboarded various hosiptals, collaborated with various local health authorities for conduction mass vaccination campaign. We are committed to make a healthy society through our platform. Our mission is to help every single organization involved in vaccination drives." %}
+        </p>
         <div class="row">
             <div class="col-md-6 mb-md-0 mb-5">
                 <div class="postion-relative">
@@ -90,21 +86,21 @@
                     <div class="row text-center">
                         <div class="col-6">
                             <h4>50+</h4>
-                            <p>Vaccines Available</p>
+                            <p>{% translate "Vaccines Available" %}</p>
                         </div>
                         <div class="col-6">
                             <h4>500+</h4>
-                            <p>Vaccination Center</p>
+                            <p>{% translate "Vaccination Center" %}</p>
                         </div>
                     </div>
                     <div class="row text-center mt-4">
                         <div class="col-6">
                             <h4>600+</h4>
-                            <p>Campaign Created</p>
+                            <p>{% translate "Campaign Created" %}</p>
                         </div>
                         <div class="col-6">
-                            <h4>500+</h4>
-                            <p>Successful Vaccination</p>
+                            <h4>5000+</h4>
+                            <p>{% translate "Successful Vaccination" %}</p>
                         </div>
                     </div>
                 </div>
@@ -114,4 +110,3 @@
 </section>
 <!--    About Ends Here       -->
 {% endblock %}
-
