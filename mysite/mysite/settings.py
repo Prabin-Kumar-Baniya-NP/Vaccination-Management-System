@@ -117,7 +117,7 @@ LANGUAGE_CODE = "en-us"
 
 LANGUAGES = (
     ("en", _("English")),
-    ("ne", _("Nepali")),
+    ("hi", _("Hindi")),
 )
 
 LOCALE_PATHS = [

@@ -12,7 +12,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Patient Name
+        {% translate "Patient Name" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.patient.get_full_name }}
@@ -21,7 +21,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Center Name
+        {% translate "Center Name" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.campaign.center.name }}
@@ -30,7 +30,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Vaccine Name
+        {% translate "Vaccine Name" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.campaign.vaccine.name }}
@@ -39,7 +39,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Slot Date
+        {% translate "Slot Date" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.slot.date }}
@@ -48,7 +48,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Slot Time
+        {% translate "Slot Time" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.slot.start_time }} to {{ object.slot.end_time }}
@@ -57,7 +57,20 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Last Modified On
+        {% translate "Status" %}
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {% if object.is_vaccinated %}
+          Vaccinated
+        {% else %}
+          Scheduled
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        {% translate "Last Modified On" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.updated_on }}
@@ -66,7 +79,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Last Updated By
+        {% translate "Last Updated By" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.updated_by }}
@@ -86,7 +99,7 @@
         {% if not object.is_vaccinated %}
         <button class="btn btn-sm btn-success m-1">
           <a href="{% url 'vaccination:approve-vaccination' object.id %}"> 
-            <i class="fas fa-circle-check"></i> {% translate 'Approve Vaccination' %}</a>
+            <i class="fas fa-check-square"></i> {% translate 'Approve Vaccination' %}</a>
         </button>
         {% endif %}
         {% endif %}

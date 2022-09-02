@@ -16,9 +16,9 @@
       <tr>
         <th scope="col">{% translate 'Vaccine Name' %}</th>
         <th scope="col">{% translate 'Date' %}</th>
-        <th scope="col">{% translate 'Vaccinated' %}</th>
+        <th scope="col">{% translate 'Status' %}</th>
         <th scope="col">{% translate 'Updated By' %}</th>
-        <th scope="col"></th>
+        <th scope="col">{% translate 'Select' %}</th>
       </tr>
     </thead>
     
@@ -27,7 +27,13 @@
       <tr>
         <td>{{ vaccination.campaign.vaccine.name|upper }}</a></td>
         <td>{{ vaccination.slot.date }}</td>
-        <td>{{ vaccination.is_vaccinated }}</td>
+        <td>
+          {% if vaccination.is_vaccinated %}
+          <button class="btn btn-sm btn-success">Vaccinated</button>
+          {% else %}
+          <button class="btn btn-sm btn-primary">Scheduled</button>
+          {% endif %}
+        </td>
         <td>{{ vaccination.updated_by.get_full_name }}</td>
         <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}" class="btn-sm btn-outline-primary">View Details</a></td>
       </tr>

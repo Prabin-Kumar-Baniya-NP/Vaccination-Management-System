@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-<title>Slot List</title>
+<title>{% translate 'Slot List' %}</title>
 {% endblock title %}
 
 {% block content %}
@@ -10,8 +10,9 @@
   
   <div class="d-flex align-items-center justify-content-between">
     <h3 class="text-center"><i class="fas fa-clock"></i> {% translate 'Slot List' %}</h3>
-    {% if perms.vaccination.add_slot %}
-      <a href="{% url 'campaign:slot-create' campaign_id %}"><i class="fas fa-plus"></i> Create Slot</a>
+    {% if perms.campaign.add_slot %}
+      <a href="{% url 'campaign:slot-create' campaign_id %}">
+        <i class="fas fa-plus"></i> {% translate "Create Slot" %} </a>
     {% endif %}
   </div>
   
@@ -23,7 +24,7 @@
           <th scope="col">{% translate 'Date' %}</th>
           <th scope="col">{% translate 'Max Capacity' %}</th>
           <th scope="col">{% translate 'Reserved' %}</th>
-          <th scope="col">Select</th>
+          <th scope="col">{% translate "Select" %}</th>
         </tr>
       </thead>
       

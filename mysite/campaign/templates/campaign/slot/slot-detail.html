@@ -12,7 +12,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Date
+       {% translate "Date" %} 
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.date }}
@@ -21,7 +21,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Start Time
+       {% translate "Start Time" %} 
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.start_time }}
@@ -30,7 +30,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        End Time
+       {% translate "End Time" %} 
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.end_time }}
@@ -39,7 +39,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Max Capacity
+       {% translate "Max Capacity" %} 
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.max_capacity }}
@@ -48,7 +48,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Reserved
+       {% translate "Reserved" %} 
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.reserved }}
@@ -57,7 +57,7 @@
 
     <div class="row mb-1 btn-container">
       <div class="col-12">
-        {% if perms.vaccination.change_slot %}
+        {% if perms.campaign.change_slot %}
         <button class="btn btn-sm btn-success m-1">
           <a href="{% url 'campaign:slot-update' object.campaign.id object.id %}">
             <i class="fas fa-pen"></i> {% translate 'Update Slot' %}
@@ -65,7 +65,7 @@
         </button>
         {% endif %}
 
-        {% if perms.vaccination.delete_slot %}
+        {% if perms.campaign.delete_slot %}
         <button class="btn btn-sm btn-danger m-1">
           <a href="{% url 'campaign:slot-delete' object.id %}">
             <i class="fas fa-trash"></i> {% translate 'Delete Slot' %}

@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-<title>Center Details</title>
+<title>{% translate "Vaccine Details" %}</title>
 {% endblock title %}
 
 {% block content %}
@@ -12,7 +12,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Vaccine Name
+        {% translate "Vaccine Name" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.name }}
@@ -21,7 +21,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Description
+        {% translate "Description" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.description }}
@@ -30,7 +30,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Storage Temperature
+        {% translate "Storage Temperature" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.storage_temperature }}
@@ -39,7 +39,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Number of doses
+        {% translate "Number of doses" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.number_of_doses }}
@@ -48,7 +48,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Interval
+        {% translate "Interval" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.interval }}
@@ -57,7 +57,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Minimum Age
+        {% translate "Minimum Age" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.minimum_age }}
@@ -66,7 +66,7 @@
 
     <div class="row mb-1 btn-container">
       <div class="col-12">
-        {% if perms.vaccination.change_center %}
+        {% if perms.vaccine.change_vaccine %}
         <button class="btn btn-sm btn-success m-1">
           <a href="{% url 'vaccine:vaccine-update' object.id %}">
             <i class="fas fa-pen"></i> {% translate 'Update Vaccine' %}
@@ -74,7 +74,7 @@
         </button>
         {% endif %}
 
-        {% if perms.vaccination.delete_center %}
+        {% if perms.vaccine.delete_vaccine %}
         <button class="btn btn-sm btn-danger m-1">
           <a href="{% url 'vaccine:vaccine-delete' object.id %}">
             <i class="fas fa-trash"></i> {% translate 'Delete Vaccine' %}

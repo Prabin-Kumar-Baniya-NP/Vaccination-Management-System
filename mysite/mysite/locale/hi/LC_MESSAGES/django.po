@@ -1,0 +1,747 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-30 18:44+0000\n"
+"PO-Revision-Date: 2022-09-02 19:27+0000\n"
+"Last-Translator: Admin Admin <admin@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.9.8\n"
+
+#: campaign/models.py:14
+#: campaign/templates/campaign/campaign/campaign-list.html:22
+#: center/models.py:17 center/templates/center/center-list.html:23
+#: center/templates/center/center-update.html:5
+#: templates/mysite/dashboard.html:33
+#: vaccination/templates/vaccination/choose-campaign.html:14
+msgid "Center"
+msgstr "केंद्र"
+
+#: campaign/models.py:17
+#: campaign/templates/campaign/campaign/campaign-list.html:21
+#: center/models.py:19 vaccination/templates/vaccination/choose-vaccine.html:9
+#: vaccination/templates/vaccination/confirm-vaccination.html:72
+msgid "Vaccine"
+msgstr "टीका"
+
+#: campaign/models.py:19
+#: campaign/templates/campaign/campaign/campaign-detail.html:34
+#: campaign/templates/campaign/campaign/campaign-list.html:23
+#: vaccination/templates/vaccination/choose-campaign.html:15
+msgid "Start Date"
+msgstr "प्रारंभ दिन"
+
+#: campaign/models.py:20
+#: campaign/templates/campaign/campaign/campaign-detail.html:43
+#: campaign/templates/campaign/campaign/campaign-list.html:24
+#: vaccination/templates/vaccination/choose-campaign.html:16
+msgid "End Date"
+msgstr "अंतिम दिन"
+
+#: campaign/models.py:21
+msgid "Agents"
+msgstr "एजेंटों"
+
+#: campaign/models.py:37 campaign/templates/campaign/slot/slot-detail.html:15
+#: campaign/templates/campaign/slot/slot-list.html:24
+#: vaccination/templates/vaccination/choose-slot.html:14
+#: vaccination/templates/vaccination/vaccination-list-patient.html:18
+msgid "Date"
+msgstr "दिन"
+
+#: campaign/models.py:38 campaign/templates/campaign/slot/slot-detail.html:24
+#: campaign/templates/campaign/slot/slot-list.html:22
+#: vaccination/templates/vaccination/choose-slot.html:15
+msgid "Start Time"
+msgstr "प्रारंभ समय"
+
+#: campaign/models.py:39 campaign/templates/campaign/slot/slot-detail.html:33
+#: campaign/templates/campaign/slot/slot-list.html:23
+#: vaccination/templates/vaccination/choose-slot.html:16
+msgid "End Time"
+msgstr "अंतिम समय"
+
+#: campaign/models.py:40
+msgid "Maximum Capacity"
+msgstr "अधिकतम योग्यता"
+
+#: campaign/models.py:41
+msgid "Total Reserved"
+msgstr "कुल आरक्षित"
+
+#: campaign/templates/campaign/campaign/campaign-create.html:5
+msgid "Create Vaccination Campaign"
+msgstr "टीकाकरण अभियान बनाएं"
+
+#: campaign/templates/campaign/campaign/campaign-create.html:11
+msgid "Fill the following details to create a new campaign"
+msgstr "नया अभियान बनाने के लिए निम्नलिखित विवरण भरें"
+
+#: campaign/templates/campaign/campaign/campaign-delete.html:5
+msgid "Delete Vaccination Campaign"
+msgstr "टीकाकरण अभियान हटाएं"
+
+#: campaign/templates/campaign/campaign/campaign-delete.html:11
+#: campaign/templates/campaign/slot/slot-delete.html:11
+#: center/templates/center/center-delete.html:11
+#: center/templates/storage/storage-delete.html:10
+#: vaccine/templates/vaccine/vaccine-delete.html:11
+msgid "Are you sure you want to delete"
+msgstr "क्या आप आश्वस्त है कि आपको डिलीट करना है"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:5
+msgid "Vaccination Campaign Details"
+msgstr "टीकाकरण अभियान विवरण"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:11
+msgid "Campaign Details"
+msgstr "अभियान विवरण"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:16
+#: center/templates/center/center-detail.html:15
+#: center/templates/storage/storage-detail.html:15
+#: center/templates/storage/storage-list.html:23
+#: vaccination/templates/vaccination/confirm-vaccination.html:99
+#: vaccination/templates/vaccination/vaccination-detail.html:24
+msgid "Center Name"
+msgstr "केंद्र का नाम"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:25
+#: center/templates/storage/storage-detail.html:24
+#: center/templates/storage/storage-list.html:24
+#: vaccination/templates/vaccination/vaccination-detail.html:33
+#: vaccination/templates/vaccination/vaccination-list-patient.html:17
+#: vaccination/templates/vaccination/vaccination-list.html:19
+#: vaccine/models.py:5 vaccine/templates/vaccine/vaccine-detail.html:15
+#: vaccine/templates/vaccine/vaccine-list.html:20
+msgid "Vaccine Name"
+msgstr "वैक्सीन का नाम"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:52
+msgid "Registrations"
+msgstr "पंजीकरण"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:61
+msgid "Agents Assigned"
+msgstr "असाइन किए गए एजेंट"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:76
+msgid "View Registrations"
+msgstr "पंजीकरण देखें"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:82
+msgid "View Slots"
+msgstr "स्लॉट देखें"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:88
+msgid "Update Campaign"
+msgstr "अभियान अपडेट करें"
+
+#: campaign/templates/campaign/campaign/campaign-detail.html:95
+msgid "Delete Campaign"
+msgstr "अभियान हटाएं"
+
+#: campaign/templates/campaign/campaign/campaign-list.html:12
+msgid "Campaign List"
+msgstr "अभियान सूची"
+
+#: campaign/templates/campaign/campaign/campaign-list.html:14
+msgid "Create Campaign"
+msgstr "अभियान बनाएं"
+
+#: campaign/templates/campaign/campaign/campaign-list.html:25
+#: campaign/templates/campaign/slot/slot-list.html:27
+#: center/templates/center/center-list.html:25
+#: center/templates/storage/storage-list.html:27
+#: vaccination/templates/vaccination/choose-campaign.html:26
+#: vaccination/templates/vaccination/choose-vaccine.html:26
+#: vaccination/templates/vaccination/vaccination-list.html:20
+msgid "Select"
+msgstr "इसे चुनें"
+
+#: campaign/templates/campaign/campaign/campaign-update.html:5
+msgid "Update Campaign Details"
+msgstr "अभियान विवरण अपडेट करें"
+
+#: campaign/templates/campaign/campaign/campaign-update.html:11
+msgid "Fill the following details to update campaign details"
+msgstr "अभियान विवरण अपडेट करने के लिए निम्नलिखित विवरण भरें"
+
+#: campaign/templates/campaign/slot/slot-create.html:5
+#: campaign/templates/campaign/slot/slot-list.html:15
+msgid "Create Slot"
+msgstr "स्लॉट बनाएं"
+
+#: campaign/templates/campaign/slot/slot-create.html:11
+msgid "Fill the following details to create new slot"
+msgstr "नया स्लॉट बनाने के लिए निम्नलिखित विवरण भरें"
+
+#: campaign/templates/campaign/slot/slot-delete.html:5
+#: campaign/templates/campaign/slot/slot-detail.html:71
+msgid "Delete Slot"
+msgstr "स्लॉट हटाएं"
+
+#: campaign/templates/campaign/slot/slot-detail.html:5
+#: campaign/templates/campaign/slot/slot-detail.html:11
+msgid "Slot Details"
+msgstr "स्लॉट विवरण"
+
+#: campaign/templates/campaign/slot/slot-detail.html:42
+#: campaign/templates/campaign/slot/slot-list.html:25
+#: vaccination/templates/vaccination/choose-slot.html:17
+msgid "Max Capacity"
+msgstr "अधिकतम क्षमता"
+
+#: campaign/templates/campaign/slot/slot-detail.html:51
+#: campaign/templates/campaign/slot/slot-list.html:26
+#: vaccination/templates/vaccination/choose-slot.html:18
+msgid "Reserved"
+msgstr "सुरक्षित"
+
+#: campaign/templates/campaign/slot/slot-detail.html:63
+msgid "Update Slot"
+msgstr "स्लॉट अपडेट करें"
+
+#: campaign/templates/campaign/slot/slot-list.html:12
+msgid "Slot List"
+msgstr "स्लॉट सूची"
+
+#: campaign/templates/campaign/slot/slot-update.html:5
+msgid "Update Slot Details"
+msgstr "स्लॉट विवरण अपडेट करें"
+
+#: campaign/templates/campaign/slot/slot-update.html:11
+msgid "Fill the following details to update slot details"
+msgstr "स्लॉट विवरण अपडेट करने के लिए निम्नलिखित विवरण भरें"
+
+#: center/models.py:8
+msgid "Vaccination Center Name"
+msgstr "टीकाकरण केंद्र का नाम"
+
+#: center/models.py:9 center/templates/center/center-detail.html:24
+msgid "Address"
+msgstr "पता"
+
+#: center/models.py:20 center/templates/storage/storage-detail.html:33
+#: center/templates/storage/storage-list.html:25
+msgid "Total Quantity"
+msgstr "कुल मात्रा"
+
+#: center/models.py:21 center/templates/storage/storage-detail.html:42
+#: center/templates/storage/storage-list.html:26
+msgid "Booked Quantity"
+msgstr "बुक की गई मात्रा"
+
+#: center/templates/center/center-create.html:11
+msgid "Fill the following details to create a new center"
+msgstr "नया केंद्र बनाने के लिए निम्नलिखित विवरण भरें"
+
+#: center/templates/center/center-detail.html:11
+msgid "Center Details"
+msgstr "केंद्र विवरण"
+
+#: center/templates/center/center-detail.html:36
+msgid "View Storage"
+msgstr "भंडारण देखें"
+
+#: center/templates/center/center-detail.html:43
+msgid "Update Center"
+msgstr "अद्यतन केंद्र"
+
+#: center/templates/center/center-detail.html:51
+msgid "Delete Center"
+msgstr "केंद्र हटाएं"
+
+#: center/templates/center/center-list.html:13
+msgid "Center List"
+msgstr "केंद्र सूची"
+
+#: center/templates/center/center-list.html:16
+msgid "Create Center"
+msgstr "केंद्र बनाएं"
+
+#: center/templates/center/center-list.html:23
+#: vaccination/templates/vaccination/choose-vaccine.html:14
+msgid "Name"
+msgstr "नाम"
+
+#: center/templates/center/center-list.html:24
+msgid "Storages"
+msgstr "भंडार"
+
+#: center/templates/center/center-update.html:5
+#: center/templates/storage/storage-update.html:5
+msgid "Update"
+msgstr "अद्यतन"
+
+#: center/templates/center/center-update.html:11
+msgid "Fill the following details to update this center"
+msgstr "इस केंद्र को अद्यतन करने के लिए निम्नलिखित विवरण भरें"
+
+#: center/templates/storage/storage-create.html:5
+msgid "Create"
+msgstr "सृजन करना"
+
+#: center/templates/storage/storage-create.html:5
+#: center/templates/storage/storage-delete.html:5
+#: center/templates/storage/storage-update.html:5
+msgid "Storage"
+msgstr "भंडारण"
+
+#: center/templates/storage/storage-create.html:10
+msgid "Fill the following details to create a new storage"
+msgstr "नया संग्रहण बनाने के लिए निम्नलिखित विवरण भरें"
+
+#: center/templates/storage/storage-delete.html:5
+msgid "Delete"
+msgstr "मिटाना"
+
+#: center/templates/storage/storage-detail.html:5
+#: center/templates/storage/storage-detail.html:11
+msgid "Storage Details"
+msgstr "भंडारण विवरण"
+
+#: center/templates/storage/storage-detail.html:51
+msgid "Available Quantity"
+msgstr "उपलब्ध मात्रा"
+
+#: center/templates/storage/storage-detail.html:63
+msgid "Update Storage"
+msgstr "संग्रहण अपडेट करें"
+
+#: center/templates/storage/storage-detail.html:71
+msgid "Delete Storage"
+msgstr "संग्रहण हटाएं"
+
+#: center/templates/storage/storage-list.html:13
+msgid "Vaccine Storage List"
+msgstr "वैक्सीन भंडारण सूची"
+
+#: center/templates/storage/storage-list.html:16
+msgid "Create Storage"
+msgstr "संग्रहण बनाएं"
+
+#: center/templates/storage/storage-update.html:10
+msgid "Fill the following details to update this storage"
+msgstr "इस संग्रहण को अद्यतन करने के लिए निम्नलिखित विवरण भरें"
+
+#: mysite/settings.py:119
+msgid "English"
+msgstr "अंग्रेज़ी"
+
+#: mysite/settings.py:120
+msgid "Hindi"
+msgstr "हिन्दी"
+
+#: templates/components/navbar.html:17
+msgid "Home"
+msgstr "घर"
+
+#: templates/components/navbar.html:22
+msgid "Logout"
+msgstr "लॉग आउट"
+
+#: templates/components/navbar.html:28
+msgid "Login"
+msgstr "लॉग इन करें"
+
+#: templates/components/navbar.html:31
+msgid "Signup"
+msgstr "साइन अप करें"
+
+#: templates/components/pagination.html:5
+msgid "First"
+msgstr "प्रथम"
+
+#: templates/components/pagination.html:6
+msgid "Previous"
+msgstr "पिछला"
+
+#: templates/components/pagination.html:10
+msgid "Page"
+msgstr "पृष्ठ"
+
+#: templates/components/pagination.html:14
+msgid "Next"
+msgstr "अगला"
+
+#: templates/components/pagination.html:15
+msgid "Last"
+msgstr "अंतिम"
+
+#: templates/mysite/dashboard.html:19
+msgid "Current"
+msgstr "मौजूदा"
+
+#: templates/mysite/dashboard.html:19
+msgid "Campaigns"
+msgstr "अभियान"
+
+#: templates/mysite/dashboard.html:33 templates/mysite/dashboard.html:61
+#: templates/mysite/dashboard.html:75
+msgid "Vaccination"
+msgstr "टीकाकरण"
+
+#: templates/mysite/dashboard.html:47
+msgid "Available"
+msgstr "उपलब्ध"
+
+#: templates/mysite/dashboard.html:47
+msgid "Vaccines"
+msgstr "टीके"
+
+#: templates/mysite/dashboard.html:61
+msgid "My"
+msgstr "मेरे"
+
+#: templates/mysite/dashboard.html:75
+#: vaccination/templates/vaccination/confirm-vaccination.html:134
+msgid "Schedule"
+msgstr "अनुसूची"
+
+#: templates/mysite/dashboard.html:89
+msgid "Profile"
+msgstr "प्रोफ़ाइल"
+
+#: templates/mysite/dashboard.html:89
+msgid "Information"
+msgstr "जानकारी"
+
+#: user/models.py:7
+msgid "Voter Id"
+msgstr "मतदाता पहचान पत्र"
+
+#: user/models.py:7
+msgid "Voter ID"
+msgstr "मतदाता पहचान पत्र"
+
+#: user/models.py:8
+msgid "Passport"
+msgstr "पासपोर्ट"
+
+#: user/models.py:9
+msgid "Citizenship Number"
+msgstr "नागरिकता संख्या"
+
+#: user/models.py:53 user/templates/user/profile-view.html:24
+msgid "Email Address"
+msgstr "ईमेल पता"
+
+#: user/models.py:54 user/templates/user/profile-view.html:38
+msgid "First Name"
+msgstr "पहला नाम"
+
+#: user/models.py:56 user/templates/user/profile-view.html:47
+msgid "Middle Name"
+msgstr "मध्य नाम"
+
+#: user/models.py:57 user/templates/user/profile-view.html:56
+msgid "Last Name"
+msgstr "उपनाम"
+
+#: user/models.py:59 user/templates/user/profile-view.html:65
+#: vaccination/templates/vaccination/confirm-vaccination.html:45
+msgid "Date of Birth"
+msgstr "जन्म की तारीख"
+
+#: user/models.py:60 user/templates/user/profile-view.html:74
+#: vaccination/templates/vaccination/confirm-vaccination.html:36
+msgid "Gender"
+msgstr "लिंग"
+
+#: user/models.py:63
+#: vaccination/templates/vaccination/confirm-vaccination.html:54
+msgid "Blood Group"
+msgstr "ब्लड ग्रुप"
+
+#: user/models.py:65 user/templates/user/profile-view.html:83
+msgid "Identity Document Type"
+msgstr "पहचान दस्तावेज़ प्रकार"
+
+#: user/models.py:67 user/templates/user/profile-view.html:92
+msgid "Identity Document Number"
+msgstr "पहचान दस्तावेज संख्या"
+
+#: user/models.py:69
+msgid "Profile Picture"
+msgstr "प्रोफ़ाइल फोटो"
+
+#: user/models.py:70
+msgid "date joined"
+msgstr "शामिल होने का दिनांक"
+
+#: user/models.py:71
+msgid "Last updated"
+msgstr "आखरी अपडेट"
+
+#: user/models.py:72 user/templates/user/profile-view.html:29
+msgid "Email Verified"
+msgstr "ईमेल सत्यापित हुआ"
+
+#: user/models.py:73
+msgid "active"
+msgstr "सक्रिय"
+
+#: user/models.py:74
+msgid "staff status"
+msgstr "स्टाफ की स्थिति"
+
+#: user/models.py:75
+msgid "superuser status"
+msgstr "सुपर उपयोक्ता स्थिति"
+
+#: user/templates/user/change-password.html:5
+#: user/templates/user/profile-view.html:116
+msgid "Change Password"
+msgstr "पासवर्ड बदलें"
+
+#: user/templates/user/change-password.html:11
+msgid "Fill the following details to change your password"
+msgstr "अपना पासवर्ड बदलने के लिए निम्नलिखित विवरण भरें"
+
+#: user/templates/user/login.html:11
+msgid "Enter your email and password to login"
+msgstr "लॉगिन के लिए अपना ईमेल और पासवर्ड डालें"
+
+#: user/templates/user/profile-update.html:10
+msgid "Fill the following details to update the profile"
+msgstr "प्रोफाइल अपडेट करने के लिए निम्नलिखित विवरण भरें"
+
+#: user/templates/user/profile-view.html:12
+#: vaccination/templates/vaccination/confirm-vaccination.html:11
+msgid "Profile Details"
+msgstr "प्रोफ़ाइल विवरण"
+
+#: user/templates/user/profile-view.html:101
+msgid "Date Joined"
+msgstr "शामिल होने का दिनांक"
+
+#: user/templates/user/profile-view.html:111
+msgid "Update Profile"
+msgstr "प्रोफ़ाइल को नवीनतम बनाओ"
+
+#: user/templates/user/signup.html:11
+msgid "Fill the following details to create a new account"
+msgstr "नया खाता बनाने के लिए निम्नलिखित विवरण भरें"
+
+#: vaccination/models.py:15
+msgid "Patient"
+msgstr "मरीज़"
+
+#: vaccination/models.py:18
+msgid "Campaign"
+msgstr "अभियान"
+
+#: vaccination/models.py:21
+msgid "Slot"
+msgstr "छेद"
+
+#: vaccination/models.py:23
+msgid "Is Vaccinated"
+msgstr "टीका लगाया जाता है"
+
+#: vaccination/models.py:29
+#: vaccination/templates/vaccination/vaccination-list-patient.html:20
+msgid "Updated By"
+msgstr "द्वारा अपडेट"
+
+#: vaccination/models.py:32
+msgid "Updated On"
+msgstr "को अपडेट किया"
+
+#: vaccination/templates/vaccination/choose-campaign.html:4
+msgid "Choose Campaign"
+msgstr "अभियान चुनें"
+
+#: vaccination/templates/vaccination/choose-campaign.html:9
+msgid "Choose Your Desired Campaign"
+msgstr "अपना वांछित अभियान चुनें"
+
+#: vaccination/templates/vaccination/choose-campaign.html:17
+#: vaccination/templates/vaccination/choose-slot.html:19
+#: vaccination/templates/vaccination/choose-vaccine.html:17
+msgid "Confirm"
+msgstr "पुष्टि करें"
+
+#: vaccination/templates/vaccination/choose-slot.html:4
+msgid "Choose Slot"
+msgstr "स्लॉट चुनें"
+
+#: vaccination/templates/vaccination/choose-slot.html:9
+msgid "Choose Your Desired Slot"
+msgstr "अपना वांछित स्लॉट चुनें"
+
+#: vaccination/templates/vaccination/choose-slot.html:30
+msgid "Choose"
+msgstr "चुनना"
+
+#: vaccination/templates/vaccination/choose-vaccine.html:4
+msgid "Choose Vaccine"
+msgstr "वैक्सीन चुनें"
+
+#: vaccination/templates/vaccination/choose-vaccine.html:9
+msgid "Choose Your"
+msgstr "अपने चुनो"
+
+#: vaccination/templates/vaccination/choose-vaccine.html:15
+#: vaccine/models.py:7 vaccine/templates/vaccine/vaccine-list.html:21
+msgid "Number of Doses"
+msgstr "खुराक की संख्या"
+
+#: vaccination/templates/vaccination/choose-vaccine.html:16
+#: vaccine/models.py:9 vaccine/templates/vaccine/vaccine-detail.html:51
+#: vaccine/templates/vaccine/vaccine-list.html:22
+msgid "Interval"
+msgstr "मध्यान्तर"
+
+#: vaccination/templates/vaccination/confirm-vaccination.html:4
+msgid "Confirm Vaccination"
+msgstr "टीकाकरण की पुष्टि करें"
+
+#: vaccination/templates/vaccination/confirm-vaccination.html:18
+#: vaccination/templates/vaccination/vaccination-detail.html:15
+#: vaccination/templates/vaccination/vaccination-list.html:18
+msgid "Patient Name"
+msgstr "रोगी का नाम"
+
+#: vaccination/templates/vaccination/confirm-vaccination.html:27
+msgid "Email"
+msgstr "ईमेल"
+
+#: vaccination/templates/vaccination/confirm-vaccination.html:81
+msgid "Scheduled Date"
+msgstr "निर्धारित तिथि"
+
+#: vaccination/templates/vaccination/confirm-vaccination.html:90
+msgid "Reporting Time"
+msgstr "हाजिरी का समय"
+
+#: vaccination/templates/vaccination/confirm-vaccination.html:108
+msgid "Center Address"
+msgstr "केंद्र का पता"
+
+#: vaccination/templates/vaccination/dose-information.html:4
+msgid "Dose Information"
+msgstr "खुराक की जानकारी"
+
+#: vaccination/templates/vaccination/dose-information.html:7
+msgid "You have completed all the doses of this vaccine."
+msgstr "आपने इस टीके की सभी खुराकें पूरी कर ली हैं।"
+
+#: vaccination/templates/vaccination/schedule-success.html:4
+msgid "Schedule Successfull"
+msgstr "शेड्यूल सफल"
+
+#: vaccination/templates/vaccination/schedule-success.html:7
+msgid "Congratulations! Your vaccination has been scheduled."
+msgstr "बधाई हो! आपका टीकाकरण निर्धारित किया गया है।"
+
+#: vaccination/templates/vaccination/vaccination-detail.html:5
+#: vaccination/templates/vaccination/vaccination-list-patient.html:5
+#: vaccination/templates/vaccination/vaccination-list.html:5
+msgid "Vaccination List"
+msgstr "टीकाकरण सूची"
+
+#: vaccination/templates/vaccination/vaccination-detail.html:11
+msgid "Vaccination Details"
+msgstr "टीकाकरण विवरण"
+
+#: vaccination/templates/vaccination/vaccination-detail.html:42
+msgid "Slot Date"
+msgstr "स्लॉट तिथि"
+
+#: vaccination/templates/vaccination/vaccination-detail.html:51
+msgid "Slot Time"
+msgstr "टाइम स्लॉट"
+
+#: vaccination/templates/vaccination/vaccination-detail.html:60
+msgid "Last Modified On"
+msgstr "अंतिम बार संशोधित"
+
+#: vaccination/templates/vaccination/vaccination-detail.html:69
+msgid "Last Updated By"
+msgstr "पिछली बार अपडेट किया गया"
+
+#: vaccination/templates/vaccination/vaccination-detail.html:89
+msgid "Approve Vaccination"
+msgstr "टीकाकरण को स्वीकृति दें"
+
+#: vaccination/templates/vaccination/vaccination-list-patient.html:11
+msgid "Your Vaccination History"
+msgstr "आपका टीकाकरण इतिहास"
+
+#: vaccination/templates/vaccination/vaccination-list-patient.html:19
+msgid "Vaccinated"
+msgstr "टीका लगाया"
+
+#: vaccination/templates/vaccination/vaccination-list.html:12
+msgid "Vaccination Registration List"
+msgstr "टीकाकरण पंजीकरण सूची"
+
+#: vaccine/models.py:6 vaccine/templates/vaccine/vaccine-detail.html:24
+msgid "Description"
+msgstr "विवरण"
+
+#: vaccine/models.py:9
+msgid "Provide interval in days"
+msgstr "दिनों में अंतराल प्रदान करें"
+
+#: vaccine/models.py:11 vaccine/templates/vaccine/vaccine-detail.html:33
+#: vaccine/templates/vaccine/vaccine-list.html:24
+msgid "Storage Temperature"
+msgstr "भंडारण तापमान"
+
+#: vaccine/models.py:11
+msgid "Provide Temperature in Celcius"
+msgstr "सेल्सियस में तापमान प्रदान करें"
+
+#: vaccine/models.py:12 vaccine/templates/vaccine/vaccine-detail.html:60
+#: vaccine/templates/vaccine/vaccine-list.html:23
+msgid "Minimum Age"
+msgstr "न्यूनतम आयु"
+
+#: vaccine/templates/vaccine/vaccine-create.html:5
+#: vaccine/templates/vaccine/vaccine-list.html:13
+msgid "Create Vaccine"
+msgstr "वैक्सीन बनाएं"
+
+#: vaccine/templates/vaccine/vaccine-create.html:11
+msgid "Fill the following details to create a new vaccine"
+msgstr "नया टीका बनाने के लिए निम्नलिखित विवरण भरें"
+
+#: vaccine/templates/vaccine/vaccine-delete.html:5
+#: vaccine/templates/vaccine/vaccine-detail.html:80
+msgid "Delete Vaccine"
+msgstr "वैक्सीन हटाएं"
+
+#: vaccine/templates/vaccine/vaccine-detail.html:11
+msgid "Vaccine Details"
+msgstr "वैक्सीन विवरण"
+
+#: vaccine/templates/vaccine/vaccine-detail.html:42
+msgid "Number of doses"
+msgstr "खुराक की संख्या"
+
+#: vaccine/templates/vaccine/vaccine-detail.html:72
+#: vaccine/templates/vaccine/vaccine-update.html:4
+msgid "Update Vaccine"
+msgstr "अपडेट वैक्सीन"
+
+#: vaccine/templates/vaccine/vaccine-list.html:4
+msgid "Vaccine List"
+msgstr "वैक्सीन सूची"
+
+#: vaccine/templates/vaccine/vaccine-update.html:10
+msgid "Fill the following details to update the vaccine details."
+msgstr "वैक्सीन विवरण अपडेट करने के लिए निम्नलिखित विवरण भरें।"

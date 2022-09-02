@@ -12,7 +12,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Center Name
+        {% translate "Center Name" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.center.name }}
@@ -21,7 +21,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Vaccine Name
+        {% translate "Vaccine Name" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.vaccine.name }}
@@ -30,7 +30,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Total Quantity
+        {% translate "Total Quantity" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.total_quantity }}
@@ -39,7 +39,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Booked Quantity
+        {% translate "Booked Quantity" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ object.booked_quantity }}
@@ -48,7 +48,7 @@
 
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
-        Available Quantity
+        {% translate "Available Quantity" %}
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {{ available_quantity }}
@@ -57,7 +57,7 @@
 
     <div class="row mb-1 btn-container">
       <div class="col-12">
-        {% if perms.vaccination.change_storage %}
+        {% if perms.center.change_storage %}
         <button class="btn btn-sm btn-success m-1">
           <a href="{% url 'center:storage-update' object.id %}">
             <i class="fas fa-pen"></i> {% translate 'Update Storage' %}
@@ -65,7 +65,7 @@
         </button>
         {% endif %}
 
-        {% if perms.vaccination.delete_storage %}
+        {% if perms.center.delete_storage %}
         <button class="btn btn-sm btn-danger m-1">
           <a href="{% url 'center:storage-delete' object.id %}">
             <i class="fas fa-trash"></i> {% translate 'Delete Storage' %}

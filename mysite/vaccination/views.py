@@ -27,12 +27,12 @@ User = get_user_model()
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class RegistrationList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination registration for given vaccination campaign
     """
     model = Vaccination
-    template_name = "vaccination/vaccination-list.html"
+    template_name = "vaccination/registration-list.html"
     paginate_by = 10
     permission_required = ("vaccination.view_vaccination", )
 
@@ -42,7 +42,7 @@ class VaccinationListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
 
 @method_decorator(cache_page(60), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
+class VaccinationListOfPatient(LoginRequiredMixin, ListView):
     """
     Lists all the vaccination registration done by the user
     """
@@ -56,16 +56,18 @@ class VaccinationListViewForPatient(LoginRequiredMixin, ListView):
 
 @method_decorator(cache_page(60*15), name="dispatch")
 @method_decorator(vary_on_cookie, name="dispatch")
-class VaccinationDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class VaccinationDetail(LoginRequiredMixin, DetailView):
     """
     Returns the details of vaccination registration
     """
     model = Vaccination
-    permission_required = ("vaccination.view_vaccination", )
     template_name = "vaccination/vaccination-detail.html"
 
     def get_queryset(self):
-        return super().get_queryset().select_related("patient", "campaign", "slot")
+        if self.request.user.has_perm("vaccination.view_vaccination"):
+            return super().get_queryset().select_related("patient", "campaign", "slot")
+        else:
+            return super().get_queryset().filter(patient = self.request.user).select_related("patient", "campaign", "slot")
 
 
 @cache_page(60*15)
