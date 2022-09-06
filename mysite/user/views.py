@@ -33,11 +33,9 @@ def signup(request):
                 request, "Account Created Successfully ! Please enter the email and password to login")
             return HttpResponseRedirect(reverse("accounts:login"))
         else:
-            print(form.errors)
-            logger.error("Invalid Data")
-            messages.error(
-                request, "Invalid Data! Please enter the correct data")
-            return HttpResponseRedirect(reverse("accounts:signup"))
+            logger.error("Invalid Signup Data")
+            messages.error(request, "Please Enter Valid Data")
+            return render(request, "user/signup.html", {"form": form})
     else:
         context = {
             'form': SignupForm()
@@ -68,7 +66,7 @@ def login(request):
         else:
             logger.error("Invalid Username and Passsword")
             messages.error(request, "Please Enter Correct Username and Password")
-            return HttpResponseRedirect(reverse("accounts:login"))
+            return render(request, "user/login.html", {"form": form})
     else:
         context = {
             'form': LoginForm,
@@ -104,7 +102,7 @@ def change_password(request):
             logger.error("Invalid Data")
             messages.error(
                 request, "Unable to change password! Please enter valid data")
-            return HttpResponseRedirect(reverse("accounts:change-password"))
+            return render(request, "user/change-password.html", {"form": form})
     else:
         context = {
             'form': ChangePasswordForm(request.user)
@@ -146,7 +144,7 @@ def profile_update(request):
         else:
             logger.error("Invalid Data")
             messages.error(request, "Invalid Data! Please enter correct data")
-            return HttpResponseRedirect(reverse("accounts:profile-update"))
+            return render(request, "user/profile-update.html", {"form": form})
     else:
         context = {
             "form": ProfileUpdateForm(instance=request.user)

@@ -57,6 +57,13 @@
 
     <div class="row mb-1 btn-container">
       <div class="col-12">
+
+        <button class="btn btn-sm btn-success m-1">
+          <a href="{% url 'vaccination:confirm-vaccination' object.campaign.id object.id%}">
+            <i class="fas fa-clock"></i> {% translate 'Schedule' %}
+          </a>
+        </button>
+        
         {% if perms.campaign.change_slot %}
         <button class="btn btn-sm btn-success m-1">
           <a href="{% url 'campaign:slot-update' object.campaign.id object.id %}">
