@@ -112,12 +112,8 @@ def profile_view(request):
     """
     Displays the profile information of user
     """
-    try:
-        user = User.objects.get(id=request.user.id)
-    except User.DoesNotExist:
-        return HttpResponseRedirect(reverse("accounts:signup"))
     context = {
-        'user': user
+        'user': request.user
     }
     return render(request, "user/profile-view.html", context)
 

@@ -15,7 +15,8 @@
     <thead>
       <tr>
         <th scope="col">{% translate 'Patient Name' %}</th>
-        <th scope="col">{% translate 'Vaccine Name' %}</th>
+        <th scope="col">{% translate 'Date' %}</th>
+        <th scope="col">{% translate 'Time' %}</th>
         <th scope="col">{% translate "Select" %}</th>
       </tr>
     </thead>
@@ -24,7 +25,8 @@
       {% for vaccination in object_list %}
       <tr>
         <td>{{ vaccination.patient.get_full_name }}</td>
-        <td>{{ vaccination.campaign.vaccine.name }}</td>
+        <td>{{ vaccination.slot.date }}</td>
+        <td>{{ vaccination.slot.start_time }}</td>
         <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}" class="btn-sm btn-outline-primary">View Details</a></td>
       </tr>
       {% endfor %}

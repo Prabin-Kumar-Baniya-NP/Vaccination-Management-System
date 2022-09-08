@@ -32,7 +32,7 @@ class RegistrationList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = ("vaccination.view_vaccination", )
 
     def get_queryset(self):
-        return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).order_by("-id")
+        return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).select_related("patient", "campaign", "slot").order_by("-id")
 
 
 class VaccinationListOfPatient(LoginRequiredMixin, ListView):
@@ -44,7 +44,7 @@ class VaccinationListOfPatient(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Vaccination.objects.filter(patient=User.objects.get(id=self.request.user.id)).order_by("-id")
+        return Vaccination.objects.filter(patient=self.request.user).prefetch_related("patient", "campaign", "slot").order_by("-id")
 
 
 class VaccinationDetail(LoginRequiredMixin, DetailView):

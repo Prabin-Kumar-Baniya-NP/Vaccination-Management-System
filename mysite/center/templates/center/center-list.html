@@ -21,7 +21,6 @@
     <thead>
       <tr>
         <th scope="col">{% translate 'Center' %} {% translate 'Name' %} </th>
-        <th scope="col">{% translate 'Storages' %}</th>
         <th scope="col">{% translate "Select" %}</th>
       </tr>
     </thead>
@@ -30,11 +29,6 @@
       {% for center in object_list %}
       <tr>
         <td>{{center.name|upper}}</td>
-        <td>
-          {% for storage in center.storage_set.all %} 
-            {{storage.vaccine.name|upper}},
-          {% endfor %}
-        </td>
         <td><a href="{% url 'center:center-detail' center.id %}" class="btn-sm btn-outline-primary">View Details</a></td>
       </tr>
       {% endfor %}

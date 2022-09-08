@@ -105,20 +105,15 @@ class StorageUpdate(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageM
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["center_id"] = self.get_object().center.id
+        kwargs["center"] = self.get_object().center
         return kwargs
-
-    def get_initial(self):
-        initial = super().get_initial()
-        initial["center"] = Center.objects.get(id=self.get_object().center.id)
-        return initial
 
 
 class StorageList(LoginRequiredMixin, ListView):
     """
     List all the storage of given center
     """
-    model = Storage
+    queryset = Storage.objects.all()
     template_name = "storage/storage-list.html"
     paginate_by = 10
     ordering = ["id"]
