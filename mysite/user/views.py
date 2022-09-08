@@ -11,8 +11,6 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from user.utils import EmailVerificationTokenGenerator
 from django.contrib import messages
-from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_cookie
 
 User = get_user_model()
 
@@ -65,7 +63,8 @@ def login(request):
                 return HttpResponseRedirect(reverse("accounts:login"))
         else:
             logger.error("Invalid Username and Passsword")
-            messages.error(request, "Please Enter Correct Username and Password")
+            messages.error(
+                request, "Please Enter Correct Username and Password")
             return render(request, "user/login.html", {"form": form})
     else:
         context = {
@@ -74,7 +73,6 @@ def login(request):
         return render(request, "user/login.html", context)
 
 
-@login_required
 def logout(request):
     """
     Logout the user from the current session
@@ -85,7 +83,6 @@ def logout(request):
     return HttpResponseRedirect(reverse("accounts:login"))
 
 
-@login_required
 def change_password(request):
     """
     Changes the password of the user
@@ -110,8 +107,6 @@ def change_password(request):
         return render(request, "user/change-password.html", context)
 
 
-@cache_page(60 * 15)
-@vary_on_cookie
 @login_required
 def profile_view(request):
     """

@@ -7,16 +7,13 @@ from django.urls import reverse
 from vaccination.forms import VaccinationForm
 from vaccine.models import Vaccine
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.http import FileResponse, HttpResponseForbidden
-from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_cookie
-from django.utils.decorators import method_decorator
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 from reportlab.lib.pagesizes import A4
@@ -25,8 +22,6 @@ from reportlab.lib.styles import ParagraphStyle
 User = get_user_model()
 
 
-@method_decorator(cache_page(60*15), name="dispatch")
-@method_decorator(vary_on_cookie, name="dispatch")
 class RegistrationList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination registration for given vaccination campaign
@@ -40,8 +35,6 @@ class RegistrationList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).order_by("-id")
 
 
-@method_decorator(cache_page(60), name="dispatch")
-@method_decorator(vary_on_cookie, name="dispatch")
 class VaccinationListOfPatient(LoginRequiredMixin, ListView):
     """
     Lists all the vaccination registration done by the user
@@ -54,8 +47,6 @@ class VaccinationListOfPatient(LoginRequiredMixin, ListView):
         return Vaccination.objects.filter(patient=User.objects.get(id=self.request.user.id)).order_by("-id")
 
 
-@method_decorator(cache_page(60*15), name="dispatch")
-@method_decorator(vary_on_cookie, name="dispatch")
 class VaccinationDetail(LoginRequiredMixin, DetailView):
     """
     Returns the details of vaccination registration
@@ -67,10 +58,9 @@ class VaccinationDetail(LoginRequiredMixin, DetailView):
         if self.request.user.has_perm("vaccination.view_vaccination"):
             return super().get_queryset().select_related("patient", "campaign", "slot")
         else:
-            return super().get_queryset().filter(patient = self.request.user).select_related("patient", "campaign", "slot")
+            return super().get_queryset().filter(patient=self.request.user).select_related("patient", "campaign", "slot")
 
 
-@cache_page(60*15)
 @login_required
 def choose_vaccine(request):
     """
@@ -82,7 +72,6 @@ def choose_vaccine(request):
     return render(request, "vaccination/choose-vaccine.html", context)
 
 
-@cache_page(60*15)
 @login_required
 def choose_campaign(request, vaccine_id):
     """
@@ -94,7 +83,6 @@ def choose_campaign(request, vaccine_id):
     return render(request, "vaccination/choose-campaign.html", context)
 
 
-@cache_page(60*15)
 @login_required
 def choose_slot(request, campaign_id):
     """

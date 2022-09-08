@@ -4,9 +4,6 @@ from django.urls import reverse_lazy
 from campaign.forms import CampaignCreateForm, CampaignUpdateForm, SlotCreateForm, SlotUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_cookie
-from django.utils.decorators import method_decorator
 
 
 class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -33,8 +30,6 @@ class CampaignUpdateForm(LoginRequiredMixin, PermissionRequiredMixin, SuccessMes
     success_message = "Campaign Updated Successfully"
 
 
-@method_decorator(cache_page(60*15), name="dispatch")
-@method_decorator(vary_on_cookie, name="dispatch")
 class CampaignListView(LoginRequiredMixin, ListView):
     """
     Lists all the vaccination campaign
@@ -45,8 +40,6 @@ class CampaignListView(LoginRequiredMixin, ListView):
     ordering = ["-id"]
 
 
-@method_decorator(cache_page(60*15), name="dispatch")
-@method_decorator(vary_on_cookie, name="dispatch")
 class CampaignDetailView(LoginRequiredMixin, DetailView):
     """
     Returns the details of vaccination campaign
@@ -126,8 +119,6 @@ class SlotUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
         return reverse_lazy("campaign:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]})
 
 
-@method_decorator(cache_page(60*15), name="dispatch")
-@method_decorator(vary_on_cookie, name="dispatch")
 class SlotListView(LoginRequiredMixin, ListView):
     """
     Lists all the slot for given vaccination campaign
@@ -148,8 +139,6 @@ class SlotListView(LoginRequiredMixin, ListView):
         return context
 
 
-@method_decorator(cache_page(60*15), name="dispatch")
-@method_decorator(vary_on_cookie, name="dispatch")
 class SlotDetailView(LoginRequiredMixin, DetailView):
     """
     Returns the details of given slot

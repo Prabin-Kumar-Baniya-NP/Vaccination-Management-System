@@ -130,21 +130,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Caching Settings
-if DEBUG:
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
-        }
-    }
-else:
-    CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-            "LOCATION": f"{BASE_DIR}/django_cache",
-        }
-    }
-
 # Logging Settings
 LOGGING = {
     "version": 1,
