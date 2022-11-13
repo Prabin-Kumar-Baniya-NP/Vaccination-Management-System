@@ -2,7 +2,7 @@ from datetime import datetime
 from django.urls import reverse
 from django.test import TestCase, Client
 from vaccination.tests.factory import VaccinationFactory
-from user.tests.factory import PatientUserFactory
+from user.tests.factory import UserFactory
 from django.contrib.auth.models import Permission
 
 
@@ -10,7 +10,7 @@ class TestVaccinationView(TestCase):
     def setUp(self):
         self.c = Client()
         self.vaccination = VaccinationFactory()
-        self.user = PatientUserFactory()
+        self.user = UserFactory()
         self.c.login(email=self.user.email, password="abcde@12345")
         return super().setUp()
 

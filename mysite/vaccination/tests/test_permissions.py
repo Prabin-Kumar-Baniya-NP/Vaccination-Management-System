@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.test import TestCase, Client
 from django.contrib.auth.models import Permission
-from user.tests.factory import AdminUserFactory
+from user.tests.factory import UserFactory
 from vaccination.tests.factory import VaccinationFactory
 
 
@@ -9,7 +9,7 @@ class TestPermissionsOnVaccinationView(TestCase):
     def setUp(self):
         self.c = Client()
         self.vaccination = VaccinationFactory()
-        self.user = AdminUserFactory()
+        self.user = UserFactory()
         self.c.login(email=self.user.email, password="abcde@12345")
         return super().setUp()
 

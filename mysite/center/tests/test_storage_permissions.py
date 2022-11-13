@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.test import TestCase, Client
 from django.contrib.auth.models import Permission
-from user.tests.factory import AdminUserFactory
+from user.tests.factory import UserFactory
 from center.tests.factory import StorageFactory
 from faker import Faker
 
@@ -14,7 +14,7 @@ class TestPermissionsOnStorageView(TestCase):
     def setUp(self):
         self.c = Client()
         self.storage = StorageFactory()
-        self.user = AdminUserFactory()
+        self.user = UserFactory()
         self.c.login(email=self.user.email, password="abcde@12345")
         return super().setUp()
 

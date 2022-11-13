@@ -31,7 +31,7 @@ class CampaignFactory(factory.django.DjangoModelFactory):
             for agent in extracted:
                 self.agents.add(agent)
 
-# campaign = CampaignFactory.create(agents=[AdminUserFactory() for i in range(5)])
+# campaign = CampaignFactory.create(agents=[UserFactory() for i in range(5)])
 
 
 class SlotFactory(factory.django.DjangoModelFactory):

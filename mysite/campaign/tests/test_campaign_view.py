@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.test import TestCase, Client
-from user.tests.factory import SuperUserFactory
+from user.tests.factory import UserFactory
 from campaign.models import Campaign
 from campaign.tests.factory import CampaignFactory
 from center.tests.factory import CenterFactory
@@ -16,7 +16,7 @@ class TestCampaignView(TestCase):
 
     def setUp(self):
         self.c = Client()
-        self.user = SuperUserFactory()
+        self.user = UserFactory(is_superuser=True, is_staff=True)
         self.c.login(email=self.user.email, password="abcde@12345")
         self.campaign = CampaignFactory()
         return super().setUp()
@@ -39,7 +39,7 @@ class TestCampaignView(TestCase):
                 datetime.now().date(), datetime.now().date() + timedelta(days=10)),
             "end_date": fake.date_between(datetime.now().date(
             ) + timedelta(days=20), datetime.now().date() + timedelta(days=30)),
-            "agents": SuperUserFactory().id,
+            "agents": UserFactory().id,
         }
         response = self.c.post(reverse("campaign:campaign-create"), data)
         self.assertTrue(Campaign.objects.filter(
@@ -80,7 +80,7 @@ class TestCampaignView(TestCase):
                 datetime.now().date(), datetime.now().date() + timedelta(days=10)),
             "end_date": fake.date_between(datetime.now().date(
             ) + timedelta(days=20), datetime.now().date() + timedelta(days=30)),
-            "agents": SuperUserFactory().id,
+            "agents": UserFactory().id,
         }
         response = self.c.post(
             reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id}), data)

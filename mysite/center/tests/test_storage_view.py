@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.test import TestCase, Client
-from user.tests.factory import SuperUserFactory
+from user.tests.factory import UserFactory
 from center.models import Center, Storage
 from center.tests.factory import CenterFactory, StorageFactory
 from vaccine.tests.factory import VaccineFactory
@@ -13,7 +13,7 @@ fake = Faker()
 class TestStorageView(TestCase):
     def setUp(self):
         self.c = Client()
-        self.user = SuperUserFactory()
+        self.user = UserFactory(is_superuser = True, is_staff = True)
         self.c.login(email=self.user.email, password="abcde@12345")
         self.center1 = CenterFactory()
         self.center2 = CenterFactory()

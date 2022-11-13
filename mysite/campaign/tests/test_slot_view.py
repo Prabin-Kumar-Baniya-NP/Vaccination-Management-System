@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.test import TestCase, Client
-from user.tests.factory import SuperUserFactory
+from user.tests.factory import UserFactory
 from campaign.models import Slot
 from campaign.tests.factory import SlotFactory
 from datetime import datetime
@@ -13,7 +13,7 @@ class TestSlotView(TestCase):
 
     def setUp(self):
         self.c = Client()
-        self.user = SuperUserFactory()
+        self.user = UserFactory(is_superuser = True, is_staff = True)
         self.c.login(email=self.user.email, password="abcde@12345")
         self.slot = SlotFactory()
         return super().setUp()

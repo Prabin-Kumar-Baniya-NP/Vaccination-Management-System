@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from vaccine.tests.factory import VaccineFactory
 from vaccine.models import Vaccine
-from user.tests.factory import SuperUserFactory
+from user.tests.factory import UserFactory
 from django.urls import reverse
 from faker import Faker
 
@@ -12,7 +12,7 @@ class TestVaccineView(TestCase):
 
     def setUp(self):
         self.c = Client()
-        self.user = SuperUserFactory()
+        self.user = UserFactory(is_superuser = True, is_staff = True)
         self.vaccine1 = VaccineFactory()
         self.vaccine2 = VaccineFactory()
         self.c.login(email=self.user.email, password="abcde@12345")

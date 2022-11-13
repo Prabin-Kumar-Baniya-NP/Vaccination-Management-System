@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from vaccine.tests.factory import VaccineFactory
-from user.tests.factory import AdminUserFactory
+from user.tests.factory import UserFactory
 from django.urls import reverse
 from django.contrib.auth.models import Permission
 from faker import Faker
@@ -11,7 +11,7 @@ fake = Faker()
 class TestPermissionOnVaccineView(TestCase):
     def setUp(self):
         self.c = Client()
-        self.user = AdminUserFactory()
+        self.user = UserFactory()
         self.vaccine = VaccineFactory()
         self.c.login(email=self.user.email, password="abcde@12345")
         return super().setUp()
