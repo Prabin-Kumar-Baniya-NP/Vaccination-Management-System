@@ -199,4 +199,4 @@ def vaccine_certificate(request, vaccination_id):
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
     buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename=context["pdf_title"])
+    return FileResponse(buffer, as_attachment=True, filename=context["pdf_title"] + ".pdf")
