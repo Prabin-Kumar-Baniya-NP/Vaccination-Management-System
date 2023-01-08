@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for slot in slot_list %}
+      {% for slot in page_obj %}
       <tr>
         <td>{{ slot.date }}</td>
         <td>{{ slot.start_time }}</td>
@@ -32,5 +32,8 @@
       {% endfor %}
     </tbody>
   </table>
+
+  {% include "components/pagination.html" %}
+  
 </div>
 {% endblock content %}

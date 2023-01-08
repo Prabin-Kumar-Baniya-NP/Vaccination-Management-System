@@ -1,0 +1,12 @@
+{% extends 'admin/change_form.html' %}
+
+{% block submit_buttons_bottom %} 
+
+    <div class="submit-row">
+        <a href={% url 'vaccination:approve-vaccination' original.id %} style="margin-right: 20px;" target="_blank">Approve Vaccination</a>
+        <a href={% url 'vaccination:appointment-letter' original.id %} style="margin-right: 20px;" target="_blank">Appointment Letter</a>
+        <a href={% url 'vaccination:get-certificate' original.id %} style="margin-right: 20px;" target="_blank">Vaccination Certificate</a>
+    </div>
+
+    {{ block.super }}
+{% endblock %}

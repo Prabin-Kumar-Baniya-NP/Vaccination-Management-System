@@ -73,6 +73,11 @@ class Vaccination(models.Model):
         if current_dose_num >= required_dose_num:
             checks["dose"] = f"You have already taken {current_dose_num} doses of this vaccine."
 
+        # check previous vaccination completion status
+        incomplete_vaccination = Vaccination.objects.filter(patient=patient, campaign=campaign, is_vaccinated=False).exists()
+        if incomplete_vaccination:
+            checks["incomplete_vaccination"] = f"Please complete the previous vaccination"
+        
         # check interval for taking more than one dose
         if current_dose_num >= 1 and required_dose_num > 1:
             # Get the last dose date

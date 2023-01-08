@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for campaign in campaign_list %}
+      {% for campaign in page_obj %}
       <tr>
         <td>{{ campaign.center.name }}</td>
         <td>{{ campaign.start_date }}</td>
@@ -28,5 +28,8 @@
       {% endfor %}
     </tbody>
   </table>
+
+  {% include "components/pagination.html" %}
+  
 </div>
 {% endblock content %}

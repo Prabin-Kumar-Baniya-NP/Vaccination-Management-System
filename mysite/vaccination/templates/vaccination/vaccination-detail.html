@@ -88,21 +88,18 @@
 
     <div class="row mb-1 btn-container">
       <div class="col-12">
+        <button class="btn btn-sm btn-primary m-1">
+          <a href="{% url 'vaccination:appointment-letter' object.id %}">
+            <i class="fas fa-download"></i> Appointment Letter</a>
+        </button>
+
         {% if object.is_vaccinated %}
         <button class="btn btn-sm btn-success m-1">
           <a href="{% url 'vaccination:get-certificate' object.id %}">
-            <i class="fas fa-download"></i> Download Certificate</a>
+            <i class="fas fa-download"></i> Vaccine Certificate</a>
         </button>
         {% endif %}
-
-        {% if perms.vaccination.change_vaccination %}
-        {% if not object.is_vaccinated %}
-        <button class="btn btn-sm btn-success m-1">
-          <a href="{% url 'vaccination:approve-vaccination' object.id %}"> 
-            <i class="fas fa-check-square"></i> {% translate 'Approve Vaccination' %}</a>
-        </button>
-        {% endif %}
-        {% endif %}
+        
       </div>
     </div>
   </div>

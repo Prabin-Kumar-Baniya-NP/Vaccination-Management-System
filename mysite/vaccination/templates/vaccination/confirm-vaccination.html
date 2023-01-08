@@ -116,15 +116,7 @@
           {% if checks.items %}
           <div class="text-danger mt-3">
             {% for key, value in checks.items %}
-            {% if key == "documents" %}
-            {{ value }} <br>
-            {% elif key == "age" %}
-            {{ value }} <br>
-            {% elif key == "dose" %}
-            {{ value }} <br>
-            {% elif key == "interval" %}
-            {{ value }} <br>
-            {% endif %}
+              {{ value }} <br>
             {% endfor %}
           </div>
           {% else %}

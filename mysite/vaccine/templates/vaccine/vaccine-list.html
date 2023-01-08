@@ -21,7 +21,6 @@
         <th scope="col">{% translate 'Number of Doses' %}</th>
         <th scope="col">{% translate 'Interval' %}</th>
         <th scope="col">{% translate 'Minimum Age' %}</th>
-        <th scope="col">{% translate 'Storage Temperature' %}</th>
         <th scope="col">Select</th>
       </tr>
     </thead>
@@ -33,7 +32,6 @@
         <td>{{ vaccine.number_of_doses }}</td>
         <td>{{ vaccine.interval }}</td>
         <td>{{ vaccine.minimum_age }}</td>
-        <td>{{ vaccine.storage_temperature }}</td>
         <td><a href="{% url 'vaccine:vaccine-detail' vaccine.id %}" class="btn-sm btn-outline-primary">View Details</a></td>
       </tr>
       {% endfor %}

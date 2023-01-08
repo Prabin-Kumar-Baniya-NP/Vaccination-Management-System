@@ -1,24 +1,21 @@
 from django.contrib import admin
-from vaccination.models import Slot, Campaign, Vaccination
-
-
-class SlotInline(admin.TabularInline):
-    model = Slot
-    exclude = ["reserved"]
-
-
-class CustomCampaignAdmin(admin.ModelAdmin):
-    list_display = ["vaccine", "center", "start_date", "end_date"]
-    ordering = ["start_date"]
-    search_fields = ["vaccine", "center", "start_date", "end_date"]
-    inlines = [SlotInline]
+from vaccination.models import Vaccination
 
 
 class CustomVaccinationAdmin(admin.ModelAdmin):
+    change_form_template = "admin/change-vaccination.html"
     list_display = ["patient", "campaign", "slot", "is_vaccinated"]
-    search_fields = ["patient", "campaign", "slot"]
+    search_fields = ["patient__email"]
     list_filter = ["is_vaccinated"]
+    readonly_fields = ["patient", "campaign", "is_vaccinated", "updated_by", "updated_on"]
+    fields = (
+        ("patient"),
+        ("campaign"),
+        ("slot"),
+        ("is_vaccinated"),
+        ("updated_by"),
+        ("updated_on"),
+    )
 
 
-admin.site.register(Campaign, CustomCampaignAdmin)
 admin.site.register(Vaccination, CustomVaccinationAdmin)
