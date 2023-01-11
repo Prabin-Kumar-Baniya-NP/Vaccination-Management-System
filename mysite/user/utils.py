@@ -10,8 +10,7 @@ class TokenGenerator(PasswordResetTokenGenerator):
             if user.last_login is None
             else user.last_login.replace(microsecond=0, tzinfo=None)
         )
-        email_field = user.get_email_field_name()
-        email = getattr(user, email_field, "") or ""
-        return f"{user.pk}{user.password}{login_timestamp}{timestamp}{email}{user.is_active}"
+        email = user.email
+        return f"VerifyEmail-{user.pk}{user.password}{login_timestamp}{timestamp}{email}{user.is_active}"
 
 EmailVerificationTokenGenerator = TokenGenerator()
