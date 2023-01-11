@@ -6,7 +6,7 @@ from django.urls import reverse
 from vaccination.forms import VaccinationForm
 from vaccine.models import Vaccine
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -91,12 +91,12 @@ class ConfirmVaccination(View):
                     form.save()
                     return render(request, "vaccination/schedule-success.html", {})
                 else:
-                    return HttpResponseForbidden("Sorry! We are unable to reserve vaccine for you. Please Try Scheduling the vaccination again")
+                    return HttpResponse("Sorry! We are unable to reserve vaccine for you at this moment")
             else:
                 messages.error(request, f"{checks}")
-                return HttpResponseForbidden(f"{checks}")
+                raise PermissionDenied()
         else:
-            return HttpResponseForbidden(f"{form.errors}")
+            return HttpResponseBadRequest(f"{form.errors}")
 
 
 class RegistrationList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
