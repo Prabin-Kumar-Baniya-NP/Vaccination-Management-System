@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth import get_user_model
 from django.forms import ModelForm
 from django import forms
@@ -67,3 +67,25 @@ class ProfileUpdateForm(ModelForm):
         model = User
         fields = ["first_name", "middle_name", "last_name", "gender", "photo",
                   "date_of_birth", "identity_document_type", "identity_document_number"]
+
+
+class PasswordResetForm(PasswordResetForm):
+    """
+    Form to reset password
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(PasswordResetForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+class SetPasswordForm(SetPasswordForm):
+    """
+    Form to set a new password
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(SetPasswordForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+

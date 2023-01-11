@@ -1,7 +1,7 @@
 import logging
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import render
-from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm
+from user.forms import SignupForm, LoginForm, ChangePasswordForm, ProfileUpdateForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth import authenticate, login as user_login, logout as user_logout, update_session_auth_hash
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import get_user_model
@@ -180,3 +180,35 @@ def email_verifier(request, uidb64, token):
             return HttpResponseBadRequest('Activation link is invalid!')
     else:
         return HttpResponseForbidden(content="You don't have permission to use this link")
+
+
+class PasswordResetView(DefaultAuthViews.PasswordResetView):
+    """
+    Sends Password Reset Email
+    """
+    email_template_name = "user/password-reset-email.html"
+    form_class = PasswordResetForm
+    success_url = reverse_lazy("accounts:password-reset-done")
+    template_name = "user/password-reset.html"
+
+
+class PasswordResetDoneView(DefaultAuthViews.PasswordResetDoneView):
+    """
+    Handles the message for Password Email Send Request
+    """
+    template_name = "user/password-reset-done.html"
+
+
+class PasswordResetConfirmView(DefaultAuthViews.PasswordResetConfirmView):
+    """
+    Checks the given token and asks for new password
+    """
+    form_class = SetPasswordForm
+    template_name = "user/password-reset-confirm.html"
+    success_url = reverse_lazy("accounts:password-reset-complete")
+
+class PasswordResetCompleteView(DefaultAuthViews.PasswordResetCompleteView):
+    """
+    Shows a message for password reset status
+    """
+    template_name = "user/password-reset-complete.html"
