@@ -11,6 +11,6 @@ urlpatterns = [
     path("profile-view/", views.profile_view, name="profile-view"),
     path("profile-update/", views.profile_update, name="profile-update"),
     path("verify-email/", views.email_verification_request, name="verify-email"),
-    path('activate/<uidb64>/<token>/',
-         views.email_verifier, name='activate'),
+    path('email/activate/<uidb64>/<token>/',
+         views.email_verifier, name='email-activate'),
 ]
