@@ -6,7 +6,7 @@ from django.urls import reverse
 from vaccination.forms import VaccinationForm
 from vaccine.models import Vaccine
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -184,11 +184,14 @@ def appointment_letter(request, vaccination_id):
 def vaccine_certificate(request, vaccination_id):
     vaccination = Vaccination.objects.select_related(
         "patient", "campaign", "slot").get(id=vaccination_id)
-    context = {
-        "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccine Certificate",
-        "date": str(datetime.datetime.now()),
-        "title": "Vaccine Certificate",
-        "subtitle": "To Whom It May Concern",
-        "content": f"This is to certify that Mr/Ms/Mrs {vaccination.patient.get_full_name() } has successfuly taken {vaccination.campaign.vaccine.name } vaccine. The vaccination was scheduled on { vaccination.slot.date } { vaccination.slot.start_time } at { vaccination.campaign.center.name } and it was approved by { vaccination.updated_by.get_full_name() }.",
-    }
-    return generate_pdf(context)
+    if vaccination.is_vaccinated:
+        context = {
+            "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccine Certificate",
+            "date": str(datetime.datetime.now()),
+            "title": "Vaccine Certificate",
+            "subtitle": "To Whom It May Concern",
+            "content": f"This is to certify that Mr/Ms/Mrs {vaccination.patient.get_full_name() } has successfuly taken {vaccination.campaign.vaccine.name } vaccine. The vaccination was scheduled on { vaccination.slot.date } { vaccination.slot.start_time } at { vaccination.campaign.center.name } and it was approved by { vaccination.updated_by.get_full_name() }.",
+        }
+        return generate_pdf(context)
+    else:
+        return HttpResponse("User Not Vaccinated")
