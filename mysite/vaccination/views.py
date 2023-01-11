@@ -170,8 +170,6 @@ def approve_vaccination(request, vaccination_id):
 def appointment_letter(request, vaccination_id):
     vaccination = Vaccination.objects.select_related(
         "patient", "campaign", "slot").get(id=vaccination_id)
-    dose_number = Vaccination.get_dose_number(
-        vaccination.patient, vaccination.campaign.vaccine)
     context = {
         "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccination Appointment Letter",
         "date": str(datetime.datetime.now()),
@@ -186,8 +184,6 @@ def appointment_letter(request, vaccination_id):
 def vaccine_certificate(request, vaccination_id):
     vaccination = Vaccination.objects.select_related(
         "patient", "campaign", "slot").get(id=vaccination_id)
-    dose_number = Vaccination.get_dose_number(
-        vaccination.patient, vaccination.campaign.vaccine)
     context = {
         "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccine Certificate",
         "date": str(datetime.datetime.now()),
