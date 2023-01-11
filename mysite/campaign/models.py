@@ -52,7 +52,7 @@ class Slot(models.Model):
         campaign = Campaign.objects.get(id=campaign_id)
         storage = Storage.objects.get(
             center=campaign.center, vaccine=campaign.vaccine)
-        if slot.reserved < slot.max_capacity:
+        if storage.total_quantity > 0 and storage.total_quantity > storage.booked_quantity and slot.reserved < slot.max_capacity:
             slot.reserved = F("reserved") + 1
             storage.booked_quantity = F("booked_quantity") + 1
             slot.save()
