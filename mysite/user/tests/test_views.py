@@ -33,16 +33,10 @@ class TestUserAuthView(TestCase):
         return super().setUp()
 
     def test_user_can_view_signup_page(self):
-        """
-        Tests whether can view signup page
-        """
         response = self.c.get(reverse("accounts:signup"))
         self.assertEqual(response.status_code, 200)
 
     def test_user_can_signup(self):
-        """
-        Tests whether a new user can signup
-        """
         with open(finders.find("images/photo.png"), "rb") as profile_image:
             response = self.c.post(
                 reverse("accounts:signup"),
@@ -65,16 +59,10 @@ class TestUserAuthView(TestCase):
         self.assertRedirects(response, reverse("accounts:login"))
 
     def test_user_can_view_login_page(self):
-        """
-        Tests whether the user can view login page
-        """
         response = self.c.get(reverse("accounts:login"))
         self.assertEqual(response.status_code, 200)
 
     def test_user_can_login(self):
-        """
-        Tests whether the user can login or not
-        """
         response = self.c.post(
             reverse("accounts:login"),
             {
@@ -89,9 +77,6 @@ class TestUserAuthView(TestCase):
         self.assertRedirects(response, reverse("index"))
 
     def test_user_can_logout(self):
-        """
-        Tests whether the user can logout
-        """
         self.c.login(email=user["email"], password=user["password"])
         self.assertEqual(
             int(self.c.session["_auth_user_id"]),
@@ -103,9 +88,6 @@ class TestUserAuthView(TestCase):
         self.assertRedirects(response, reverse("accounts:login"))
 
     def test_user_can_change_password(self):
-        """
-        Tests whether the user can change password
-        """
         self.c.login(email=user["email"], password=user["password"])
         response = self.c.post(
             reverse("accounts:change-password"),
@@ -121,25 +103,16 @@ class TestUserAuthView(TestCase):
         self.assertRedirects(response, reverse("accounts:profile-view"))
 
     def test_user_can_view_profile_page(self):
-        """
-        Tests whether the user can access the profile page
-        """
         self.c.login(email=user["email"], password=user["password"])
         response = self.c.get(reverse("accounts:profile-view"))
         self.assertEqual(response.status_code, 200)
 
     def test_user_can_view_profile_update_page(self):
-        """
-        Tests whether the user can access the profile update page
-        """
         self.c.login(email=user["email"], password=user["password"])
         response = self.c.get(reverse("accounts:profile-update"))
         self.assertEqual(response.status_code, 200)
 
     def test_user_can_update_profile(self):
-        """
-        Tests whether the user can update the profile
-        """
         self.c.login(email=user["email"], password=user["password"])
         with open(finders.find("images/photo.png"), "rb") as profile_image:
             response = self.c.post(
@@ -164,17 +137,11 @@ class TestUserAuthView(TestCase):
         self.assertRedirects(response, reverse("accounts:profile-view"))
 
     def test_user_can_send_email_verification_request(self):
-        """
-        Tests whether the user can send email verification request
-        """
         self.c.login(email=user["email"], password=user["password"])
         response = self.c.get(reverse("accounts:verify-email"))
         self.assertEqual(response.status_code, 200)
 
     def test_user_can_verify_email(self):
-        """
-        Tests whether the user can verify the email
-        """
         self.c.login(email=user["email"], password=user["password"])
         self.c.get(reverse("accounts:verify-email"))
         url = re.search(
@@ -182,3 +149,35 @@ class TestUserAuthView(TestCase):
         self.c.get(url)
         self.assertTrue(User.objects.get(
             email=user["email"]).is_email_verified)
+
+    def test_user_can_access_password_reset_page(self):
+        response = self.c.get(reverse("accounts:password-reset"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_can_get_password_reset_link(self):
+        response = self.c.post(
+            reverse("accounts:password-reset"), {"email": user["email"]})
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(response.url, reverse("accounts:password-reset-done"))
+
+    def test_user_can_access_password_reset_confirm_view(self):
+        self.c.post(reverse("accounts:password-reset"),
+                    {"email": user["email"]})
+        url = re.search(
+            "(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
+        respone = self.c.get(url)
+        self.assertEqual(
+            respone.url, "/accounts/password-reset-confirm/MQ/set-password/")
+
+    def test_user_can_set_new_password(self):
+        self.c.post(reverse("accounts:password-reset"),
+                    {"email": user["email"]})
+        url = re.search(
+            "(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
+        response1 = self.c.get(url)
+        response2 = self.c.post(response1.url, {
+            "new_password1": "qwerty@12345",
+            "new_password2": "qwerty@12345"
+        })
+        self.assertEqual(response2.url, reverse(
+            "accounts:password-reset-complete"))
