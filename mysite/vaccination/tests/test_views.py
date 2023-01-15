@@ -70,6 +70,10 @@ class TestVaccinationView(TestCase):
 
         self.assertEqual(response2.status_code, 302)
 
+    def test_appointment_letter(self):
+        response = self.c.get(reverse("vaccination:appointment-letter", kwargs={"vaccination_id": self.vaccination.id}))
+        self.assertEqual(response.status_code, 200)
+    
     def test_vaccine_certificate(self):
         # Grant Permissions
         self.vaccination.campaign.agents.add(self.user)
