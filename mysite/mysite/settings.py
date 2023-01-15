@@ -3,6 +3,7 @@ import environ
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 
+environ.Env.read_env()
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
