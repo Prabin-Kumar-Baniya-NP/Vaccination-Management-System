@@ -14,16 +14,16 @@ class TestVaccinationView(TestCase):
         self.c.login(email=self.user.email, password="abcde@12345")
         return super().setUp()
 
-    def test_vaccine_list_page(self):
+    def test_choose_vaccine_list_page(self):
         response = self.c.get(reverse("vaccination:choose-vaccine"))
         self.assertEqual(response.status_code, 200)
 
-    def test_campaign_list_page(self):
+    def test_choose_campaign_list_page(self):
         response = self.c.get(reverse("vaccination:choose-campaign",
                               kwargs={"vaccine_id": self.vaccination.campaign.vaccine.id}))
         self.assertEqual(response.status_code, 200)
 
-    def test_slot_list_page(self):
+    def test_choose_slot_list_page(self):
         response = self.c.get(reverse(
             "vaccination:choose-slot", kwargs={"campaign_id": self.vaccination.campaign.id}))
         self.assertEqual(response.status_code, 200)

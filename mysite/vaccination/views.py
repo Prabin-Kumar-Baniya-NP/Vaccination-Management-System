@@ -18,7 +18,7 @@ from django.views import View
 User = get_user_model()
 
 
-class VaccineList(LoginRequiredMixin, ListView):
+class ChooseVaccine(LoginRequiredMixin, ListView):
     """
     Lists all the vaccine
     """
@@ -31,7 +31,7 @@ class VaccineList(LoginRequiredMixin, ListView):
         return super().get_queryset().only("name", "number_of_doses", "interval")
 
 
-class CampaignList(LoginRequiredMixin, ListView):
+class ChooseCampaign(LoginRequiredMixin, ListView):
     """
     Lists all the campaign
     """
@@ -44,7 +44,7 @@ class CampaignList(LoginRequiredMixin, ListView):
         return super().get_queryset().filter(vaccine=self.kwargs["vaccine_id"]).only("center", "start_date", "end_date").select_related("center")
 
 
-class SlotList(LoginRequiredMixin, ListView):
+class ChooseSlot(LoginRequiredMixin, ListView):
     """
     Lists all the campaign
     """
