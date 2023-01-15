@@ -45,6 +45,12 @@ class TestVaccinationView(TestCase):
             self.patient, self.campaign, self.slot)
         self.assertTrue("age" in checks.keys())
 
+    def test_incomplete_vaccination_case(self):
+        self.campaign = self.vaccination.campaign
+        checks = Vaccination.check_eligibility(
+            self.patient, self.campaign, self.slot)
+        self.assertTrue("incomplete_vaccination" in checks.keys())
+
     def test_vaccine_interval_eligibility(self):
         checks = Vaccination.check_eligibility(
             self.patient, self.campaign, self.slot)
