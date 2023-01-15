@@ -74,16 +74,16 @@ class Vaccination(models.Model):
             checks["dose"] = f"You have already taken {current_dose_num} doses of this vaccine."
 
         # check previous vaccination completion status
-        incomplete_vaccination = Vaccination.objects.filter(patient=patient, campaign=campaign, is_vaccinated=False).exists()
+        incomplete_vaccination = Vaccination.objects.filter(patient=patient, campaign__in=Campaign.objects.filter(
+            vaccine=vaccine), is_vaccinated=False).exists()
         if incomplete_vaccination:
             checks["incomplete_vaccination"] = f"Please complete the previous vaccination"
-        
+
         # check interval for taking more than one dose
         if current_dose_num >= 1 and required_dose_num > 1:
             # Get the last dose date
-            campaign_list = Campaign.objects.filter(vaccine=vaccine)
             last_vaccination = Vaccination.objects.filter(
-                patient=patient, campaign__in=campaign_list).last()
+                patient=patient, campaign__in=Campaign.objects.filter(vaccine=vaccine)).order_by("-id").last()
             # Add interval to that last dose date
             eligible_date = last_vaccination.slot.date + \
                 timedelta(days=vaccine.interval)
