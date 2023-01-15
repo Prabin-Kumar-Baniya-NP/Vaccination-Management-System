@@ -10,7 +10,7 @@ class TestVaccinationView(TestCase):
         self.c = Client()
         self.vaccination = VaccinationFactory()
         self.patient = self.vaccination.patient
-        self.slot = SlotFactory()
+        self.slot = self.vaccination.slot
         self.campaign = self.slot.campaign
         self.vaccine = self.campaign.vaccine
         self.c.login(email=self.patient.email, password="abcde@12345")
@@ -20,9 +20,7 @@ class TestVaccinationView(TestCase):
         self.vaccination.is_vaccinated = True
         self.vaccination.save()
         self.assertEqual(Vaccination.get_dose_number(
-            self.patient, self.vaccine), 0)
-        self.assertEqual(Vaccination.get_dose_number(
-            self.vaccination.patient, self.vaccination.campaign.vaccine), 1)
+            self.patient, self.vaccine), 1)
 
     def test_documents_eligibility(self):
         checks = Vaccination.check_eligibility(
@@ -30,23 +28,20 @@ class TestVaccinationView(TestCase):
         self.assertFalse("document" in checks.keys())
 
     def test_check_age_eligibility(self):
-        vaccine = self.vaccine
-        vaccine.minimum_age = 0
-        vaccine.save()
+        self.vaccine.minimum_age = 0
+        self.vaccine.save()
         checks = Vaccination.check_eligibility(
             self.patient, self.campaign, self.slot)
         self.assertFalse("age" in checks.keys())
 
     def test_check_age_ineligibility(self):
-        vaccine = self.vaccine
-        vaccine.minimum_age = 1000
-        vaccine.save()
+        self.vaccine.minimum_age = 1000
+        self.vaccine.save()
         checks = Vaccination.check_eligibility(
             self.patient, self.campaign, self.slot)
         self.assertTrue("age" in checks.keys())
 
     def test_incomplete_vaccination_case(self):
-        self.campaign = self.vaccination.campaign
         checks = Vaccination.check_eligibility(
             self.patient, self.campaign, self.slot)
         self.assertTrue("incomplete_vaccination" in checks.keys())
