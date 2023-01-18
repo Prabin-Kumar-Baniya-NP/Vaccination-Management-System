@@ -1,5 +1,10 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from vaccine.utils import calculate_age
+
+User = get_user_model()
+
 
 class Vaccine(models.Model):
     name = models.CharField(_("Vaccine Name"), max_length=32)
@@ -13,3 +18,13 @@ class Vaccine(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_eligible_by_age(patient, vaccine):
+        """
+        Returns true if patient is eligible to take vaccine by age
+        """
+
+        if calculate_age(patient.date_of_birth) >= vaccine.minimum_age:
+            return True
+
+        return False

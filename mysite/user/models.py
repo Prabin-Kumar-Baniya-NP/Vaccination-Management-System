@@ -83,11 +83,20 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'user'
         verbose_name_plural = 'users'
 
+    def __str__(self):
+        return self.get_full_name()
+
     def get_full_name(self):
         '''
         Returns the full name of user
         '''
         return f"{self.first_name} {self.middle_name} {self.last_name}"
-    
-    def __str__(self):
-        return self.get_full_name()
+
+    def has_submitted_identity_documents(self):
+        """
+        Returns true if patient has submitted identity documents
+        """
+        if self.identity_document_type is None and self.identity_document_number is None:
+            return False
+
+        return True
