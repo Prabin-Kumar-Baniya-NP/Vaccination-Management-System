@@ -1,8 +1,6 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
-{% block title %}
-<title>{% translate 'Confirm Vaccination' %}</title>
-{% endblock title %}
+{% block title %} {% translate 'Confirm Vaccination' %} {% endblock title %}
 
 {% block content %}
 <div class="card mb-3">
@@ -116,7 +114,7 @@
           {% if checks.items %}
           <div class="text-danger mt-3">
             {% for key, value in checks.items %}
-              {{ value }} <br>
+            {{ value }} <br>
             {% endfor %}
           </div>
           {% else %}

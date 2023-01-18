@@ -1,9 +1,7 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
 
-{% block title %}
-<title>{% translate 'Vaccination List' %}</title>
-{% endblock title %}
+{% block title %} {% translate 'Vaccination List' %} {% endblock title %}
 
 {% block content %}
 <div class="card mb-3">
@@ -61,9 +59,9 @@
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {% if object.is_vaccinated %}
-          Vaccinated
+        Vaccinated
         {% else %}
-          Scheduled
+        Scheduled
         {% endif %}
       </div>
     </div>
@@ -99,7 +97,7 @@
             <i class="fas fa-download"></i> Vaccine Certificate</a>
         </button>
         {% endif %}
-        
+
       </div>
     </div>
   </div>

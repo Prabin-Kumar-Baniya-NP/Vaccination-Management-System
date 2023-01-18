@@ -1,8 +1,7 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
-{% block title %}
-<title>{% translate 'Choose Slot' %}</title>
-{% endblock title %}
+{% block title %} {% translate 'Choose Slot' %} {% endblock title %}
+
 {% block content %}
 <div class="mt-3">
   <div class="d-flex align-items-center justify-content-between">
@@ -27,13 +26,14 @@
         <td>{{ slot.end_time }}</td>
         <td>{{ slot.max_capacity }}</td>
         <td>{{ slot.reserved }}</td>
-        <td><a href="{% url 'vaccination:confirm-vaccination' slot.campaign.id slot.id%}" class="btn-sm btn-outline-primary">{% translate 'Choose' %}</a></td>
+        <td><a href="{% url 'vaccination:confirm-vaccination' slot.campaign.id slot.id%}"
+            class="btn-sm btn-outline-primary">{% translate 'Choose' %}</a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 
   {% include "components/pagination.html" %}
-  
+
 </div>
 {% endblock content %}

@@ -1,18 +1,16 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
 
-{% block title %}
-  <title>Login</title>
-{% endblock %} 
+{% block title %} {% translate 'Login' %} {% endblock %}
 
 {% block content %}
 <div class="card p-3">
- <div class="card-body">
-    <h4>{% translate 'Enter your email and password to login' %}</h4>
-    {% include "components/form.html" with form_name="Login" %}
- </div>
- <p class="p-3">
-    <a href="{% url 'accounts:password-reset' %}">Reset Password</a>
- </p>
+   <div class="card-body">
+      <h4>{% translate 'Enter your email and password to login' %}</h4>
+      {% include "components/form.html" with form_name="Login" %}
+   </div>
+   <p class="p-3">
+      <a href="{% url 'accounts:password-reset' %}">Reset Password</a>
+   </p>
 </div>
 {% endblock content %}

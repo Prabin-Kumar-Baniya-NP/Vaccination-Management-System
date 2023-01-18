@@ -1,8 +1,6 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
-{% block title %}
-<title>{% translate 'Dose Information' %}</title>
-{% endblock title %}
+{% block title %} {% translate 'Dose Information' %} {% endblock title %}
 {% block content %}
 {% translate 'You have completed all the doses of this vaccine.' %}
 {% endblock %}

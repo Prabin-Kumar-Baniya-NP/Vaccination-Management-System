@@ -1,16 +1,14 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
 
-{% block title %}
-<title>{% translate 'Vaccination List' %}</title>
-{% endblock title %}
+{% block title %} {% translate 'Vaccination List' %} {% endblock title %}
 
 {% block content %}
 <div class="mt-3">
   <div class="d-flex align-items-center justify-content-between">
     <h3 class="text-center"><i class="fas fa-syringe"></i> {% translate 'Your Vaccination History' %}</h3>
   </div>
-  
+
   <table class="table table-hover">
     <thead>
       <tr>
@@ -20,7 +18,7 @@
         <th scope="col">{% translate 'Select' %}</th>
       </tr>
     </thead>
-    
+
     <tbody>
       {% for vaccination in object_list %}
       <tr>
@@ -33,12 +31,13 @@
           <button class="btn btn-sm btn-primary">Scheduled</button>
           {% endif %}
         </td>
-        <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}" class="btn-sm btn-outline-primary">View Details</a></td>
+        <td><a href="{% url 'vaccination:vaccination-detail' vaccination.id %}" class="btn-sm btn-outline-primary">View
+            Details</a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-  
+
   {% include "components/pagination.html" %}
 </div>
 {% endblock content %}

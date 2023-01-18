@@ -1,8 +1,7 @@
 {% extends 'mysite/base.html' %}
 {% load i18n %}
-{% block title %}
-<title>{% translate 'Choose Campaign' %} </title>
-{% endblock title %}
+{% block title %} {% translate 'Choose Campaign' %} {% endblock title %}
+
 {% block content %}
 <div class="mt-3">
   <div class="d-flex align-items-center justify-content-between">
@@ -23,13 +22,14 @@
         <td>{{ campaign.center.name }}</td>
         <td>{{ campaign.start_date }}</td>
         <td>{{ campaign.end_date }}</td>
-        <td><a href="{% url 'vaccination:choose-slot' campaign.id %}" class="btn-sm btn-outline-primary">{% translate 'Select' %}</a></td>
+        <td><a href="{% url 'vaccination:choose-slot' campaign.id %}"
+            class="btn-sm btn-outline-primary">{% translate 'Select' %}</a></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 
   {% include "components/pagination.html" %}
-  
+
 </div>
 {% endblock content %}
