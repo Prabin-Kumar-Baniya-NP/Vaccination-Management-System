@@ -10,7 +10,6 @@ class SlotInline(admin.TabularInline):
 class CustomCampaignAdmin(admin.ModelAdmin):
     list_display = ["vaccine", "center", "start_date", "end_date"]
     ordering = ["start_date"]
-    readonly_fields = ["vaccine", "center"]
     fields = (
         ("vaccine"),
         ("center"),
