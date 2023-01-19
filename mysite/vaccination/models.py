@@ -63,7 +63,7 @@ class Vaccination(models.Model):
         last_vaccination = Vaccination.objects.filter(
             patient=patient,
             campaign__in=Campaign.objects.filter(vaccine=vaccine),
-            is_vaccinated=True).order_by("-id").last()
+            is_vaccinated=True).order_by("id").last()
 
         if last_vaccination is None:
             return True
