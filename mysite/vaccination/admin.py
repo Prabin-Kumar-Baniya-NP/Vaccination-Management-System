@@ -7,12 +7,13 @@ class CustomVaccinationAdmin(admin.ModelAdmin):
     list_display = ["patient", "campaign", "slot", "is_vaccinated"]
     search_fields = ["patient__email"]
     list_filter = ["is_vaccinated"]
-    readonly_fields = ["patient", "campaign", "is_vaccinated", "updated_by", "updated_on"]
+    readonly_fields = ["patient", "campaign", "is_vaccinated", "updated_by", "updated_on", "date"]
     fields = (
         ("patient"),
         ("campaign"),
         ("slot"),
         ("is_vaccinated"),
+        ("date"),
         ("updated_by"),
         ("updated_on"),
     )

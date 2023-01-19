@@ -20,6 +20,7 @@ class Vaccination(models.Model):
     )
     slot = models.ForeignKey(
         Slot, on_delete=models.CASCADE, verbose_name=_("Slot"))
+    date = models.DateField(_("Date of Vaccination"), null=True, blank=True)
     is_vaccinated = models.BooleanField(
         default=False, verbose_name=_("Is Vaccinated"))
     updated_by = models.ForeignKey(

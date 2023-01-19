@@ -59,13 +59,24 @@
       </div>
       <div class="col-7 col-sm-8 col-md-9 col-lg-10">
         {% if object.is_vaccinated %}
-        Vaccinated
+          Vaccinated
         {% else %}
-        Scheduled
+          Scheduled
         {% endif %}
       </div>
     </div>
 
+    {% if object.is_vaccinated %}
+    <div class="row mb-1">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
+        {% translate "Date of Vaccination" %}
+      </div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        {{ object.date }}
+      </div>
+    </div>
+    {% endif %}
+    
     <div class="row mb-1">
       <div class="col-5 col-sm-4 col-md-3 col-lg-2 fw-bold">
         {% translate "Last Modified On" %}

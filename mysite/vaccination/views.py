@@ -152,6 +152,7 @@ def approve_vaccination(request, vaccination_id):
                 return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))
             else:
                 vaccination.is_vaccinated = True
+                vaccination.date = datetime.date.today()
                 vaccination.updated_by = User.objects.get(id=request.user.id)
                 vaccination.save()
                 messages.success(request, "Vaccination approved successfully")
@@ -190,7 +191,7 @@ def vaccine_certificate(request, vaccination_id):
             "date": str(datetime.datetime.now()),
             "title": "Vaccine Certificate",
             "subtitle": "To Whom It May Concern",
-            "content": f"This is to certify that Mr/Ms/Mrs {vaccination.patient.get_full_name() } has successfuly taken {vaccination.campaign.vaccine.name } vaccine. The vaccination was scheduled on { vaccination.slot.date } { vaccination.slot.start_time } at { vaccination.campaign.center.name } and it was approved by { vaccination.updated_by.get_full_name() }.",
+            "content": f"This is to certify that Mr/Ms/Mrs {vaccination.patient.get_full_name() } has successfuly taken {vaccination.campaign.vaccine.name } vaccine on {vaccination.date}. The vaccination was scheduled on { vaccination.slot.date } { vaccination.slot.start_time } at { vaccination.campaign.center.name } and it was approved by { vaccination.updated_by.get_full_name() }.",
         }
         return generate_pdf(context)
     else:
