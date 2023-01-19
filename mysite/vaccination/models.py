@@ -41,13 +41,10 @@ class Vaccination(models.Model):
         """
         Returns the dose number of the patient
         """
-        count = 0
-        vaccination = Vaccination.objects.filter(
-            patient=patient, is_vaccinated=True)
-        for each in vaccination.all():
-            if each.campaign.vaccine == vaccine:
-                count = count + 1
-        return count
+        return Vaccination.objects.filter(
+            patient=patient,
+            campaign__in=Campaign.objects.filter(id=vaccine.id),
+            is_vaccinated=True).count()
 
     def has_incomplete_vaccination(patient, vaccine):
         """
