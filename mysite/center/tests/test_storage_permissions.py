@@ -10,7 +10,6 @@ fake = Faker()
 
 
 class TestPermissionsOnStorageView(TestCase):
-
     def setUp(self):
         self.c = Client()
         self.storage = StorageFactory()
@@ -20,36 +19,47 @@ class TestPermissionsOnStorageView(TestCase):
 
     def test_unauthorized_access_on_create_storage_view(self):
         response = self.c.get(
-            reverse("center:storage-create", kwargs={"center_id": self.storage.center.id}))
+            reverse(
+                "center:storage-create", kwargs={"center_id": self.storage.center.id}
+            )
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_create_storage_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="add_storage"))
+        self.user.user_permissions.add(Permission.objects.get(codename="add_storage"))
         response = self.c.get(
-            reverse("center:storage-create", kwargs={"center_id": self.storage.center.id}))
+            reverse(
+                "center:storage-create", kwargs={"center_id": self.storage.center.id}
+            )
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_on_update_storage_view(self):
         response = self.c.get(
-            reverse("center:storage-update", kwargs={"pk": self.storage.id}))
+            reverse("center:storage-update", kwargs={"pk": self.storage.id})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_update_storage_view(self):
         self.user.user_permissions.add(
-            Permission.objects.get(codename="change_storage"))
+            Permission.objects.get(codename="change_storage")
+        )
         response = self.c.get(
-            reverse("center:storage-update", kwargs={"pk": self.storage.id}))
+            reverse("center:storage-update", kwargs={"pk": self.storage.id})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_on_delete_storage_view(self):
         response = self.c.get(
-            reverse("center:storage-delete", kwargs={"pk": self.storage.id}))
+            reverse("center:storage-delete", kwargs={"pk": self.storage.id})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_delete_storage_view(self):
         self.user.user_permissions.add(
-            Permission.objects.get(codename="delete_storage"))
+            Permission.objects.get(codename="delete_storage")
+        )
         response = self.c.get(
-            reverse("center:storage-delete", kwargs={"pk": self.storage.id}))
+            reverse("center:storage-delete", kwargs={"pk": self.storage.id})
+        )
         self.assertEqual(response.status_code, 200)

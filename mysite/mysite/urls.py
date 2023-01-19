@@ -22,9 +22,9 @@ from .views import index
 
 
 urlpatterns = [
-    path('', index, name="index"),
-    path('admin/', admin.site.urls),
-    path('i18n/', include('django.conf.urls.i18n')),
+    path("", index, name="index"),
+    path("admin/", admin.site.urls),
+    path("i18n/", include("django.conf.urls.i18n")),
     path("accounts/", include("user.urls", namespace="accounts")),
     path("center/", include("center.urls", namespace="center")),
     path("vaccine/", include("vaccine.urls", namespace="vaccine")),
@@ -33,17 +33,13 @@ urlpatterns = [
 ]
 
 # Static and Media File URL
-urlpatterns += static(settings.STATIC_URL,
-                      document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-urlpatterns += static(settings.MEDIA_URL,
-                      document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Django - Rosetta URL
-if 'rosetta' in settings.INSTALLED_APPS:
-    urlpatterns += [
-        path("rosetta/", include('rosetta.urls'))
-    ]
+if "rosetta" in settings.INSTALLED_APPS:
+    urlpatterns += [path("rosetta/", include("rosetta.urls"))]
 
 # Django Admin Panel Customization
 admin.site.site_header = "Book My Vaccine"

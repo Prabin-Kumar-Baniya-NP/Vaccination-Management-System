@@ -16,7 +16,4 @@ class VaccinationForm(ModelForm):
     class Meta:
         model = Vaccination
         fields = ["patient", "campaign", "slot"]
-        labels = {
-            'campaign': "Vaccine / Center Name",
-            'slot': "Date / Slot"
-        }
+        labels = {"campaign": "Vaccine / Center Name", "slot": "Date / Slot"}

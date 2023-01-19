@@ -10,7 +10,7 @@ class CampaignCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CampaignCreateForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Campaign
@@ -25,7 +25,7 @@ class CampaignUpdateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CampaignUpdateForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Campaign
@@ -40,11 +40,10 @@ class SlotCreateForm(ModelForm):
     def __init__(self, campaign_id, *args, **kwargs):
         super(SlotCreateForm, self).__init__(*args, **kwargs)
         self.fields["reserved"].disabled = True
-        self.fields["campaign"].queryset = Campaign.objects.filter(
-            id=campaign_id)
+        self.fields["campaign"].queryset = Campaign.objects.filter(id=campaign_id)
         self.fields["campaign"].disabled = True
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Slot
@@ -58,12 +57,11 @@ class SlotUpdateForm(ModelForm):
 
     def __init__(self, campaign_id, *args, **kwargs):
         super(SlotUpdateForm, self).__init__(*args, **kwargs)
-        self.fields["campaign"].queryset = Campaign.objects.filter(
-            id=campaign_id)
+        self.fields["campaign"].queryset = Campaign.objects.filter(id=campaign_id)
         self.fields["reserved"].disabled = True
         self.fields["campaign"].disabled = True
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Slot

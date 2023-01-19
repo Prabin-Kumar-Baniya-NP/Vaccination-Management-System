@@ -14,9 +14,11 @@ class Center(models.Model):
 
 class Storage(models.Model):
     center = models.ForeignKey(
-        Center, on_delete=models.CASCADE, verbose_name=_("Center"))
+        Center, on_delete=models.CASCADE, verbose_name=_("Center")
+    )
     vaccine = models.ForeignKey(
-        Vaccine, on_delete=models.CASCADE, verbose_name=_("Vaccine"))
+        Vaccine, on_delete=models.CASCADE, verbose_name=_("Vaccine")
+    )
     total_quantity = models.IntegerField(_("Total Quantity"), default=0)
     booked_quantity = models.IntegerField(_("Booked Quantity"), default=0)
 

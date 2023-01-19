@@ -11,9 +11,14 @@ class Vaccine(models.Model):
     description = models.TextField(_("Description"), max_length=1024)
     number_of_doses = models.IntegerField(_("Number of Doses"), default=1)
     interval = models.IntegerField(
-        _("Interval"), default=0, help_text=_("Provide interval in days"))
+        _("Interval"), default=0, help_text=_("Provide interval in days")
+    )
     storage_temperature = models.IntegerField(
-        _("Storage Temperature"), null=True, blank=True, help_text=_("Provide Temperature in Celcius"))
+        _("Storage Temperature"),
+        null=True,
+        blank=True,
+        help_text=_("Provide Temperature in Celcius"),
+    )
     minimum_age = models.IntegerField(_("Minimum Age"), default=0)
 
     def __str__(self):

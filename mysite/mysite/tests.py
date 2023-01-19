@@ -9,7 +9,7 @@ user = {
     "first_name": "Super",
     "last_name": "User",
     "is_superuser": True,
-    "password": "abcde@12345"
+    "password": "abcde@12345",
 }
 
 
@@ -18,7 +18,11 @@ class TestIndexView(TestCase):
 
     def setUp(self):
         self.user1 = User.objects.create(
-            email=user["email"], first_name=user["first_name"], last_name=user["last_name"], is_superuser=user["is_superuser"])
+            email=user["email"],
+            first_name=user["first_name"],
+            last_name=user["last_name"],
+            is_superuser=user["is_superuser"],
+        )
         self.user1.set_password(user["password"])
         self.user1.save()
         return super().setUp()

@@ -9,26 +9,67 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('vaccine', '0001_initial'),
+        ("vaccine", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Center',
+            name="Center",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=124, verbose_name='Vaccination Center Name')),
-                ('address', models.TextField(max_length=500, verbose_name='Address')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=124, verbose_name="Vaccination Center Name"
+                    ),
+                ),
+                ("address", models.TextField(max_length=500, verbose_name="Address")),
             ],
         ),
         migrations.CreateModel(
-            name='Storage',
+            name="Storage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('total_quantity', models.IntegerField(default=0, verbose_name='Total Quantity')),
-                ('booked_quantity', models.IntegerField(default=0, verbose_name='Booked Quantity')),
-                ('center', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='center.center', verbose_name='Center')),
-                ('vaccine', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='vaccine.vaccine', verbose_name='Vaccine')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "total_quantity",
+                    models.IntegerField(default=0, verbose_name="Total Quantity"),
+                ),
+                (
+                    "booked_quantity",
+                    models.IntegerField(default=0, verbose_name="Booked Quantity"),
+                ),
+                (
+                    "center",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="center.center",
+                        verbose_name="Center",
+                    ),
+                ),
+                (
+                    "vaccine",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="vaccine.vaccine",
+                        verbose_name="Vaccine",
+                    ),
+                ),
             ],
         ),
     ]

@@ -13,7 +13,7 @@ fake = Faker()
 class TestStorageView(TestCase):
     def setUp(self):
         self.c = Client()
-        self.user = UserFactory(is_superuser = True, is_staff = True)
+        self.user = UserFactory(is_superuser=True, is_staff=True)
         self.c.login(email=self.user.email, password="abcde@12345")
         self.center1 = CenterFactory()
         self.center2 = CenterFactory()
@@ -28,27 +28,36 @@ class TestStorageView(TestCase):
         Tests whether the user can view create storage page
         """
         response = self.c.get(
-            reverse("center:storage-create", kwargs={"center_id": self.center1.id}))
+            reverse("center:storage-create", kwargs={"center_id": self.center1.id})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_post_request_on_create_storage_page(self):
         data = {
-            'vaccine': self.vaccine1.id,
+            "vaccine": self.vaccine1.id,
             "total_quantity": fake.random_int(),
         }
         response = self.c.post(
-            reverse("center:storage-create", kwargs={"center_id": self.center1.id}), data)
-        self.assertTrue(Storage.objects.filter(
-            vaccine=data["vaccine"], total_quantity=data["total_quantity"]).exists())
-        self.assertRedirects(response, reverse(
-            "center:storage-list", kwargs={"center_id": self.center1.id}))
+            reverse("center:storage-create", kwargs={"center_id": self.center1.id}),
+            data,
+        )
+        self.assertTrue(
+            Storage.objects.filter(
+                vaccine=data["vaccine"], total_quantity=data["total_quantity"]
+            ).exists()
+        )
+        self.assertRedirects(
+            response,
+            reverse("center:storage-list", kwargs={"center_id": self.center1.id}),
+        )
 
     def test_get_request_on_storage_update_page(self):
         """
         Tests whether the user can view the storage update page
         """
         response = self.c.get(
-            reverse("center:storage-update", kwargs={"pk": self.storage1.id}))
+            reverse("center:storage-update", kwargs={"pk": self.storage1.id})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_post_request_on_storage_update_page(self):
@@ -59,18 +68,26 @@ class TestStorageView(TestCase):
             "total_quantity": fake.random_int(),
         }
         response = self.c.post(
-            reverse("center:storage-update", kwargs={"pk": self.storage1.id}), data)
+            reverse("center:storage-update", kwargs={"pk": self.storage1.id}), data
+        )
         self.storage1.refresh_from_db()
         self.assertEqual(self.storage1.total_quantity, data["total_quantity"])
-        self.assertRedirects(response, reverse(
-            "center:storage-list", kwargs={"center_id": self.storage1.center.id}))
+        self.assertRedirects(
+            response,
+            reverse(
+                "center:storage-list", kwargs={"center_id": self.storage1.center.id}
+            ),
+        )
 
     def test_get_request_on_storage_list_page(self):
         """
         Tests whether the user can view the storage list of given center
         """
         response = self.c.get(
-            reverse("center:storage-list", kwargs={"center_id": self.storage1.center.id}))
+            reverse(
+                "center:storage-list", kwargs={"center_id": self.storage1.center.id}
+            )
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_get_request_on_storage_detail_page(self):
@@ -99,5 +116,9 @@ class TestStorageView(TestCase):
             reverse("center:storage-delete", kwargs={"pk": self.storage1.id})
         )
         self.assertFalse(Storage.objects.filter(id=self.storage1.id).exists())
-        self.assertRedirects(response, reverse(
-            "center:storage-list", kwargs={"center_id": self.storage1.center.id}))
+        self.assertRedirects(
+            response,
+            reverse(
+                "center:storage-list", kwargs={"center_id": self.storage1.center.id}
+            ),
+        )

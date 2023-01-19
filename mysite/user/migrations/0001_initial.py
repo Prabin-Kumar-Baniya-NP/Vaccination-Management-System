@@ -9,41 +9,154 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
+        ("auth", "0012_alter_user_first_name_max_length"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('email', models.EmailField(max_length=320, unique=True, verbose_name='Email Address')),
-                ('first_name', models.CharField(blank=True, max_length=30, verbose_name='First Name')),
-                ('middle_name', models.CharField(blank=True, max_length=30, verbose_name='Middle Name')),
-                ('last_name', models.CharField(blank=True, max_length=30, verbose_name='Last Name')),
-                ('date_of_birth', models.DateField(blank=True, help_text='Enter Date in this Format: Year-Month-Day', null=True, verbose_name='Date of Birth')),
-                ('gender', models.CharField(choices=[('M', 'Male'), ('F', 'Female')], max_length=1, null=True, verbose_name='Gender')),
-                ('blood_group', models.CharField(blank=True, max_length=3, null=True, verbose_name='Blood Group')),
-                ('identity_document_type', models.CharField(choices=[('Voter_Id', 'Voter ID'), ('passport', 'Passport'), ('Citizenship_Number', 'Citizenship Number')], max_length=32, null=True, verbose_name='Identity Document Type')),
-                ('identity_document_number', models.CharField(max_length=32, verbose_name='Identity Document Number')),
-                ('photo', models.ImageField(null=True, upload_to='profileImage/', verbose_name='Profile Picture')),
-                ('date_joined', models.DateTimeField(auto_now_add=True, verbose_name='date joined')),
-                ('last_updated', models.DateTimeField(auto_now=True, verbose_name='Last updated')),
-                ('is_email_verified', models.BooleanField(default=False, verbose_name='Email Verified')),
-                ('is_active', models.BooleanField(default=True, verbose_name='active')),
-                ('is_staff', models.BooleanField(default=False, verbose_name='staff status')),
-                ('is_superuser', models.BooleanField(default=False, verbose_name='superuser status')),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        max_length=320, unique=True, verbose_name="Email Address"
+                    ),
+                ),
+                (
+                    "first_name",
+                    models.CharField(
+                        blank=True, max_length=30, verbose_name="First Name"
+                    ),
+                ),
+                (
+                    "middle_name",
+                    models.CharField(
+                        blank=True, max_length=30, verbose_name="Middle Name"
+                    ),
+                ),
+                (
+                    "last_name",
+                    models.CharField(
+                        blank=True, max_length=30, verbose_name="Last Name"
+                    ),
+                ),
+                (
+                    "date_of_birth",
+                    models.DateField(
+                        blank=True,
+                        help_text="Enter Date in this Format: Year-Month-Day",
+                        null=True,
+                        verbose_name="Date of Birth",
+                    ),
+                ),
+                (
+                    "gender",
+                    models.CharField(
+                        choices=[("M", "Male"), ("F", "Female")],
+                        max_length=1,
+                        null=True,
+                        verbose_name="Gender",
+                    ),
+                ),
+                (
+                    "blood_group",
+                    models.CharField(
+                        blank=True, max_length=3, null=True, verbose_name="Blood Group"
+                    ),
+                ),
+                (
+                    "identity_document_type",
+                    models.CharField(
+                        choices=[
+                            ("Voter_Id", "Voter ID"),
+                            ("passport", "Passport"),
+                            ("Citizenship_Number", "Citizenship Number"),
+                        ],
+                        max_length=32,
+                        null=True,
+                        verbose_name="Identity Document Type",
+                    ),
+                ),
+                (
+                    "identity_document_number",
+                    models.CharField(
+                        max_length=32, verbose_name="Identity Document Number"
+                    ),
+                ),
+                (
+                    "photo",
+                    models.ImageField(
+                        null=True,
+                        upload_to="profileImage/",
+                        verbose_name="Profile Picture",
+                    ),
+                ),
+                (
+                    "date_joined",
+                    models.DateTimeField(auto_now_add=True, verbose_name="date joined"),
+                ),
+                (
+                    "last_updated",
+                    models.DateTimeField(auto_now=True, verbose_name="Last updated"),
+                ),
+                (
+                    "is_email_verified",
+                    models.BooleanField(default=False, verbose_name="Email Verified"),
+                ),
+                ("is_active", models.BooleanField(default=True, verbose_name="active")),
+                (
+                    "is_staff",
+                    models.BooleanField(default=False, verbose_name="staff status"),
+                ),
+                (
+                    "is_superuser",
+                    models.BooleanField(default=False, verbose_name="superuser status"),
+                ),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.group",
+                        verbose_name="groups",
+                    ),
+                ),
+                (
+                    "user_permissions",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Specific permissions for this user.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.permission",
+                        verbose_name="user permissions",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'user',
-                'verbose_name_plural': 'users',
+                "verbose_name": "user",
+                "verbose_name_plural": "users",
             },
             managers=[
-                ('objects', user.models.UserManager()),
+                ("objects", user.models.UserManager()),
             ],
         ),
     ]

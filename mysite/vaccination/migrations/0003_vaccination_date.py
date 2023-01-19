@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vaccination', '0002_remove_slot_campaign_alter_vaccination_campaign_and_more'),
+        (
+            "vaccination",
+            "0002_remove_slot_campaign_alter_vaccination_campaign_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='vaccination',
-            name='date',
-            field=models.DateField(blank=True, null=True, verbose_name='Date'),
+            model_name="vaccination",
+            name="date",
+            field=models.DateField(blank=True, null=True, verbose_name="Date"),
         ),
     ]

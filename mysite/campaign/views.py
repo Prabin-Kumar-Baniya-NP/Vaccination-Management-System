@@ -1,15 +1,29 @@
-from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
+from django.views.generic import (
+    CreateView,
+    UpdateView,
+    ListView,
+    DetailView,
+    DeleteView,
+)
 from vaccination.models import Slot, Vaccination, Campaign
 from django.urls import reverse_lazy
-from campaign.forms import CampaignCreateForm, CampaignUpdateForm, SlotCreateForm, SlotUpdateForm
+from campaign.forms import (
+    CampaignCreateForm,
+    CampaignUpdateForm,
+    SlotCreateForm,
+    SlotUpdateForm,
+)
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
 
-class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class CampaignCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView
+):
     """
     Creates a new vaccination campaign
     """
+
     model = Campaign
     form_class = CampaignCreateForm
     permission_required = ("campaign.add_campaign",)
@@ -18,10 +32,13 @@ class CampaignCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMes
     success_message = "Campaign Created Successfully"
 
 
-class CampaignUpdateForm(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class CampaignUpdateForm(
+    LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView
+):
     """
     Updates the vaccination campaign
     """
+
     model = Campaign
     form_class = CampaignUpdateForm
     permission_required = ("campaign.change_campaign",)
@@ -34,6 +51,7 @@ class CampaignListView(LoginRequiredMixin, ListView):
     """
     Lists all the vaccination campaign
     """
+
     model = Campaign
     template_name = "campaign/campaign/campaign-list.html"
     paginate_by = 10
@@ -44,6 +62,7 @@ class CampaignDetailView(LoginRequiredMixin, DetailView):
     """
     Returns the details of vaccination campaign
     """
+
     model = Campaign
     template_name = "campaign/campaign/campaign-detail.html"
 
@@ -53,29 +72,36 @@ class CampaignDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["registration"] = Vaccination.objects.filter(
-            campaign=self.kwargs["pk"]).count()
+            campaign=self.kwargs["pk"]
+        ).count()
         return context
 
 
-class CampaignDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+class CampaignDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView
+):
     """
     Deletes the vaccination campaign
     """
+
     model = Campaign
     template_name = "campaign/campaign/campaign-delete.html"
-    permission_required = ("campaign.delete_campaign", )
+    permission_required = ("campaign.delete_campaign",)
     success_url = reverse_lazy("campaign:campaign-list")
     success_message = "Campaign Deleted Successfully"
 
 
-class SlotCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class SlotCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView
+):
     """
     Creates a new slot for given vaccination campaign
     """
+
     model = Slot
     form_class = SlotCreateForm
     template_name = "campaign/slot/slot-create.html"
-    permission_required = ("campaign.add_slot", )
+    permission_required = ("campaign.add_slot",)
     success_url = reverse_lazy("vaccination:slot-list")
     success_message = "Slot Created Successfully"
 
@@ -86,21 +112,25 @@ class SlotCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
     def get_initial(self):
         initial = super().get_initial()
-        initial["campaign"] = Campaign.objects.get(
-            id=self.kwargs["campaign_id"])
+        initial["campaign"] = Campaign.objects.get(id=self.kwargs["campaign_id"])
         return initial
 
     def get_success_url(self) -> str:
-        return reverse_lazy("campaign:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]})
+        return reverse_lazy(
+            "campaign:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]}
+        )
 
 
-class SlotUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class SlotUpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView
+):
     """
     Updates the slot
     """
+
     model = Slot
     form_class = SlotUpdateForm
-    permission_required = ("campaign.change_slot", )
+    permission_required = ("campaign.change_slot",)
     template_name = "campaign/slot/slot-update.html"
     success_message = "Slot Updated Successfully"
 
@@ -111,26 +141,29 @@ class SlotUpdateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
     def get_initial(self):
         initial = super().get_initial()
-        initial["campaign"] = Campaign.objects.get(
-            id=self.kwargs["campaign_id"])
+        initial["campaign"] = Campaign.objects.get(id=self.kwargs["campaign_id"])
         return initial
 
     def get_success_url(self):
-        return reverse_lazy("campaign:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]})
+        return reverse_lazy(
+            "campaign:slot-list", kwargs={"campaign_id": self.kwargs["campaign_id"]}
+        )
 
 
 class SlotListView(LoginRequiredMixin, ListView):
     """
     Lists all the slot for given vaccination campaign
     """
+
     model = Slot
     template_name = "campaign/slot/slot-list.html"
     paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = Slot.objects.filter(
-            campaign=self.kwargs["campaign_id"]).order_by("id")
+        queryset = Slot.objects.filter(campaign=self.kwargs["campaign_id"]).order_by(
+            "id"
+        )
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -143,6 +176,7 @@ class SlotDetailView(LoginRequiredMixin, DetailView):
     """
     Returns the details of given slot
     """
+
     model = Slot
     template_name = "campaign/slot/slot-detail.html"
 
@@ -150,14 +184,19 @@ class SlotDetailView(LoginRequiredMixin, DetailView):
         return super().get_queryset().select_related("campaign")
 
 
-class SlotDeleteView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+class SlotDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView
+):
     """
-    Deletes the slot 
+    Deletes the slot
     """
+
     model = Slot
     template_name = "campaign/slot/slot-delete.html"
-    permission_required = ("campaign.delete_slot", )
+    permission_required = ("campaign.delete_slot",)
     success_message = "Slot Deleted Successfully"
 
     def get_success_url(self) -> str:
-        return reverse_lazy("campaign:slot-list", kwargs={"campaign_id": self.get_object().campaign.id})
+        return reverse_lazy(
+            "campaign:slot-list", kwargs={"campaign_id": self.get_object().campaign.id}
+        )

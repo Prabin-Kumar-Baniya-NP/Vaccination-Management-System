@@ -10,33 +10,83 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('vaccine', '0001_initial'),
-        ('center', '0001_initial'),
+        ("vaccine", "0001_initial"),
+        ("center", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Campaign',
+            name="Campaign",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.DateField(null=True, verbose_name='Start Date')),
-                ('end_date', models.DateField(null=True, verbose_name='End Date')),
-                ('agents', models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name='Agents')),
-                ('center', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='center.center', verbose_name='Center')),
-                ('vaccine', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='vaccine.vaccine', verbose_name='Vaccine')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("start_date", models.DateField(null=True, verbose_name="Start Date")),
+                ("end_date", models.DateField(null=True, verbose_name="End Date")),
+                (
+                    "agents",
+                    models.ManyToManyField(
+                        blank=True, to=settings.AUTH_USER_MODEL, verbose_name="Agents"
+                    ),
+                ),
+                (
+                    "center",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="center.center",
+                        verbose_name="Center",
+                    ),
+                ),
+                (
+                    "vaccine",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="vaccine.vaccine",
+                        verbose_name="Vaccine",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Slot',
+            name="Slot",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(null=True, verbose_name='Date')),
-                ('start_time', models.TimeField(verbose_name='Start Time')),
-                ('end_time', models.TimeField(verbose_name='End Time')),
-                ('max_capacity', models.IntegerField(default=0, verbose_name='Maximum Capacity')),
-                ('reserved', models.IntegerField(default=0, verbose_name='Total Reserved')),
-                ('campaign', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='campaign.campaign')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField(null=True, verbose_name="Date")),
+                ("start_time", models.TimeField(verbose_name="Start Time")),
+                ("end_time", models.TimeField(verbose_name="End Time")),
+                (
+                    "max_capacity",
+                    models.IntegerField(default=0, verbose_name="Maximum Capacity"),
+                ),
+                (
+                    "reserved",
+                    models.IntegerField(default=0, verbose_name="Total Reserved"),
+                ),
+                (
+                    "campaign",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="campaign.campaign",
+                    ),
+                ),
             ],
         ),
     ]

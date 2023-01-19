@@ -18,31 +18,36 @@ class TestPermissionsOnCampaignView(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_create_campaign_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="add_campaign"))
+        self.user.user_permissions.add(Permission.objects.get(codename="add_campaign"))
         response = self.c.get(reverse("campaign:campaign-create"))
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_on_update_campaign_view(self):
         response = self.c.get(
-            reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id}))
+            reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_update_campaign_view(self):
         self.user.user_permissions.add(
-            Permission.objects.get(codename="change_campaign"))
+            Permission.objects.get(codename="change_campaign")
+        )
         response = self.c.get(
-            reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id}))
+            reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_on_delete_campaign_view(self):
         response = self.c.get(
-            reverse("campaign:campaign-delete", kwargs={"pk": self.campaign.id}))
+            reverse("campaign:campaign-delete", kwargs={"pk": self.campaign.id})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_delete_campaign_view(self):
         self.user.user_permissions.add(
-            Permission.objects.get(codename="delete_campaign"))
+            Permission.objects.get(codename="delete_campaign")
+        )
         response = self.c.get(
-            reverse("campaign:campaign-delete", kwargs={"pk": self.campaign.id}))
+            reverse("campaign:campaign-delete", kwargs={"pk": self.campaign.id})
+        )
         self.assertEqual(response.status_code, 200)

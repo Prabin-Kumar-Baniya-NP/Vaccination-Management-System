@@ -7,29 +7,37 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('campaign', '0001_initial'),
-        ('vaccination', '0001_initial'),
+        ("campaign", "0001_initial"),
+        ("vaccination", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='slot',
-            name='campaign',
+            model_name="slot",
+            name="campaign",
         ),
         migrations.AlterField(
-            model_name='vaccination',
-            name='campaign',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='campaign.campaign', verbose_name='Campaign'),
+            model_name="vaccination",
+            name="campaign",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="campaign.campaign",
+                verbose_name="Campaign",
+            ),
         ),
         migrations.AlterField(
-            model_name='vaccination',
-            name='slot',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='campaign.slot', verbose_name='Slot'),
+            model_name="vaccination",
+            name="slot",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="campaign.slot",
+                verbose_name="Slot",
+            ),
         ),
         migrations.DeleteModel(
-            name='Campaign',
+            name="Campaign",
         ),
         migrations.DeleteModel(
-            name='Slot',
+            name="Slot",
         ),
     ]

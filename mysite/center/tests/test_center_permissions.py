@@ -22,31 +22,32 @@ class TestPermissionsOnCenterView(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_create_center_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="add_center"))
+        self.user.user_permissions.add(Permission.objects.get(codename="add_center"))
         response = self.c.get(reverse("center:create-center"))
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_on_update_center_view(self):
         response = self.c.get(
-            reverse("center:center-update", kwargs={"pk": self.center.id}))
+            reverse("center:center-update", kwargs={"pk": self.center.id})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_update_center_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="change_center"))
+        self.user.user_permissions.add(Permission.objects.get(codename="change_center"))
         response = self.c.get(
-            reverse("center:center-update", kwargs={"pk": self.center.id}))
+            reverse("center:center-update", kwargs={"pk": self.center.id})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_on_delete_center_view(self):
         response = self.c.get(
-            reverse("center:center-delete", kwargs={"pk": self.center.id}))
+            reverse("center:center-delete", kwargs={"pk": self.center.id})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_delete_center_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="delete_center"))
+        self.user.user_permissions.add(Permission.objects.get(codename="delete_center"))
         response = self.c.get(
-            reverse("center:center-delete", kwargs={"pk": self.center.id}))
+            reverse("center:center-delete", kwargs={"pk": self.center.id})
+        )
         self.assertEqual(response.status_code, 200)

@@ -19,36 +19,30 @@ class TestVaccinationView(TestCase):
     def test_get_dose_number(self):
         self.vaccination.is_vaccinated = True
         self.vaccination.save()
-        self.assertEqual(Vaccination.get_dose_number(
-            self.patient, self.vaccine), 1)
+        self.assertEqual(Vaccination.get_dose_number(self.patient, self.vaccine), 1)
 
     def test_documents_eligibility(self):
-        checks = Vaccination.check_eligibility(
-            self.patient, self.campaign, self.slot)
+        checks = Vaccination.check_eligibility(self.patient, self.campaign, self.slot)
         self.assertFalse("document" in checks.keys())
 
     def test_check_age_eligibility(self):
         self.vaccine.minimum_age = 0
         self.vaccine.save()
-        checks = Vaccination.check_eligibility(
-            self.patient, self.campaign, self.slot)
+        checks = Vaccination.check_eligibility(self.patient, self.campaign, self.slot)
         self.assertFalse("age" in checks.keys())
 
     def test_check_age_ineligibility(self):
         self.vaccine.minimum_age = 1000
         self.vaccine.save()
-        checks = Vaccination.check_eligibility(
-            self.patient, self.campaign, self.slot)
+        checks = Vaccination.check_eligibility(self.patient, self.campaign, self.slot)
         self.assertTrue("age" in checks.keys())
 
     def test_incomplete_vaccination_case(self):
-        checks = Vaccination.check_eligibility(
-            self.patient, self.campaign, self.slot)
+        checks = Vaccination.check_eligibility(self.patient, self.campaign, self.slot)
         self.assertTrue("incomplete_vaccination" in checks.keys())
 
     def test_vaccine_interval_eligibility(self):
-        checks = Vaccination.check_eligibility(
-            self.patient, self.campaign, self.slot)
+        checks = Vaccination.check_eligibility(self.patient, self.campaign, self.slot)
         self.assertFalse("interval" in checks.keys())
 
     def test_vaccine_interval_ineligibility(self):
@@ -69,5 +63,6 @@ class TestVaccinationView(TestCase):
         self.current_vaccine.save()
         # Check for eligibility for vaccine
         checks = Vaccination.check_eligibility(
-            self.patient, self.vaccination.campaign, new_slot)
+            self.patient, self.vaccination.campaign, new_slot
+        )
         self.assertTrue("interval" in checks.keys())

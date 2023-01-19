@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vaccination', '0003_vaccination_date'),
+        ("vaccination", "0003_vaccination_date"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='vaccination',
-            name='date',
-            field=models.DateField(blank=True, null=True, verbose_name='Date of Vaccination'),
+            model_name="vaccination",
+            name="date",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date of Vaccination"
+            ),
         ),
     ]

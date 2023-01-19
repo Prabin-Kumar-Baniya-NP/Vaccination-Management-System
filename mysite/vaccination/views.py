@@ -22,6 +22,7 @@ class ChooseVaccine(LoginRequiredMixin, ListView):
     """
     Lists all the vaccine
     """
+
     model = Vaccine
     template_name = "vaccination/choose-vaccine.html"
     paginate_by = 10
@@ -35,44 +36,62 @@ class ChooseCampaign(LoginRequiredMixin, ListView):
     """
     Lists all the campaign
     """
+
     model = Campaign
     template_name = "vaccination/choose-campaign.html"
     paginate_by = 10
     ordering = "start_date"
 
     def get_queryset(self):
-        return super().get_queryset().filter(vaccine=self.kwargs["vaccine_id"]).only("center", "start_date", "end_date").select_related("center")
+        return (
+            super()
+            .get_queryset()
+            .filter(vaccine=self.kwargs["vaccine_id"])
+            .only("center", "start_date", "end_date")
+            .select_related("center")
+        )
 
 
 class ChooseSlot(LoginRequiredMixin, ListView):
     """
     Lists all the campaign
     """
+
     model = Slot
     template_name = "vaccination/choose-slot.html"
     paginate_by = 10
     ordering = "date"
 
     def get_queryset(self):
-        return super().get_queryset().filter(campaign=self.kwargs["campaign_id"], date__gte=datetime.date.today()).select_related("campaign")
+        return (
+            super()
+            .get_queryset()
+            .filter(
+                campaign=self.kwargs["campaign_id"], date__gte=datetime.date.today()
+            )
+            .select_related("campaign")
+        )
 
 
 class ConfirmVaccination(View):
     form_class = VaccinationForm
 
     def get(self, request, *args, **kwargs):
-        campaign = Campaign.objects.select_related(
-            "center", "vaccine").get(id=self.kwargs["campaign_id"])
+        campaign = Campaign.objects.select_related("center", "vaccine").get(
+            id=self.kwargs["campaign_id"]
+        )
         slot = Slot.objects.only("date", "start_time", "end_time").get(
-            id=self.kwargs["slot_id"])
+            id=self.kwargs["slot_id"]
+        )
         form = self.form_class(
-            initial={"patient": request.user, "campaign": campaign, "slot": slot})
+            initial={"patient": request.user, "campaign": campaign, "slot": slot}
+        )
         context = {
             "patient": request.user,
             "campaign": campaign,
             "slot": slot,
             "form": form,
-            "checks": Vaccination.check_eligibility(request.user, campaign, slot)
+            "checks": Vaccination.check_eligibility(request.user, campaign, slot),
         }
         return render(request, "vaccination/confirm-vaccination.html", context)
 
@@ -82,16 +101,20 @@ class ConfirmVaccination(View):
         if form.is_valid():
             # Check the restriction for new vaccination
             checks = Vaccination.check_eligibility(
-                request.user, form.cleaned_data["campaign"], form.cleaned_data["slot"])
+                request.user, form.cleaned_data["campaign"], form.cleaned_data["slot"]
+            )
             if len(checks.keys()) == 0:
                 # Reserve the vaccine
                 is_reserved = Slot.reserve_vaccine(
-                    self.kwargs["campaign_id"], self.kwargs["slot_id"])
+                    self.kwargs["campaign_id"], self.kwargs["slot_id"]
+                )
                 if is_reserved:
                     form.save()
                     return render(request, "vaccination/schedule-success.html", {})
                 else:
-                    return HttpResponse("Sorry! We are unable to reserve vaccine for you at this moment")
+                    return HttpResponse(
+                        "Sorry! We are unable to reserve vaccine for you at this moment"
+                    )
             else:
                 messages.error(request, f"{checks}")
                 raise PermissionDenied()
@@ -103,31 +126,42 @@ class RegistrationList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     Lists all the vaccination registration for given vaccination campaign
     """
+
     model = Vaccination
     template_name = "vaccination/registration-list.html"
     paginate_by = 10
-    permission_required = ("vaccination.view_vaccination", )
+    permission_required = ("vaccination.view_vaccination",)
 
     def get_queryset(self):
-        return Vaccination.objects.filter(campaign=self.kwargs["campaign_id"]).select_related("patient", "campaign", "slot").order_by("-id")
+        return (
+            Vaccination.objects.filter(campaign=self.kwargs["campaign_id"])
+            .select_related("patient", "campaign", "slot")
+            .order_by("-id")
+        )
 
 
 class VaccinationList(LoginRequiredMixin, ListView):
     """
     Lists all the vaccination registration done by the user
     """
+
     model = Vaccination
     template_name = "vaccination/vaccination-list-patient.html"
     paginate_by = 10
 
     def get_queryset(self):
-        return Vaccination.objects.filter(patient=self.request.user).prefetch_related("patient", "campaign", "slot").order_by("-id")
+        return (
+            Vaccination.objects.filter(patient=self.request.user)
+            .prefetch_related("patient", "campaign", "slot")
+            .order_by("-id")
+        )
 
 
 class VaccinationDetail(LoginRequiredMixin, DetailView):
     """
     Returns the details of vaccination registration
     """
+
     model = Vaccination
     template_name = "vaccination/vaccination-detail.html"
 
@@ -135,7 +169,12 @@ class VaccinationDetail(LoginRequiredMixin, DetailView):
         if self.request.user.has_perm("vaccination.view_vaccination"):
             return super().get_queryset().select_related("patient", "campaign", "slot")
         else:
-            return super().get_queryset().filter(patient=self.request.user).select_related("patient", "campaign", "slot")
+            return (
+                super()
+                .get_queryset()
+                .filter(patient=self.request.user)
+                .select_related("patient", "campaign", "slot")
+            )
 
 
 @login_required
@@ -144,33 +183,41 @@ def approve_vaccination(request, vaccination_id):
     Approves the vaccination of patient
     """
     if request.user.has_perm("vaccination.change_vaccination"):
-        vaccination = Vaccination.objects.only("campaign",
-                                               "is_vaccinated", "updated_by").get(id=vaccination_id)
+        vaccination = Vaccination.objects.only(
+            "campaign", "is_vaccinated", "updated_by"
+        ).get(id=vaccination_id)
         if request.user in vaccination.campaign.agents.all():
             if vaccination.is_vaccinated:
                 messages.info(request, "Vaccination is already Approved")
-                return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))
+                return HttpResponseRedirect(
+                    reverse(
+                        "vaccination:vaccination-detail", kwargs={"pk": vaccination_id}
+                    )
+                )
             else:
                 vaccination.is_vaccinated = True
                 vaccination.date = datetime.date.today()
                 vaccination.updated_by = User.objects.get(id=request.user.id)
                 vaccination.save()
                 messages.success(request, "Vaccination approved successfully")
-                return HttpResponseRedirect(reverse("vaccination:vaccination-detail", kwargs={"pk": vaccination_id}))
+                return HttpResponseRedirect(
+                    reverse(
+                        "vaccination:vaccination-detail", kwargs={"pk": vaccination_id}
+                    )
+                )
         else:
-            messages.error(
-                request, "You are not assigned to approve this vaccination")
+            messages.error(request, "You are not assigned to approve this vaccination")
         raise PermissionDenied()
     else:
-        messages.error(
-            request, "You don't have permission to approve vaccination")
+        messages.error(request, "You don't have permission to approve vaccination")
         raise PermissionDenied()
 
 
 @login_required
 def appointment_letter(request, vaccination_id):
-    vaccination = Vaccination.objects.select_related(
-        "patient", "campaign", "slot").get(id=vaccination_id)
+    vaccination = Vaccination.objects.select_related("patient", "campaign", "slot").get(
+        id=vaccination_id
+    )
     context = {
         "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccination Appointment Letter",
         "date": str(datetime.datetime.now()),
@@ -183,8 +230,9 @@ def appointment_letter(request, vaccination_id):
 
 @login_required
 def vaccine_certificate(request, vaccination_id):
-    vaccination = Vaccination.objects.select_related(
-        "patient", "campaign", "slot").get(id=vaccination_id)
+    vaccination = Vaccination.objects.select_related("patient", "campaign", "slot").get(
+        id=vaccination_id
+    )
     if vaccination.is_vaccinated:
         context = {
             "pdf_title": f"{vaccination.patient.get_full_name() } | Vaccine Certificate",

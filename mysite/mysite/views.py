@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def index(request):
     """
     Handles the index page for authenticated and non-authenticated user

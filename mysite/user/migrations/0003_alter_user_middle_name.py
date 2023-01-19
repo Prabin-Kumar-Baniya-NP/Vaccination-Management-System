@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0002_alter_user_blood_group_and_more'),
+        ("user", "0002_alter_user_blood_group_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='middle_name',
-            field=models.CharField(blank=True, max_length=30, null=True, verbose_name='Middle Name'),
+            model_name="user",
+            name="middle_name",
+            field=models.CharField(
+                blank=True, max_length=30, null=True, verbose_name="Middle Name"
+            ),
         ),
     ]

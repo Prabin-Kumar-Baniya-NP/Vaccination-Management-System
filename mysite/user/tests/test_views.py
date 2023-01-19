@@ -54,8 +54,7 @@ class TestUserAuthView(TestCase):
                     "identity_document_number": "123456",
                 },
             )
-        self.assertTrue(User.objects.filter(
-            email="dummyuser@gmail.com").exists())
+        self.assertTrue(User.objects.filter(email="dummyuser@gmail.com").exists())
         self.assertRedirects(response, reverse("accounts:login"))
 
     def test_user_can_view_login_page(self):
@@ -97,8 +96,7 @@ class TestUserAuthView(TestCase):
                 "new_password2": "mnop@12345",
             },
         )
-        password = User.objects.only("password").get(
-            email=user["email"]).password
+        password = User.objects.only("password").get(email=user["email"]).password
         self.assertTrue(check_password("mnop@12345", password))
         self.assertRedirects(response, reverse("accounts:profile-view"))
 
@@ -144,11 +142,9 @@ class TestUserAuthView(TestCase):
     def test_user_can_verify_email(self):
         self.c.login(email=user["email"], password=user["password"])
         self.c.get(reverse("accounts:verify-email"))
-        url = re.search(
-            "(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
+        url = re.search("(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
         self.c.get(url)
-        self.assertTrue(User.objects.get(
-            email=user["email"]).is_email_verified)
+        self.assertTrue(User.objects.get(email=user["email"]).is_email_verified)
 
     def test_user_can_access_password_reset_page(self):
         response = self.c.get(reverse("accounts:password-reset"))
@@ -156,28 +152,25 @@ class TestUserAuthView(TestCase):
 
     def test_user_can_get_password_reset_link(self):
         response = self.c.post(
-            reverse("accounts:password-reset"), {"email": user["email"]})
+            reverse("accounts:password-reset"), {"email": user["email"]}
+        )
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(response.url, reverse("accounts:password-reset-done"))
 
     def test_user_can_access_password_reset_confirm_view(self):
-        self.c.post(reverse("accounts:password-reset"),
-                    {"email": user["email"]})
-        url = re.search(
-            "(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
+        self.c.post(reverse("accounts:password-reset"), {"email": user["email"]})
+        url = re.search("(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
         respone = self.c.get(url)
         self.assertEqual(
-            respone.url, "/accounts/password-reset-confirm/MQ/set-password/")
+            respone.url, "/accounts/password-reset-confirm/MQ/set-password/"
+        )
 
     def test_user_can_set_new_password(self):
-        self.c.post(reverse("accounts:password-reset"),
-                    {"email": user["email"]})
-        url = re.search(
-            "(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
+        self.c.post(reverse("accounts:password-reset"), {"email": user["email"]})
+        url = re.search("(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
         response1 = self.c.get(url)
-        response2 = self.c.post(response1.url, {
-            "new_password1": "qwerty@12345",
-            "new_password2": "qwerty@12345"
-        })
-        self.assertEqual(response2.url, reverse(
-            "accounts:password-reset-complete"))
+        response2 = self.c.post(
+            response1.url,
+            {"new_password1": "qwerty@12345", "new_password2": "qwerty@12345"},
+        )
+        self.assertEqual(response2.url, reverse("accounts:password-reset-complete"))

@@ -10,7 +10,7 @@ class CreateCenterForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateCenterForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Center
@@ -25,7 +25,7 @@ class UpdateCenterForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateCenterForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Center
@@ -40,10 +40,10 @@ class CreateStorageForm(ModelForm):
     def __init__(self, center_id, *args, **kwargs):
         super(CreateStorageForm, self).__init__(*args, **kwargs)
         self.fields["center"].queryset = Center.objects.filter(id=center_id)
-        self.fields['center'].disabled = True
-        self.fields['booked_quantity'].disabled = True
+        self.fields["center"].disabled = True
+        self.fields["booked_quantity"].disabled = True
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Storage
@@ -58,11 +58,11 @@ class UpdateStorageForm(ModelForm):
     def __init__(self, center, *args, **kwargs):
         super(UpdateStorageForm, self).__init__(*args, **kwargs)
         self.fields["center"].queryset = Center.objects.filter(id=center.id)
-        self.fields['center'].disabled = True
-        self.fields['vaccine'].disabled = True
-        self.fields['booked_quantity'].disabled = True
+        self.fields["center"].disabled = True
+        self.fields["vaccine"].disabled = True
+        self.fields["booked_quantity"].disabled = True
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
         model = Storage

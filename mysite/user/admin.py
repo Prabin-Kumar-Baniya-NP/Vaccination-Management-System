@@ -28,14 +28,23 @@ class CustomUserAdmin(admin.ModelAdmin):
         ("photo"),
         ("is_staff", "is_superuser", "is_active"),
         ("groups"),
-        ("user_permissions")
+        ("user_permissions"),
     )
-    list_display = ["first_name", "middle_name",
-                    "last_name", "email", "is_active"]
-    list_filter = ["is_email_verified", "identity_document_type",
-                   "is_staff", "is_superuser", "is_active"]
-    search_fields = ["first_name", "middle_name",
-                     "last_name", "email", "identity_document_number"]
+    list_display = ["first_name", "middle_name", "last_name", "email", "is_active"]
+    list_filter = [
+        "is_email_verified",
+        "identity_document_type",
+        "is_staff",
+        "is_superuser",
+        "is_active",
+    ]
+    search_fields = [
+        "first_name",
+        "middle_name",
+        "last_name",
+        "email",
+        "identity_document_number",
+    ]
     actions = [make_staff, make_superuser]
 
 

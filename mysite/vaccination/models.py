@@ -18,11 +18,9 @@ class Vaccination(models.Model):
     campaign = models.ForeignKey(
         Campaign, on_delete=models.CASCADE, verbose_name=_("Campaign")
     )
-    slot = models.ForeignKey(
-        Slot, on_delete=models.CASCADE, verbose_name=_("Slot"))
+    slot = models.ForeignKey(Slot, on_delete=models.CASCADE, verbose_name=_("Slot"))
     date = models.DateField(_("Date of Vaccination"), null=True, blank=True)
-    is_vaccinated = models.BooleanField(
-        default=False, verbose_name=_("Is Vaccinated"))
+    is_vaccinated = models.BooleanField(default=False, verbose_name=_("Is Vaccinated"))
     updated_by = models.ForeignKey(
         User,
         null=True,
@@ -44,7 +42,8 @@ class Vaccination(models.Model):
         return Vaccination.objects.filter(
             patient=patient,
             campaign__in=Campaign.objects.filter(id=vaccine.id),
-            is_vaccinated=True).count()
+            is_vaccinated=True,
+        ).count()
 
     def has_incomplete_vaccination(patient, vaccine):
         """
@@ -53,21 +52,26 @@ class Vaccination(models.Model):
         return Vaccination.objects.filter(
             patient=patient,
             campaign__in=Campaign.objects.filter(vaccine=vaccine),
-            is_vaccinated=False).exists()
+            is_vaccinated=False,
+        ).exists()
 
     def is_eligible_by_interval(patient, vaccine, slot):
         # Get the date of last vaccination
-        last_vaccination = Vaccination.objects.filter(
-            patient=patient,
-            campaign__in=Campaign.objects.filter(vaccine=vaccine),
-            is_vaccinated=True).order_by("id").last()
+        last_vaccination = (
+            Vaccination.objects.filter(
+                patient=patient,
+                campaign__in=Campaign.objects.filter(vaccine=vaccine),
+                is_vaccinated=True,
+            )
+            .order_by("id")
+            .last()
+        )
 
         if last_vaccination is None:
             return True
 
         # Add interval to that last dose date
-        eligible_date = last_vaccination.slot.date + \
-            timedelta(days=vaccine.interval)
+        eligible_date = last_vaccination.slot.date + timedelta(days=vaccine.interval)
 
         # Check whether slot date is less than eligible date
         if eligible_date < slot.date:
@@ -76,9 +80,9 @@ class Vaccination(models.Model):
         return False
 
     def check_eligibility(user, campaign, slot):
-        '''
+        """
         Check whether the user is eligible to take part in vaccination campaign in the choosen slot
-        '''
+        """
         checks = {}
 
         # Check identity documents is submitted
@@ -89,19 +93,27 @@ class Vaccination(models.Model):
         # check age eligibility
         vaccine = campaign.vaccine
         if not Vaccine.is_eligible_by_age(patient, vaccine):
-            checks["age"] = f"Your age should be more than or equal to {vaccine.minimum_age} to take this vaccine."
+            checks[
+                "age"
+            ] = f"Your age should be more than or equal to {vaccine.minimum_age} to take this vaccine."
 
         # check dose number
         current_dose_num = Vaccination.get_dose_number(patient, vaccine)
         if current_dose_num >= vaccine.number_of_doses:
-            checks["dose"] = f"You have already taken {current_dose_num} doses of this vaccine."
+            checks[
+                "dose"
+            ] = f"You have already taken {current_dose_num} doses of this vaccine."
 
         # check previous vaccination completion status
         if Vaccination.has_incomplete_vaccination(patient, vaccine):
-            checks["incomplete_vaccination"] = f"Please complete the previous vaccination"
+            checks[
+                "incomplete_vaccination"
+            ] = f"Please complete the previous vaccination"
 
         # check interval for taking more than one dose
         if not Vaccination.is_eligible_by_interval(patient, vaccine, slot):
-            checks["interval"] = f"You do not meet vaccine interval criteria for your next vaccination."
+            checks[
+                "interval"
+            ] = f"You do not meet vaccine interval criteria for your next vaccination."
 
         return checks

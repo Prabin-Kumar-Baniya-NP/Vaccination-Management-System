@@ -15,9 +15,12 @@ class CampaignFactory(factory.django.DjangoModelFactory):
     center = factory.SubFactory(CenterFactory)
     vaccine = factory.SubFactory(VaccineFactory)
     start_date = fake.date_between(
-        datetime.now().date(), datetime.now().date() + timedelta(days=10))
-    end_date = fake.date_between(datetime.now().date(
-    ) + timedelta(days=20), datetime.now().date() + timedelta(days=30))
+        datetime.now().date(), datetime.now().date() + timedelta(days=10)
+    )
+    end_date = fake.date_between(
+        datetime.now().date() + timedelta(days=20),
+        datetime.now().date() + timedelta(days=30),
+    )
 
     @factory.post_generation
     def agents(self, create, extracted):
@@ -31,6 +34,7 @@ class CampaignFactory(factory.django.DjangoModelFactory):
             for agent in extracted:
                 self.agents.add(agent)
 
+
 # campaign = CampaignFactory.create(agents=[UserFactory() for i in range(5)])
 
 
@@ -39,19 +43,25 @@ class SlotFactory(factory.django.DjangoModelFactory):
         model = "campaign.Slot"
 
     campaign = factory.SubFactory(CampaignFactory)
-    date = fake.date_between(datetime.now().date(
-    ) + timedelta(days=11), datetime.now().date() + timedelta(days=19))
-    start_time = factory.Iterator([
-        datetime.combine(date.today(), time()) + timedelta(hours=1),
-        datetime.combine(date.today(), time()) + timedelta(hours=2),
-        datetime.combine(date.today(), time()) + timedelta(hours=3),
-        datetime.combine(date.today(), time()) + timedelta(hours=4)
-    ])
-    end_time = factory.Iterator([
-        datetime.combine(date.today(), time()) + timedelta(hours=2),
-        datetime.combine(date.today(), time()) + timedelta(hours=3),
-        datetime.combine(date.today(), time()) + timedelta(hours=4),
-        datetime.combine(date.today(), time()) + timedelta(hours=5)
-    ])
+    date = fake.date_between(
+        datetime.now().date() + timedelta(days=11),
+        datetime.now().date() + timedelta(days=19),
+    )
+    start_time = factory.Iterator(
+        [
+            datetime.combine(date.today(), time()) + timedelta(hours=1),
+            datetime.combine(date.today(), time()) + timedelta(hours=2),
+            datetime.combine(date.today(), time()) + timedelta(hours=3),
+            datetime.combine(date.today(), time()) + timedelta(hours=4),
+        ]
+    )
+    end_time = factory.Iterator(
+        [
+            datetime.combine(date.today(), time()) + timedelta(hours=2),
+            datetime.combine(date.today(), time()) + timedelta(hours=3),
+            datetime.combine(date.today(), time()) + timedelta(hours=4),
+            datetime.combine(date.today(), time()) + timedelta(hours=5),
+        ]
+    )
     max_capacity = factory.Iterator([10, 11, 12, 13, 14, 15])
     reserved = factory.Iterator([1, 2, 3, 4, 5])

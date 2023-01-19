@@ -21,31 +21,36 @@ class TestPermissionOnVaccineView(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_create_vaccine_view(self):
-        self.user.user_permissions.add(
-            Permission.objects.get(codename="add_vaccine"))
+        self.user.user_permissions.add(Permission.objects.get(codename="add_vaccine"))
         response = self.c.get(reverse("vaccine:vaccine-create"))
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_on_update_vaccine_view(self):
         response = self.c.get(
-            reverse("vaccine:vaccine-update", kwargs={"pk": self.vaccine.id}))
+            reverse("vaccine:vaccine-update", kwargs={"pk": self.vaccine.id})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_update_vaccine_view(self):
         self.user.user_permissions.add(
-            Permission.objects.get(codename="change_vaccine"))
+            Permission.objects.get(codename="change_vaccine")
+        )
         response = self.c.get(
-            reverse("vaccine:vaccine-update", kwargs={"pk": self.vaccine.id}))
+            reverse("vaccine:vaccine-update", kwargs={"pk": self.vaccine.id})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_on_vaccine_delete_view(self):
         response = self.c.get(
-            reverse("vaccine:vaccine-delete", kwargs={"pk": self.vaccine.id}))
+            reverse("vaccine:vaccine-delete", kwargs={"pk": self.vaccine.id})
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_authorized_access_on_vaccine_delete_view(self):
         self.user.user_permissions.add(
-            Permission.objects.get(codename="delete_vaccine"))
+            Permission.objects.get(codename="delete_vaccine")
+        )
         response = self.c.get(
-            reverse("vaccine:vaccine-delete", kwargs={"pk": self.vaccine.id}))
+            reverse("vaccine:vaccine-delete", kwargs={"pk": self.vaccine.id})
+        )
         self.assertEqual(response.status_code, 200)

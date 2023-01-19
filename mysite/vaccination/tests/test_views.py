@@ -19,18 +19,33 @@ class TestVaccinationView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_choose_campaign_list_page(self):
-        response = self.c.get(reverse("vaccination:choose-campaign",
-                              kwargs={"vaccine_id": self.vaccination.campaign.vaccine.id}))
+        response = self.c.get(
+            reverse(
+                "vaccination:choose-campaign",
+                kwargs={"vaccine_id": self.vaccination.campaign.vaccine.id},
+            )
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_choose_slot_list_page(self):
-        response = self.c.get(reverse(
-            "vaccination:choose-slot", kwargs={"campaign_id": self.vaccination.campaign.id}))
+        response = self.c.get(
+            reverse(
+                "vaccination:choose-slot",
+                kwargs={"campaign_id": self.vaccination.campaign.id},
+            )
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_get_request_on_confirm_vaccination(self):
-        response = self.c.get(reverse("vaccination:confirm-vaccination", kwargs={
-                              "campaign_id": self.vaccination.campaign.id, "slot_id": self.vaccination.slot.id}))
+        response = self.c.get(
+            reverse(
+                "vaccination:confirm-vaccination",
+                kwargs={
+                    "campaign_id": self.vaccination.campaign.id,
+                    "slot_id": self.vaccination.slot.id,
+                },
+            )
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_post_request_on_confirm_vaccination(self):
@@ -50,41 +65,72 @@ class TestVaccinationView(TestCase):
             "campaign": self.vaccination.campaign.id,
             "slot": self.vaccination.slot.id,
         }
-        response = self.c.post(reverse("vaccination:confirm-vaccination", kwargs={
-            "campaign_id": self.vaccination.campaign.id, "slot_id": self.vaccination.slot.id}), data)
+        response = self.c.post(
+            reverse(
+                "vaccination:confirm-vaccination",
+                kwargs={
+                    "campaign_id": self.vaccination.campaign.id,
+                    "slot_id": self.vaccination.slot.id,
+                },
+            ),
+            data,
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_approve_vaccination(self):
-        response1 = self.c.get(reverse(
-            "vaccination:approve-vaccination", kwargs={"vaccination_id": self.vaccination.id}))
+        response1 = self.c.get(
+            reverse(
+                "vaccination:approve-vaccination",
+                kwargs={"vaccination_id": self.vaccination.id},
+            )
+        )
         self.assertEqual(response1.status_code, 403)
         # Grant Permissions
         self.vaccination.campaign.agents.add(self.user)
         self.user.user_permissions.add(
-            Permission.objects.get(codename="change_vaccination"))
+            Permission.objects.get(codename="change_vaccination")
+        )
         # Save the Changes
         self.vaccination.campaign.save()
         # Make the request
-        response2 = self.c.get(reverse(
-            "vaccination:approve-vaccination", kwargs={"vaccination_id": self.vaccination.id}))
+        response2 = self.c.get(
+            reverse(
+                "vaccination:approve-vaccination",
+                kwargs={"vaccination_id": self.vaccination.id},
+            )
+        )
 
         self.assertEqual(response2.status_code, 302)
 
     def test_appointment_letter(self):
-        response = self.c.get(reverse("vaccination:appointment-letter", kwargs={"vaccination_id": self.vaccination.id}))
+        response = self.c.get(
+            reverse(
+                "vaccination:appointment-letter",
+                kwargs={"vaccination_id": self.vaccination.id},
+            )
+        )
         self.assertEqual(response.status_code, 200)
-    
+
     def test_vaccine_certificate(self):
         # Grant Permissions
         self.vaccination.campaign.agents.add(self.user)
         self.user.user_permissions.add(
-            Permission.objects.get(codename="change_vaccination"))
+            Permission.objects.get(codename="change_vaccination")
+        )
         # Save the Changes
         self.vaccination.campaign.save()
         # Approve the vaccination
-        self.c.get(reverse(
-            "vaccination:approve-vaccination", kwargs={"vaccination_id": self.vaccination.id}))
+        self.c.get(
+            reverse(
+                "vaccination:approve-vaccination",
+                kwargs={"vaccination_id": self.vaccination.id},
+            )
+        )
         # Make the request
-        response = self.c.get(reverse(
-            "vaccination:get-certificate", kwargs={"vaccination_id": self.vaccination.id}))
+        response = self.c.get(
+            reverse(
+                "vaccination:get-certificate",
+                kwargs={"vaccination_id": self.vaccination.id},
+            )
+        )
         self.assertEqual(response.status_code, 200)
