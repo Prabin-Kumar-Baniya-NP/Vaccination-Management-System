@@ -93,27 +93,19 @@ class Vaccination(models.Model):
         # check age eligibility
         vaccine = campaign.vaccine
         if not Vaccine.is_eligible_by_age(patient, vaccine):
-            checks[
-                "age"
-            ] = f"Your age should be more than or equal to {vaccine.minimum_age} to take this vaccine."
+            checks["age"] = f"Age Criteria Failed"
 
         # check dose number
         current_dose_num = Vaccination.get_dose_number(patient, vaccine)
         if current_dose_num >= vaccine.number_of_doses:
-            checks[
-                "dose"
-            ] = f"You have already taken {current_dose_num} doses of this vaccine."
+            checks["dose"] = f"Vaccine dose exceeds"
 
         # check previous vaccination completion status
         if Vaccination.has_incomplete_vaccination(patient, vaccine):
-            checks[
-                "incomplete_vaccination"
-            ] = f"Please complete the previous vaccination"
+            checks["incomplete_vaccination"] = f"Previous Vaccination is incomplete"
 
         # check interval for taking more than one dose
         if not Vaccination.is_eligible_by_interval(patient, vaccine, slot):
-            checks[
-                "interval"
-            ] = f"You do not meet vaccine interval criteria for your next vaccination."
+            checks["interval"] = f"Vaccination Interval Criteria Failed"
 
         return checks
