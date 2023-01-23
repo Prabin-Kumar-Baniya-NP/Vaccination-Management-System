@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 DOCUMENT_CHOICES = [
@@ -77,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     photo = models.ImageField(
         verbose_name=_("Profile Picture"), upload_to="profileImage/", null=True
     )
-    date_joined = models.DateTimeField(_("date joined"), auto_now_add=True)
+    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
     last_updated = models.DateTimeField(_("Last updated"), auto_now=True)
     is_email_verified = models.BooleanField(_("Email Verified"), default=False)
     is_active = models.BooleanField(_("active"), default=True)
