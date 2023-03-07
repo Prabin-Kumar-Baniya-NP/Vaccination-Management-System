@@ -7,8 +7,7 @@ from django.views.generic import (
 )
 from center.models import Center, Storage
 from center.forms import (
-    CreateCenterForm,
-    UpdateCenterForm,
+    CenterForm,
     CreateStorageForm,
     UpdateStorageForm,
 )
@@ -26,7 +25,7 @@ class CreateCenter(
     """
 
     model = Center
-    form_class = CreateCenterForm
+    form_class = CenterForm
     template_name = "center/center-create.html"
     permission_required = ("center.add_center",)
     success_url = reverse_lazy("center:center-list")
@@ -54,7 +53,8 @@ class CenterDetail(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["storage_list"] = Storage.objects.filter(center=self.kwargs["pk"])
+        context["storage_list"] = Storage.objects.filter(
+            center=self.kwargs["pk"])
         return context
 
 
@@ -80,7 +80,7 @@ class CenterUpdate(
     """
 
     model = Center
-    form_class = UpdateCenterForm
+    form_class = CenterForm
     template_name = "center/center-update.html"
     permission_required = ("center.change_center",)
     success_url = reverse_lazy("center:center-list")

@@ -2,28 +2,13 @@ from django.forms import ModelForm
 from center.models import Center, Storage
 
 
-class CreateCenterForm(ModelForm):
+class CenterForm(ModelForm):
     """
     Form to create new center
     """
 
     def __init__(self, *args, **kwargs):
-        super(CreateCenterForm, self).__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            visible.field.widget.attrs["class"] = "form-control"
-
-    class Meta:
-        model = Center
-        fields = "__all__"
-
-
-class UpdateCenterForm(ModelForm):
-    """
-    Form to update the center
-    """
-
-    def __init__(self, *args, **kwargs):
-        super(UpdateCenterForm, self).__init__(*args, **kwargs)
+        super(CenterForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
 
