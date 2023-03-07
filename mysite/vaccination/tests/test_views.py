@@ -14,11 +14,11 @@ class TestVaccinationView(TestCase):
         self.c.login(email=self.user.email, password="abcde@12345")
         return super().setUp()
 
-    def test_choose_vaccine_list_page(self):
+    def test_user_can_access_choose_vaccine_page(self):
         response = self.c.get(reverse("vaccination:choose-vaccine"))
         self.assertEqual(response.status_code, 200)
 
-    def test_choose_campaign_list_page(self):
+    def test_user_can_access_choose_campaign_page(self):
         response = self.c.get(
             reverse(
                 "vaccination:choose-campaign",
@@ -27,7 +27,7 @@ class TestVaccinationView(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_choose_slot_list_page(self):
+    def test_user_can_access_choose_slot_page(self):
         response = self.c.get(
             reverse(
                 "vaccination:choose-slot",
@@ -36,7 +36,7 @@ class TestVaccinationView(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_get_request_on_confirm_vaccination(self):
+    def test_user_can_access_confirm_vaccination_page(self):
         response = self.c.get(
             reverse(
                 "vaccination:confirm-vaccination",
@@ -48,7 +48,7 @@ class TestVaccinationView(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_confirm_vaccination(self):
+    def test_user_can_schedule_vaccination(self):
         # Make patient eligible for vaccination
         vaccine = self.vaccination.campaign.vaccine
         vaccine.minimum_age = 0
@@ -77,7 +77,7 @@ class TestVaccinationView(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_approve_vaccination(self):
+    def test_agent_can_approve_vaccination(self):
         response1 = self.c.get(
             reverse(
                 "vaccination:approve-vaccination",
@@ -102,7 +102,7 @@ class TestVaccinationView(TestCase):
 
         self.assertEqual(response2.status_code, 302)
 
-    def test_appointment_letter(self):
+    def test_user_can_download_appointment_letter(self):
         response = self.c.get(
             reverse(
                 "vaccination:appointment-letter",
@@ -111,7 +111,7 @@ class TestVaccinationView(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_vaccine_certificate(self):
+    def test_user_can_download_vaccine_certificate(self):
         # Grant Permissions
         self.vaccination.campaign.agents.add(self.user)
         self.user.user_permissions.add(

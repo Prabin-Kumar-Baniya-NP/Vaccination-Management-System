@@ -32,7 +32,7 @@ class TestUserAuthView(TestCase):
         self.user1.save()
         return super().setUp()
 
-    def test_user_can_view_signup_page(self):
+    def test_user_can_access_signup_page(self):
         response = self.c.get(reverse("accounts:signup"))
         self.assertEqual(response.status_code, 200)
 
@@ -57,7 +57,7 @@ class TestUserAuthView(TestCase):
         self.assertTrue(User.objects.filter(email="dummyuser@gmail.com").exists())
         self.assertRedirects(response, reverse("accounts:login"))
 
-    def test_user_can_view_login_page(self):
+    def test_user_can_access_login_page(self):
         response = self.c.get(reverse("accounts:login"))
         self.assertEqual(response.status_code, 200)
 
@@ -100,12 +100,12 @@ class TestUserAuthView(TestCase):
         self.assertTrue(check_password("mnop@12345", password))
         self.assertRedirects(response, reverse("accounts:profile-view"))
 
-    def test_user_can_view_profile_page(self):
+    def test_user_can_access_profile_page(self):
         self.c.login(email=user["email"], password=user["password"])
         response = self.c.get(reverse("accounts:profile-view"))
         self.assertEqual(response.status_code, 200)
 
-    def test_user_can_view_profile_update_page(self):
+    def test_user_can_access_profile_update_page(self):
         self.c.login(email=user["email"], password=user["password"])
         response = self.c.get(reverse("accounts:profile-update"))
         self.assertEqual(response.status_code, 200)
@@ -157,7 +157,7 @@ class TestUserAuthView(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(response.url, reverse("accounts:password-reset-done"))
 
-    def test_user_can_access_password_reset_confirm_view(self):
+    def test_user_can_access_password_reset_confirm_page(self):
         self.c.post(reverse("accounts:password-reset"), {"email": user["email"]})
         url = re.search("(?P<url>https?://[^\s]+)", mail.outbox[0].body).group("url")
         respone = self.c.get(url)

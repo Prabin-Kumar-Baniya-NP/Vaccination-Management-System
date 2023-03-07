@@ -20,18 +20,12 @@ class TestCampaignView(TestCase):
         self.campaign = CampaignFactory()
         return super().setUp()
 
-    def test_get_request_on_create_campaign_page(self):
-        """
-        Tests whether the user can visit campaign creation page
-        """
+    def test_user_can_access_create_campaign_page(self):
         response = self.c.get(reverse("campaign:campaign-create"))
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_create_campaign_page(self):
-        """
-        Tests whether the user can create a new campaign
-        """
-        data = {
+    def test_user_can_create_new_campaign(self):
+        payload = {
             "center": CenterFactory().id,
             "vaccine": VaccineFactory().id,
             "start_date": fake.date_between(
@@ -43,46 +37,34 @@ class TestCampaignView(TestCase):
             ),
             "agents": UserFactory().id,
         }
-        response = self.c.post(reverse("campaign:campaign-create"), data)
+        response = self.c.post(reverse("campaign:campaign-create"), payload)
         self.assertTrue(
             Campaign.objects.filter(
-                center=data["center"],
-                vaccine=data["vaccine"],
-                start_date=data["start_date"],
+                center=payload["center"],
+                vaccine=payload["vaccine"],
+                start_date=payload["start_date"],
             ).exists()
         )
         self.assertRedirects(response, reverse("campaign:campaign-list"))
 
-    def test_get_request_on_campaign_list_page(self):
-        """
-        Tests whether the user can see campaign list page
-        """
+    def test_user_can_access_campaign_list_page(self):
         response = self.c.get(reverse("campaign:campaign-list"))
         self.assertEqual(response.status_code, 200)
 
-    def test_get_request_on_campaign_detail_page(self):
-        """
-        Tests whether the user can see the details of each campaign
-        """
+    def test_user_can_access_campaign_detail_page(self):
         response = self.c.get(
             reverse("campaign:campaign-detail", kwargs={"pk": self.campaign.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_get_request_on_campaign_update_page(self):
-        """
-        Tests whether the user can view update campaign page
-        """
+    def test_user_can_access_campaign_update_page(self):
         response = self.c.get(
             reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_campaign_update_page(self):
-        """
-        Tests whether the user can update the existing campaign
-        """
-        data = {
+    def test_user_can_update_campaign(self):
+        payload = {
             "center": CenterFactory().id,
             "vaccine": VaccineFactory().id,
             "start_date": fake.date_between(
@@ -95,25 +77,19 @@ class TestCampaignView(TestCase):
             "agents": UserFactory().id,
         }
         response = self.c.post(
-            reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id}), data
+            reverse("campaign:campaign-update", kwargs={"pk": self.campaign.id}), payload
         )
         self.campaign.refresh_from_db()
-        self.assertEqual(self.campaign.center.id, data["center"])
-        self.assertEqual(self.campaign.vaccine.id, data["vaccine"])
+        self.assertEqual(self.campaign.center.id, payload["center"])
+        self.assertEqual(self.campaign.vaccine.id, payload["vaccine"])
 
-    def test_get_request_on_campaign_delete_page(self):
-        """
-        Tests whether the user can view the delete campaign page
-        """
+    def test_user_can_access_campaign_delete_page(self):
         response = self.c.get(
             reverse("campaign:campaign-delete", kwargs={"pk": self.campaign.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_campaign_delete_page(self):
-        """
-        Tests whether the user can delete the campaign object
-        """
+    def test_user_can_delete_campaign(self):
         response = self.c.post(
             reverse("campaign:campaign-delete", kwargs={"pk": self.campaign.id})
         )

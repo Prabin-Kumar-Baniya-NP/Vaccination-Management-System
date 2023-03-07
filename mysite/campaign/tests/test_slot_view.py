@@ -17,10 +17,7 @@ class TestSlotView(TestCase):
         self.slot = SlotFactory()
         return super().setUp()
 
-    def test_get_request_on_create_slot_page(self):
-        """
-        Tests whether the user can visit slot creation page
-        """
+    def test_user_can_access_create_slot_page(self):
         response = self.c.get(
             reverse(
                 "campaign:slot-create", kwargs={"campaign_id": self.slot.campaign.id}
@@ -28,11 +25,8 @@ class TestSlotView(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_create_slot_page(self):
-        """
-        Tests whether the user can create a new slot
-        """
-        data = {
+    def test_user_can_create_new_slot(self):
+        payload = {
             "campaign": self.slot.campaign,
             "date": self.slot.campaign.start_date,
             "start_time": datetime.now().time(),
@@ -43,14 +37,14 @@ class TestSlotView(TestCase):
             reverse(
                 "campaign:slot-create", kwargs={"campaign_id": self.slot.campaign.id}
             ),
-            data,
+            payload,
         )
         self.assertTrue(
             Slot.objects.filter(
-                campaign=data["campaign"],
-                date=data["date"],
-                start_time=data["start_time"],
-                end_time=data["end_time"],
+                campaign=payload["campaign"],
+                date=payload["date"],
+                start_time=payload["start_time"],
+                end_time=payload["end_time"],
             ).exists()
         )
         self.assertRedirects(
@@ -60,10 +54,7 @@ class TestSlotView(TestCase):
             ),
         )
 
-    def test_get_request_on_slot_update_page(self):
-        """
-        Tests whether the user can view update slot page
-        """
+    def test_user_can_access_slot_update_page(self):
         response = self.c.get(
             reverse(
                 "campaign:slot-update",
@@ -72,11 +63,8 @@ class TestSlotView(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_slot_update_page(self):
-        """
-        Tests whether the user can update the existing slot
-        """
-        data = {
+    def test_user_can_update_slot(self):
+        payload = {
             "campaign": self.slot.campaign,
             "date": self.slot.campaign.start_date,
             "start_time": datetime.now().time(),
@@ -88,42 +76,30 @@ class TestSlotView(TestCase):
                 "campaign:slot-update",
                 kwargs={"campaign_id": self.slot.campaign.id, "pk": self.slot.id},
             ),
-            data,
+            payload,
         )
         self.slot.refresh_from_db()
-        self.assertEqual(self.slot.end_time, data["end_time"])
+        self.assertEqual(self.slot.end_time, payload["end_time"])
 
-    def test_get_request_on_slot_list_page(self):
-        """
-        Tests whether the user can see slot list page
-        """
+    def test_user_can_access_slot_list_page(self):
         response = self.c.get(
             reverse("campaign:slot-list", kwargs={"campaign_id": self.slot.campaign.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_get_request_on_slot_detail_page(self):
-        """
-        Tests whether the user can see the details of each slot
-        """
+    def test_user_can_access_slot_detail_page(self):
         response = self.c.get(
             reverse("campaign:slot-detail", kwargs={"pk": self.slot.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_get_request_on_slot_delete_page(self):
-        """
-        Tests whether the user can view the delete slot page
-        """
+    def test_user_can_access_slot_delete_page(self):
         response = self.c.get(
             reverse("campaign:slot-delete", kwargs={"pk": self.slot.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_slot_delete_page(self):
-        """
-        Tests whether the user can delete the slot object
-        """
+    def test_user_can_delete_slot(self):
         response = self.c.post(
             reverse("campaign:slot-delete", kwargs={"pk": self.slot.id})
         )

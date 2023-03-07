@@ -17,18 +17,12 @@ class TestVaccineView(TestCase):
         self.c.login(email=self.user.email, password="abcde@12345")
         return super().setUp()
 
-    def test_get_request_on_create_vaccine_view(self):
-        """
-        Tests whether the user can see create vaccine page
-        """
+    def test_user_can_access_create_vaccine_page(self):
         response = self.c.get(reverse("vaccine:vaccine-create"))
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_create_vaccine_view(self):
-        """
-        Tests whether the user can create new vaccine
-        """
-        data = {
+    def test_user_can_create_new_vaccine(self):
+        payload = {
             "name": fake.name(),
             "description": fake.paragraph(),
             "number_of_doses": fake.random_int(),
@@ -36,28 +30,22 @@ class TestVaccineView(TestCase):
             "storage_temperature": fake.random_int(),
             "minimum_age": fake.random_int(),
         }
-        response = self.c.post(reverse("vaccine:vaccine-create"), data)
+        response = self.c.post(reverse("vaccine:vaccine-create"), payload)
         self.assertTrue(
             Vaccine.objects.filter(
-                name=data["name"], description=data["description"]
+                name=payload["name"], description=payload["description"]
             ).exists()
         )
         self.assertRedirects(response, reverse("vaccine:vaccine-list"))
 
-    def test_get_request_on_update_vaccine_page(self):
-        """
-        Tests whether the user can see update vaccine page
-        """
+    def test_user_can_access_update_vaccine_page(self):
         response = self.c.get(
             reverse("vaccine:vaccine-update", kwargs={"pk": self.vaccine1.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_update_vaccine_page(self):
-        """
-        Tests whether the user can update the existing vaccine
-        """
-        data = {
+    def test_user_can_update_vaccine(self):
+        payload = {
             "name": fake.name(),
             "description": fake.paragraph(),
             "number_of_doses": fake.random_int(),
@@ -66,47 +54,35 @@ class TestVaccineView(TestCase):
             "minimum_age": fake.random_int(),
         }
         response = self.c.post(
-            reverse("vaccine:vaccine-update", kwargs={"pk": self.vaccine1.id}), data
+            reverse("vaccine:vaccine-update", kwargs={"pk": self.vaccine1.id}), payload
         )
         self.assertTrue(
             Vaccine.objects.filter(
-                name=data["name"],
-                description=data["description"],
-                number_of_doses=data["number_of_doses"],
-                interval=data["interval"],
-                storage_temperature=data["storage_temperature"],
-                minimum_age=data["minimum_age"],
+                name=payload["name"],
+                description=payload["description"],
+                number_of_doses=payload["number_of_doses"],
+                interval=payload["interval"],
+                storage_temperature=payload["storage_temperature"],
+                minimum_age=payload["minimum_age"],
             ).exists()
         )
         self.assertRedirects(response, reverse("vaccine:vaccine-list"))
 
-    def test_get_request_on_delete_vaccine_view(self):
-        """
-        Tests whether the user can see delete vaccine page
-        """
+    def test_user_can_access_delete_vaccine_page(self):
         response = self.c.get(
             reverse("vaccine:vaccine-delete", kwargs={"pk": self.vaccine2.id})
         )
         self.assertTrue(response.status_code, 200)
 
-    def test_post_request_on_delete_vaccine_view(self):
-        """
-        Tests whether the user can delete existing vaccine
-        """
+    def test_user_can_delete_vaccine(self):
         self.c.post(reverse("vaccine:vaccine-delete", kwargs={"pk": self.vaccine2.id}))
         self.assertFalse(Vaccine.objects.filter(id=self.vaccine2.id).exists())
 
-    def test_get_request_on_vaccine_list_view(self):
-        """
-        Tests whether the user can view vaccine list page
-        """
+    def test_user_can_list_vaccine(self):
         response = self.c.get(reverse("vaccine:vaccine-list"))
         self.assertEqual(response.status_code, 200)
 
-    def test_get_request_on_vaccine_detail_view(self):
-        """
-        Tests whether the user can view vaccine detail page
-        """
+    def test_user_can_view_vaccine_data(self):
         response = self.c.get(
             reverse("vaccine:vaccine-detail", kwargs={"pk": self.vaccine1.id})
         )

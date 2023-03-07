@@ -23,27 +23,24 @@ class TestStorageView(TestCase):
         self.vaccine2 = VaccineFactory()
         return super().setUp()
 
-    def test_get_request_on_create_storage_page(self):
-        """
-        Tests whether the user can view create storage page
-        """
+    def test_user_can_access_create_storage_page(self):
         response = self.c.get(
             reverse("center:storage-create", kwargs={"center_id": self.center1.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_create_storage_page(self):
-        data = {
+    def test_user_can_create_new_storage(self):
+        payload = {
             "vaccine": self.vaccine1.id,
             "total_quantity": fake.random_int(),
         }
         response = self.c.post(
             reverse("center:storage-create", kwargs={"center_id": self.center1.id}),
-            data,
+            payload,
         )
         self.assertTrue(
             Storage.objects.filter(
-                vaccine=data["vaccine"], total_quantity=data["total_quantity"]
+                vaccine=payload["vaccine"], total_quantity=payload["total_quantity"]
             ).exists()
         )
         self.assertRedirects(
@@ -51,27 +48,21 @@ class TestStorageView(TestCase):
             reverse("center:storage-list", kwargs={"center_id": self.center1.id}),
         )
 
-    def test_get_request_on_storage_update_page(self):
-        """
-        Tests whether the user can view the storage update page
-        """
+    def test_user_can_access_storage_update_page(self):
         response = self.c.get(
             reverse("center:storage-update", kwargs={"pk": self.storage1.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_storage_update_page(self):
-        """
-        Tests whether the user can update the storage data
-        """
-        data = {
+    def test_user_can_update_storage(self):
+        payload = {
             "total_quantity": fake.random_int(),
         }
         response = self.c.post(
-            reverse("center:storage-update", kwargs={"pk": self.storage1.id}), data
+            reverse("center:storage-update", kwargs={"pk": self.storage1.id}), payload
         )
         self.storage1.refresh_from_db()
-        self.assertEqual(self.storage1.total_quantity, data["total_quantity"])
+        self.assertEqual(self.storage1.total_quantity, payload["total_quantity"])
         self.assertRedirects(
             response,
             reverse(
@@ -79,10 +70,7 @@ class TestStorageView(TestCase):
             ),
         )
 
-    def test_get_request_on_storage_list_page(self):
-        """
-        Tests whether the user can view the storage list of given center
-        """
+    def test_user_can_access_storage_list_page(self):
         response = self.c.get(
             reverse(
                 "center:storage-list", kwargs={"center_id": self.storage1.center.id}
@@ -90,28 +78,19 @@ class TestStorageView(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_get_request_on_storage_detail_page(self):
-        """
-        Tests whether the user can view the storage details
-        """
+    def test_user_can_access_storage_detail_page(self):
         response = self.c.get(
             reverse("center:storage-detail", kwargs={"pk": self.storage1.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_get_request_on_storage_delete_page(self):
-        """
-        Tests whether the user can view delete storage page
-        """
+    def test_user_can_access_storage_delete_page(self):
         response = self.c.get(
             reverse("center:storage-delete", kwargs={"pk": self.storage1.id})
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_post_request_on_storage_delete_page(self):
-        """
-        Tests whether the user can delete storage object
-        """
+    def test_user_can_delete_storage(self):
         response = self.c.post(
             reverse("center:storage-delete", kwargs={"pk": self.storage1.id})
         )
