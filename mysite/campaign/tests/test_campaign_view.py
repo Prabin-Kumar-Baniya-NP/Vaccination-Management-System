@@ -6,7 +6,7 @@ from campaign.tests.factory import CampaignFactory
 from center.tests.factory import CenterFactory
 from vaccine.tests.factory import VaccineFactory
 from faker import Faker
-from datetime import datetime, timedelta
+from django.utils.timezone import now, timedelta
 
 
 fake = Faker()
@@ -29,11 +29,11 @@ class TestCampaignView(TestCase):
             "center": CenterFactory().id,
             "vaccine": VaccineFactory().id,
             "start_date": fake.date_between(
-                datetime.now().date(), datetime.now().date() + timedelta(days=10)
+                now().date(), now().date() + timedelta(days=10)
             ),
             "end_date": fake.date_between(
-                datetime.now().date() + timedelta(days=20),
-                datetime.now().date() + timedelta(days=30),
+                now().date() + timedelta(days=20),
+                now().date() + timedelta(days=30),
             ),
             "agents": UserFactory().id,
         }
@@ -68,11 +68,11 @@ class TestCampaignView(TestCase):
             "center": CenterFactory().id,
             "vaccine": VaccineFactory().id,
             "start_date": fake.date_between(
-                datetime.now().date(), datetime.now().date() + timedelta(days=10)
+                now().date(), now().date() + timedelta(days=10)
             ),
             "end_date": fake.date_between(
-                datetime.now().date() + timedelta(days=20),
-                datetime.now().date() + timedelta(days=30),
+                now().date() + timedelta(days=20),
+                now().date() + timedelta(days=30),
             ),
             "agents": UserFactory().id,
         }

@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils.timezone import now
 from django.urls import reverse
 from django.test import TestCase, Client
 from vaccination.tests.factory import VaccinationFactory
@@ -54,8 +54,8 @@ class TestVaccinationView(TestCase):
         vaccine.minimum_age = 0
         vaccine.interval = 0
         vaccine.number_of_doses = 10
-        self.vaccination.patient.date_of_birth = datetime.now().date()
-        self.vaccination.slot.date = datetime.now().date()
+        self.vaccination.patient.date_of_birth = now().date()
+        self.vaccination.slot.date = now().date()
         # Save the Changes
         self.vaccination.campaign.vaccine.save()
         self.vaccination.patient.save()

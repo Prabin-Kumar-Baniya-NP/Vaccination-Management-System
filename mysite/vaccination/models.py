@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from campaign.models import Campaign, Slot
 from vaccine.models import Vaccine
-from datetime import timedelta
+from django.utils.timezone import timedelta
 from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()

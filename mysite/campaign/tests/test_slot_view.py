@@ -3,7 +3,7 @@ from django.test import TestCase, Client
 from user.tests.factory import UserFactory
 from campaign.models import Slot
 from campaign.tests.factory import SlotFactory
-from datetime import datetime
+from django.utils.timezone import now
 from faker import Faker
 
 fake = Faker()
@@ -29,8 +29,8 @@ class TestSlotView(TestCase):
         payload = {
             "campaign": self.slot.campaign,
             "date": self.slot.campaign.start_date,
-            "start_time": datetime.now().time(),
-            "end_time": datetime.now().time().replace(hour=1),
+            "start_time": now().time(),
+            "end_time": now().time().replace(hour=1),
             "max_capacity": 10,
         }
         response = self.c.post(
@@ -67,8 +67,8 @@ class TestSlotView(TestCase):
         payload = {
             "campaign": self.slot.campaign,
             "date": self.slot.campaign.start_date,
-            "start_time": datetime.now().time(),
-            "end_time": datetime.now().time().replace(hour=2),
+            "start_time": now().time(),
+            "end_time": now().time().replace(hour=2),
             "max_capacity": 10,
         }
         response = self.c.post(

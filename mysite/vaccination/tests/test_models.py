@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from vaccination.tests.factory import VaccinationFactory
 from vaccination.models import Vaccination
 from campaign.tests.factory import SlotFactory
-from datetime import timedelta
+from django.utils.timezone import timedelta
 
 
 class TestVaccinationView(TestCase):

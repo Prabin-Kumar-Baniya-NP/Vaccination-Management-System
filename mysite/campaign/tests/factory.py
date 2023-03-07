@@ -2,7 +2,7 @@ import factory
 from center.tests.factory import CenterFactory
 from vaccine.tests.factory import VaccineFactory
 from faker import Faker
-from datetime import datetime, time, timedelta
+from django.utils.timezone import now, timedelta
 
 
 fake = Faker()
@@ -15,11 +15,11 @@ class CampaignFactory(factory.django.DjangoModelFactory):
     center = factory.SubFactory(CenterFactory)
     vaccine = factory.SubFactory(VaccineFactory)
     start_date = fake.date_between(
-        datetime.now().date(), datetime.now().date() + timedelta(days=10)
+        now().date(), now().date() + timedelta(days=10)
     )
     end_date = fake.date_between(
-        datetime.now().date() + timedelta(days=20),
-        datetime.now().date() + timedelta(days=30),
+        now().date() + timedelta(days=20),
+        now().date() + timedelta(days=30),
     )
 
     @factory.post_generation
@@ -44,23 +44,21 @@ class SlotFactory(factory.django.DjangoModelFactory):
 
     campaign = factory.SubFactory(CampaignFactory)
     date = fake.date_between(
-        datetime.now().date() + timedelta(days=11),
-        datetime.now().date() + timedelta(days=19),
+        now().date() + timedelta(days=11),
+        now().date() + timedelta(days=19),
     )
     start_time = factory.Iterator(
         [
-            datetime.combine(date.today(), time()) + timedelta(hours=1),
-            datetime.combine(date.today(), time()) + timedelta(hours=2),
-            datetime.combine(date.today(), time()) + timedelta(hours=3),
-            datetime.combine(date.today(), time()) + timedelta(hours=4),
+            (now() + timedelta(hours=1)).time(),
+            (now() + timedelta(hours=2)).time(),
+            (now() + timedelta(hours=3)).time(),
         ]
     )
     end_time = factory.Iterator(
         [
-            datetime.combine(date.today(), time()) + timedelta(hours=2),
-            datetime.combine(date.today(), time()) + timedelta(hours=3),
-            datetime.combine(date.today(), time()) + timedelta(hours=4),
-            datetime.combine(date.today(), time()) + timedelta(hours=5),
+            (now() + timedelta(hours=2)).time(),
+            (now() + timedelta(hours=3)).time(),
+            (now() + timedelta(hours=4)).time(),
         ]
     )
     max_capacity = factory.Iterator([10, 11, 12, 13, 14, 15])
