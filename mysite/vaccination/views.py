@@ -11,7 +11,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseForbidden
 from vaccination.utils import generate_pdf
 from django.views import View
 
@@ -67,7 +66,8 @@ class ChooseSlot(LoginRequiredMixin, ListView):
             super()
             .get_queryset()
             .filter(
-                campaign=self.kwargs["campaign_id"], date__gte=datetime.date.today()
+                campaign=self.kwargs["campaign_id"], date__gte=datetime.date.today(
+                )
             )
             .select_related("campaign")
         )
@@ -84,7 +84,8 @@ class ConfirmVaccination(View):
             id=self.kwargs["slot_id"]
         )
         form = self.form_class(
-            initial={"patient": request.user, "campaign": campaign, "slot": slot}
+            initial={"patient": request.user,
+                     "campaign": campaign, "slot": slot}
         )
         context = {
             "patient": request.user,
@@ -206,10 +207,12 @@ def approve_vaccination(request, vaccination_id):
                     )
                 )
         else:
-            messages.error(request, "You are not assigned to approve this vaccination")
-        raise PermissionDenied()
+            messages.error(
+                request, "You are not assigned to approve this vaccination")
+            raise PermissionDenied()
     else:
-        messages.error(request, "You don't have permission to approve vaccination")
+        messages.error(
+            request, "You don't have permission to approve vaccination")
         raise PermissionDenied()
 
 

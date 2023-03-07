@@ -6,7 +6,7 @@ from django.views.generic import (
     DetailView,
 )
 from vaccine.models import Vaccine
-from vaccine.forms import VaccineCreateForm, VaccineUpdateForm
+from vaccine.forms import VaccineForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -20,7 +20,7 @@ class VaccineCreateView(
     """
 
     model = Vaccine
-    form_class = VaccineCreateForm
+    form_class = VaccineForm
     template_name = "vaccine/vaccine-create.html"
     permission_required = ("vaccine.add_vaccine",)
     success_url = reverse_lazy("vaccine:vaccine-list")
@@ -35,7 +35,7 @@ class VaccineUpdateView(
     """
 
     model = Vaccine
-    form_class = VaccineUpdateForm
+    form_class = VaccineForm
     template_name = "vaccine/vaccine-update.html"
     permission_required = ("vaccine.change_vaccine",)
     success_url = reverse_lazy("vaccine:vaccine-list")

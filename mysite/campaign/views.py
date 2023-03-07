@@ -7,12 +7,7 @@ from django.views.generic import (
 )
 from vaccination.models import Slot, Vaccination, Campaign
 from django.urls import reverse_lazy
-from campaign.forms import (
-    CampaignCreateForm,
-    CampaignUpdateForm,
-    SlotCreateForm,
-    SlotUpdateForm,
-)
+from campaign.forms import CampaignForm, SlotForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -25,7 +20,7 @@ class CampaignCreateView(
     """
 
     model = Campaign
-    form_class = CampaignCreateForm
+    form_class = CampaignForm
     permission_required = ("campaign.add_campaign",)
     template_name = "campaign/campaign/campaign-create.html"
     success_url = reverse_lazy("campaign:campaign-list")
@@ -40,7 +35,7 @@ class CampaignUpdateForm(
     """
 
     model = Campaign
-    form_class = CampaignUpdateForm
+    form_class = CampaignForm
     permission_required = ("campaign.change_campaign",)
     template_name = "campaign/campaign/campaign-update.html"
     success_url = reverse_lazy("campaign:campaign-list")
@@ -99,7 +94,7 @@ class SlotCreateView(
     """
 
     model = Slot
-    form_class = SlotCreateForm
+    form_class = SlotForm
     template_name = "campaign/slot/slot-create.html"
     permission_required = ("campaign.add_slot",)
     success_url = reverse_lazy("vaccination:slot-list")
@@ -112,7 +107,8 @@ class SlotCreateView(
 
     def get_initial(self):
         initial = super().get_initial()
-        initial["campaign"] = Campaign.objects.get(id=self.kwargs["campaign_id"])
+        initial["campaign"] = Campaign.objects.get(
+            id=self.kwargs["campaign_id"])
         return initial
 
     def get_success_url(self) -> str:
@@ -129,7 +125,7 @@ class SlotUpdateView(
     """
 
     model = Slot
-    form_class = SlotUpdateForm
+    form_class = SlotForm
     permission_required = ("campaign.change_slot",)
     template_name = "campaign/slot/slot-update.html"
     success_message = "Slot Updated Successfully"
@@ -141,7 +137,8 @@ class SlotUpdateView(
 
     def get_initial(self):
         initial = super().get_initial()
-        initial["campaign"] = Campaign.objects.get(id=self.kwargs["campaign_id"])
+        initial["campaign"] = Campaign.objects.get(
+            id=self.kwargs["campaign_id"])
         return initial
 
     def get_success_url(self):
