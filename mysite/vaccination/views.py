@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from vaccination.utils import generate_pdf
 from django.views import View
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -197,8 +198,8 @@ def approve_vaccination(request, vaccination_id):
                 )
             else:
                 vaccination.is_vaccinated = True
-                vaccination.date = datetime.date.today()
-                vaccination.updated_by = User.objects.get(id=request.user.id)
+                vaccination.date = timezone.now().date()
+                vaccination.updated_by = request.user
                 vaccination.save()
                 messages.success(request, "Vaccination approved successfully")
                 return HttpResponseRedirect(
