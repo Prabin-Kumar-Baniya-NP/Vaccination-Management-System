@@ -25,11 +25,11 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
         return False
 
     try:
-        old_photo = User.objects.get(pk=instance.pk).photo
+        old_image = User.objects.get(pk=instance.pk).photo
     except User.DoesNotExist:
         return False
 
-    new_photo = instance.photo
-    if not new_photo == None and old_photo == None and old_photo == new_photo:
-        if os.path.isfile(old_photo.path):
-            os.remove(old_photo.path)
+    new_image = instance.photo
+    if bool(old_image) and old_image != new_image:
+        if os.path.isfile(old_image.path):
+            os.remove(old_image.path)
