@@ -87,7 +87,6 @@ def login(request):
         context = {
             "form": LoginForm,
         }
-        a = 1/0
         return render(request, "user/login.html", context)
 
 
