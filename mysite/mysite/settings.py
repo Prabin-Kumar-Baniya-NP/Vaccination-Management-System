@@ -18,6 +18,7 @@ DEBUG = env.bool("DEBUG", False)
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
+DEBUG_PROPAGATE_EXCEPTIONS = True # To handle exceptions manually
 
 # Application definition
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "user.middleware.CustomExceptionHandlerMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -45,6 +47,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    
 ]
 
 ROOT_URLCONF = "mysite.urls"

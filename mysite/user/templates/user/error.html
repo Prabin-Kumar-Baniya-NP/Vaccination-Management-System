@@ -1,0 +1,19 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %} 
+    Error
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Error</h5>
+      <div class="mb-2">
+        <b>{{ message }}</b>
+      </div>
+      <div class="mt-2">
+        {{ traceback_description|linebreaksbr }}
+      </div>
+    </div>
+  </div>
+{% endblock content %}
