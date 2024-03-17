@@ -27,19 +27,13 @@ jobs:
     - name: Upgrade Pip
       run: |
         python -m pip install --upgrade pip
-    - name: Create Virtual Environment
+    - name: Run Test Cases
       run: |
         pip install virtualenv
         virtualenv env
-    - name: Activate Virtual Environment and Set Environment Variables
-      run: |
         source env/bin/activate
         export SECRET_KEY=$SECRET_KEY
         export DEBUG=$DEBUG
-    - name: Install Dependencies
-      run: |
         pip install -r requirements.txt
-    - name: Run Tests
-      run: |
         cd mysite
         python manage.py test
