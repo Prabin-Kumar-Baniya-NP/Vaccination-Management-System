@@ -1,4 +1,4 @@
-name: Django CI
+name: Django Test Cases Check CI
 
 on:
   push:
