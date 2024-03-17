@@ -8,6 +8,9 @@ on:
 
 jobs:
   build:
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }} 
+      DEBUG: ${{ secrets.DEBUG }} 
 
     runs-on: ubuntu-latest
     strategy:
@@ -28,7 +31,11 @@ jobs:
       run: |
         pip install virtualenv
         virtualenv env
+    - name: Activate Virtual Environment and Set Environment Variables
+      run: |
         source env/bin/activate
+        export SECRET_KEY=$SECRET_KEY
+        export DEBUG=$DEBUG
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
