@@ -9,17 +9,23 @@ RUN apt update && apt upgrade -y
 RUN apt install gettext -y
 
 COPY ./requirements.txt /app/requirements.txt
+
+COPY ./project_configure.sh /app/project_configure.sh
+RUN chmod +x /app/project_configure.sh
+
 RUN pip install -r requirements.txt
 
 COPY ./mysite/ /app/
 
-ENV DEBUG=True
-ENV SECRET_KEY=1234
+RUN python manage.py migrate
 
 RUN python manage.py collectstatic --noinput
 
 RUN python manage.py compilemessages
 
+ENV DEBUG=True
+ENV SECRET_KEY=1234
+
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "mysite.wsgi:application"]
+CMD ["/app/project_configure.sh"]

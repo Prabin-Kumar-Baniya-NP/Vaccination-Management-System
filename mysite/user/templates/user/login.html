@@ -10,7 +10,8 @@
       {% include "components/form.html" with form_name="Login" %}
    </div>
    <p class="p-3">
-      <a href="{% url 'accounts:password-reset' %}">Reset Password</a>
+      <a href="{% url 'accounts:password-reset' %}">Reset Password</a> <br>
+      <a href="{% url 'accounts:demo-login' %}" class="btn btn-success">Demo Login (Admin Account)</a>
    </p>
 </div>
 {% endblock content %}

@@ -57,3 +57,23 @@ In this application we have 7 different models and their description are as foll
 ## Expected Outcome
 
 As a result of implementing this system, we shall expect a web application where patients can sign up and login to update their medical information and then apply for vaccination in their desired vaccination center at given date time. Whereas, admin shall login to their portal and then create some vaccination center and also create some agents of different types and deploy/assign them to the center. Admin shall create vaccine profile and allocate storage to the center and allow for conduction vaccination drive at different date and time. Whereas, the health agents which are assigned to the different vaccination center shall have different roles and permissions and based on that, they will perform some actions. They will be required to verify user and approve vaccination. Once vaccination is approved, user will be able to download the vaccination certificate.
+
+## How to Run this Project - Using Docker
+
+1. Clone this Repository
+
+```
+https://github.com/Prabin-Kumar-Baniya-NP/Vaccination-Scheduling-App.git
+```
+
+2. Build the docker image
+
+```
+docker image build -t bookmyvaccine:1.0 .
+```
+
+3. Run the container
+
+```
+docker container run -it -p 8002:8000 bookmyvaccine:1.0
+```

@@ -50,7 +50,7 @@ class CampaignListView(LoginRequiredMixin, ListView):
     model = Campaign
     template_name = "campaign/campaign/campaign-list.html"
     paginate_by = 10
-    ordering = ["-id"]
+    ordering = ["start_date"]
 
 
 class CampaignDetailView(LoginRequiredMixin, DetailView):

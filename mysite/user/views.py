@@ -89,6 +89,14 @@ def login(request):
         }
         return render(request, "user/login.html", context)
 
+def demo_login(request):
+    email = "prabin@admin.com"
+    password = "abcde@12345"
+    user = authenticate(email=email, password=password)
+    user_login(request, user)
+    logger.info("User Logged in")
+    messages.success(request, "You are logged in as Super User Account.")
+    return HttpResponseRedirect(reverse("index"))
 
 def logout(request):
     """
