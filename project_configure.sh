@@ -13,4 +13,4 @@ python manage.py populate_fake_center
 python manage.py populate_fake_campaign
 
 # Run the project using gunicorn
-gunicorn --bind 0.0.0.0:8000 mysite.wsgi:application
+gunicorn --bind 0.0.0.0:8000 --workers 2 mysite.wsgi:application
