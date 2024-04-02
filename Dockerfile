@@ -17,14 +17,15 @@ RUN pip install -r requirements.txt
 
 COPY ./mysite/ /app/
 
+ENV DEBUG=True
+
+ENV SECRET_KEY=1234
+
 RUN python manage.py migrate
 
 RUN python manage.py collectstatic --noinput
 
 RUN python manage.py compilemessages
-
-ENV DEBUG=True
-ENV SECRET_KEY=1234
 
 EXPOSE 8000
 
