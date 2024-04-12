@@ -9,7 +9,7 @@ django-environ==0.9.0
 django-rosetta==0.9.8
 factory-boy==3.2.1
 Faker==13.15.0
-idna==3.3
+idna==3.7
 mypy-extensions==0.4.3
 pathspec==0.9.0
 Pillow==10.0.1
